@@ -137,6 +137,8 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="MCGfx.cpp" />
     <ClCompile Include="MCGraphics.cpp" />
+    <ClCompile Include="TBSprite.cpp" />
+    <ClCompile Include="TBWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MCGfx.rc" />

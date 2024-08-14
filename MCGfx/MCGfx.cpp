@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <string>
 #include "GameManager.h"
+#include "MCGraphics.cpp"
 using namespace std;
 
 
@@ -94,6 +95,7 @@ LRESULT CALLBACK WindowProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ WPARAM wParam, 
         graphics.Initialize(windowWidth,windowHeight);
         graphics.Clear();
         game.SetPointer(&graphics);
+        game.Initialize();
         return 0;
 
     case WM_DESTROY:

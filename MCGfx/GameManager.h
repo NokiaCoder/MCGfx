@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "MCGraphics.cpp"
+#include "TBWorld.cpp"
 using namespace std;
 
 
@@ -9,22 +10,25 @@ class GameManager
 {
 private:
 	MCGraphics* pGfx = nullptr;
+	TBWorld world;
 	bool lButtonDown = false;
 	bool rButtonDown = false;
 	bool lButtonClick = false;
 	bool rButtonClick = false;
 	int mouseX = 0;
-	int mouseY = 0;
-
-
+	int mouseY = 0;                                                   
 
 public:
+
+	void Initialize()
+	{
+		world.Load();
+	}
+
 void SetPointer(MCGraphics* ptr)
 {
 	pGfx = ptr;
 }
-
-
 
 void Update(bool lb, bool rb, int x, int y)
 {
@@ -56,16 +60,17 @@ void Update(bool lb, bool rb, int x, int y)
 
 void Render(HWND hwnd)
 {
-	pGfx->SetRandomizeColor(true);
-	//pGfx->Clear();
-	//pGfx->DrawLine(0, 0, mouseX , mouseY, { 255, 100, 0 });
-	if (lButtonClick)
+	world.SetSpriteVisible("fire", lButtonDown);
+	float thrust = -0.005f;
+	if (!lButtonDown)
 	{
-		pGfx->FillRectangle(mouseX - 100, mouseY - 100, mouseX + 100, mouseY + 100, { 0, 0, 0 });
-		lButtonClick = false;
+		thrust = 0;
 	}
-	pGfx->Present(hwnd);
+	world.SetSpriteForce("lander", thrust, false);
 	
+	world.Process();
+	world.Draw(pGfx);
+	pGfx->Present(hwnd);
 }
 
 
