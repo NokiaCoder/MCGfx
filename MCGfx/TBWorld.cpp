@@ -40,7 +40,9 @@ public:
 
 
 		sprites.push_back(s);
-		sprites.back().Create(8, 21, 5, 15, { 0, 0, 255});
+		sprites.back().Create(8, 21, 5, 15, { 0, 0, 255});  
+
+
 		sprites.back().SetName("fire");
 		sprites.back().SetParent(&sprites[1]);
 		sprites.back().SetVisible(false);

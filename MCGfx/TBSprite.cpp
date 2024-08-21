@@ -161,7 +161,7 @@ public:
 				}
 			}
 		}
-
+		//code for wraping function
 		void Draw(MCGraphics* pGFX)
 		{
 			if (visible)
