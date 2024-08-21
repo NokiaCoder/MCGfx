@@ -6,7 +6,7 @@
 
 using namespace std;
 
-
+static int g_windowWidth = 800;
 
 
 

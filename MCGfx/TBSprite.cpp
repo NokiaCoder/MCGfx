@@ -7,6 +7,16 @@
 
 using namespace std;
 
+enum class LAYER
+{
+	layer_BACK = 0,
+	layer_FAR,
+	Layer_MID,
+	layer_NEAR,
+	layer_FRONT,
+	layer_NONE,
+};
+
 class TBSprite
 {
 	private:
@@ -17,16 +27,17 @@ class TBSprite
 		RGBTRIPLE color;
 		string name;
 		float vx = 0.0f;
-		float vy = 0.1f;
+		float vy = 0.0f;
 		float fx = 0.0f;
 		float fy = 0.0f;
 		float g = 0.001f;
 		float ground = 500.0f;
+		bool stayAboveGround = false;
 		bool gravityActive = false;
 		TBSprite* pParent = nullptr;
 		bool visible = true;
 		bool wrap = false;
-
+		LAYER layer = LAYER::layer_NONE;
 		
 
 public:
@@ -47,6 +58,14 @@ public:
 		void SetGravityOn(bool gravityOn)
 		{
 			gravityActive = gravityOn;
+			if (gravityActive)
+			{
+				vy += 0.1f;
+			}
+			else
+			{
+				vy -= 0.1f;
+			}
 		}
 
 		TBSprite* GetParent()
@@ -102,6 +121,20 @@ public:
 			fy = f;
 		}
 
+		void SetLayer(LAYER l)
+		{
+			layer = l;
+		}
+		LAYER GetLayer()
+		{
+			return layer;
+		}
+
+		void SetStayAboveGround(bool sa)
+		{
+			stayAboveGround = sa;
+		}
+
 		void SetWrap(bool wrapOn)
 		{
 			wrap = wrapOn;
@@ -134,15 +167,29 @@ public:
 			h = height;
 			color = rgbtriple;
 			name = "";
+			gravityActive = false;
+
 		}
 
 		void Process()
 		{
-			if (gravityActive)
-			{
+				//check y against ground
+				if (y >= ground && this->stayAboveGround)
+				{
+					y = ground;
+					vy = 0.0f;
+					x += vx;
+					return;
+				}
+
 				// setup forces
 				float fx = this->fx;
-				float fy = g + this->fy; //fy is set to gravity
+				float fy = this->fy; 
+
+				if (gravityActive)
+				{
+					fy += g;
+				}
 
 				//calculate velocities
 				vx += fx;
@@ -151,17 +198,8 @@ public:
 				//calculate positions
 				x += vx;
 				y += vy;
-
-				//check y against ground
-				if (y > ground)
-				{
-					y = ground;
-					vx = 0.0f;
-					vy = 0.0f;
-				}
-			}
 		}
-		//code for wraping function
+		//code for wrapping function
 		void Draw(MCGraphics* pGFX)
 		{
 			if (visible)
@@ -177,13 +215,25 @@ public:
 
 				if (wrap)
 				{
-					if (x >= 800)
+					if (x >= g_windowWidth) //sprite is past right of window
 					{
-						x -= 800.0f;
+						x -= (float)g_windowWidth;
 					}
-					else if (x < (float)-w)
+					else if (x < (float)-w) //sprite is to the left of window
 					{
-						x += 800.0f;
+						x += (float)g_windowWidth;
+					}
+					else if (g_windowWidth -x < w)
+					{
+						pGFX->FillRectangle((int)x, (int)y, (int)x + w, (int)y + h, color);
+						int wrapX = (int)(x - (float)g_windowWidth);
+						pGFX->FillRectangle(wrapX, (int)y, wrapX + w, (int)y + h, color);
+					}
+					else if (x > -w && x < 0)
+					{
+						pGFX->FillRectangle((int)x, (int)y, (int)x + w, (int)y + h, color);
+						int wrapX = (int)(x + (float)g_windowWidth);
+						pGFX->FillRectangle(wrapX, (int)y, wrapX + w, (int)y + h, color);
 					}
 				}
 			}
