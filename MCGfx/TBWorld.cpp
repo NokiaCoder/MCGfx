@@ -5,6 +5,7 @@
 #include <vector>
 #include "MCGraphics.cpp"
 #include "TBSprite.cpp"
+#include "TBGlobals.h"
 
 using namespace std;
 
@@ -26,9 +27,14 @@ public:
 	// public functions
 	void Load()
 	{
+		sprites.clear();
+
+		//pre allocate to avoid stale pointers
+		sprites.reserve(1000);
+
 		TBSprite s;
 		sprites.push_back(s);
-		sprites.back().Create(0, 400, 800, 200, { 205, 100, 100 });
+		sprites.back().Create(0, g_pixelHeight-50, g_pixelWidth, 50, { 205, 100, 100 }); //for each change color with 3 last values in {}. { blue, green, red}
 		sprites.back().SetName("ground");
 		sprites.back().SetLayer(LAYER::layer_BACK);
 
@@ -71,27 +77,42 @@ public:
 
 
 		sprites.push_back(s);
-		sprites.back().Create(400, 0, 20, 20, { 255, 255, 255 });
+		sprites.back().Create(140, 0, 4, 4, { 255, 255, 255 });
 		sprites.back().SetName("lander");
 		sprites.back().SetGravityOn(true);
-		sprites.back().SetVx(-0.1f);
+		sprites.back().SetVx(-0.0f);
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_FRONT);
 		sprites.back().SetStayAboveGround(true);
 
 		sprites.push_back(s);
-		sprites.back().Create(8, 21, 5, 15, { 0, 0, 255});  
+		sprites.back().Create(1, 5, 2, 2, { 0, 0, 255});  
 		sprites.back().SetName("fire");
 		sprites.back().SetParent(&sprites[6]);
 		sprites.back().SetVisible(false);
 		sprites.back().SetLayer(LAYER::layer_NONE);
 
-		SetScrollSpeed(-0.1f);
-	}
+		sprites.push_back(s);
+		sprites.back().Create(5, 1, 2, 2, { 0, 0, 255 });
+		sprites.back().SetName("right");
+		sprites.back().SetParent(&sprites[6]);
+		sprites.back().SetVisible(false);
+		sprites.back().SetLayer(LAYER::layer_NONE);
 
+		sprites.push_back(s);
+		sprites.back().Create(-3, 1, 2, 2, { 0, 0, 255 });
+		sprites.back().SetName("left");
+		sprites.back().SetParent(&sprites[6]);
+		sprites.back().SetVisible(false);
+		sprites.back().SetLayer(LAYER::layer_NONE);
+
+
+		SetScrollSpeed(-0.0f);
+	}
+	//Sets scroll speed for each layer
 	void SetScrollSpeed(float v) 
 	{
-		for (int i = 0; i < sprites.size(); i++)
+		for (int i = 0; i < (int)sprites.size(); i++)
 		{
 			if (sprites[i].GetLayer() == LAYER::layer_FRONT)
 			{
@@ -99,11 +120,11 @@ public:
 			}
 			else if (sprites[i].GetLayer() == LAYER::layer_NEAR)
 			{
-				sprites[i].SetVx(v * 0.75f);
+				sprites[i].SetVx(v * 0.075f);
 			}
 			else if (sprites[i].GetLayer() == LAYER::Layer_MID)
 			{
-				sprites[i].SetVx(v * 0.5f);
+				sprites[i].SetVx(v * 0.05f);
 			}
 			else if (sprites[i].GetLayer() == LAYER::layer_BACK)
 			{
@@ -114,7 +135,7 @@ public:
 
 	void SetSpriteVisible(string name, bool show)
 	{
-		for (int i = 0; i < sprites.size(); i++)
+		for (int i = 0; i < (int)sprites.size(); i++)
 		{
 			if (sprites[i].GetName() == name)
 			{
@@ -125,7 +146,7 @@ public:
 
 	void SetSpriteForce(string name, float force, bool isX)
 	{
-		for (int i = 0; i < sprites.size(); i++)
+		for (int i = 0; i < (int)sprites.size(); i++)
 		{
 			if (sprites[i].GetName() == name)
 			{
@@ -144,16 +165,16 @@ public:
 
 	void Process()
 	{
-		for (int i = 0; i < sprites.size(); i++)
+		for (int i = 0; i < (int)sprites.size(); i++)
 		{
 			sprites[i].Process();
 		}
 	}
-
+	//Draw Function
 	void Draw(MCGraphics* pGFX)
 	{
 		pGFX->Clear();
-		for (int i = 0; i < sprites.size(); i++)
+		for (int i = 0; i < (int)sprites.size(); i++)
 		{
 			sprites[i].Draw(pGFX);
 		}

@@ -3,6 +3,8 @@
 #include <string>
 #include "GameManager.h"
 #include "MCGraphics.cpp"
+#include "TBGlobals.h"
+
 using namespace std;
 
 
@@ -92,7 +94,7 @@ LRESULT CALLBACK WindowProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ WPARAM wParam, 
     switch (uMsg) 
     {
     case WM_CREATE:
-        graphics.Initialize(windowWidth,windowHeight);
+        graphics.Initialize(g_pixelWidth,g_pixelHeight);
         graphics.Clear();
         game.SetPointer(&graphics);
         game.Initialize();
@@ -105,6 +107,14 @@ LRESULT CALLBACK WindowProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ WPARAM wParam, 
     case WM_PAINT: 
         graphics.Present(hwnd);
         return 0;
+
+        case WM_KEYUP:
+            game.HandleKey((int)wParam, false);
+        return 0;
+
+        case WM_KEYDOWN:
+            game.HandleKey((int)wParam, true);
+            return 0;
         
     case WM_LBUTTONDOWN:
         {

@@ -6,7 +6,7 @@
 #include "MCGraphics.cpp"
 
 using namespace std;
-
+//Enum class Layers near to far
 enum class LAYER
 {
 	layer_BACK = 0,
@@ -30,8 +30,8 @@ class TBSprite
 		float vy = 0.0f;
 		float fx = 0.0f;
 		float fy = 0.0f;
-		float g = 0.001f;
-		float ground = 500.0f;
+		float g = 0.00001f;
+		float ground = 202.0f; //Value for ground (change value to change height of ground
 		bool stayAboveGround = false;
 		bool gravityActive = false;
 		TBSprite* pParent = nullptr;
@@ -51,6 +51,7 @@ public:
 			name = n;
 		}
 
+		//Gravity accessors
 		bool GetGravityOn()
 		{
 			return gravityActive;
@@ -114,11 +115,11 @@ public:
 
 		void SetFx(float f)
 		{
-			fx = f;
+			fx += f;
 		}
 		void SetFy(float f)
 		{
-			fy = f;
+			fy += f;
 		}
 
 		void SetLayer(LAYER l)
@@ -130,15 +131,15 @@ public:
 			return layer;
 		}
 
-		void SetStayAboveGround(bool sa)
+		void SetStayAboveGround(bool sa) //ground accessor
 		{
 			stayAboveGround = sa;
 		}
 
-		void SetWrap(bool wrapOn)
+		void SetWrap(bool wrapOn) //Wrap accessor
 		{
 			wrap = wrapOn;
-		}
+		} 
 		// constructors / destructors
 		TBSprite()
 		{
@@ -179,6 +180,7 @@ public:
 					y = ground;
 					vy = 0.0f;
 					x += vx;
+					this->fx = this->fy = 0.0f;
 					return;
 				}
 
@@ -198,6 +200,9 @@ public:
 				//calculate positions
 				x += vx;
 				y += vy;
+
+				//zero out forces
+				this->fx = this->fy = 0.0f;
 		}
 		//code for wrapping function
 		void Draw(MCGraphics* pGFX)
@@ -215,24 +220,24 @@ public:
 
 				if (wrap)
 				{
-					if (x >= g_windowWidth) //sprite is past right of window
+					if (x >= g_pixelWidth) //sprite is past right of window
 					{
-						x -= (float)g_windowWidth;
+						x -= (float)g_pixelWidth;
 					}
 					else if (x < (float)-w) //sprite is to the left of window
 					{
-						x += (float)g_windowWidth;
+						x += (float)g_pixelWidth;
 					}
-					else if (g_windowWidth -x < w)
+					else if (g_pixelWidth -x < w)
 					{
 						pGFX->FillRectangle((int)x, (int)y, (int)x + w, (int)y + h, color);
-						int wrapX = (int)(x - (float)g_windowWidth);
+						int wrapX = (int)(x - (float)g_pixelWidth);
 						pGFX->FillRectangle(wrapX, (int)y, wrapX + w, (int)y + h, color);
 					}
 					else if (x > -w && x < 0)
 					{
 						pGFX->FillRectangle((int)x, (int)y, (int)x + w, (int)y + h, color);
-						int wrapX = (int)(x + (float)g_windowWidth);
+						int wrapX = (int)(x + (float)g_pixelWidth);
 						pGFX->FillRectangle(wrapX, (int)y, wrapX + w, (int)y + h, color);
 					}
 				}

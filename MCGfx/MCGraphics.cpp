@@ -3,10 +3,11 @@
 #include <vector>
 #include <string>
 #include <vector>
+#include "TBGlobals.h"
 
 using namespace std;
 
-static int g_windowWidth = 800;
+
 
 
 
@@ -209,8 +210,8 @@ public:
 
             int srcWidth = width;
             int srcHeight = height;
-            int destWidth = stretchToFill ? srcWidth : width;
-            int destHeight = stretchToFill ? srcHeight : height;
+            int destWidth = clientRect.right - clientRect.left;
+            int destHeight = clientRect.bottom - clientRect.top;
 
             StretchDIBits(
                             hdc,

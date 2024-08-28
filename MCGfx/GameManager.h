@@ -16,7 +16,11 @@ private:
 	bool lButtonClick = false;
 	bool rButtonClick = false;
 	int mouseX = 0;
-	int mouseY = 0;                                                   
+	int mouseY = 0;   
+	bool leftKeyDown = false;
+	bool rightKeyDown = false;
+	bool thrustKeyDown = false;
+	bool restart = false;
 
 public:
 
@@ -29,9 +33,14 @@ void SetPointer(MCGraphics* ptr)
 {
 	pGfx = ptr;
 }
-
+void Restart()
+{
+	Initialize();
+}
+//Handles mouse click. Left and Right click
 void Update(bool lb, bool rb, int x, int y)
 {
+	
 	//Handle left Button
 	if (lButtonDown != lb)
 	{
@@ -58,16 +67,53 @@ void Update(bool lb, bool rb, int x, int y)
 	mouseY = y;
 }
 
+void HandleKey(int key, bool keyDown)
+{
+	if (key == VK_SPACE && !keyDown) //restart
+	{
+		Restart();
+	}
+	else if (key == 'W') //Thrust
+	{
+		thrustKeyDown = keyDown;
+	}
+	else if (key == 'A') //Left
+	{
+		leftKeyDown = keyDown;
+	}
+	else if (key == 'D') //Right
+	{
+		rightKeyDown = keyDown;
+	}
+}
+
 void Render(HWND hwnd)
 {
-	world.SetSpriteVisible("fire", lButtonDown);
-	float thrust = -0.005f;
-	if (!lButtonDown)
+	// sets amount of thrust for fire
+	world.SetSpriteVisible("fire", thrustKeyDown);
+	float thrust = -0.001f;
+	if (!thrustKeyDown)
 	{
 		thrust = 0;
 	}
+	///failed so far. trying to push lander left faster while on
+	world.SetSpriteVisible("right", rightKeyDown);
+	float thrustLeft = -0.001f;
+	if (!rightKeyDown)
+	{
+		thrustLeft = 0;
+	}
+
+	world.SetSpriteVisible("left", leftKeyDown);
+	float thrustRight = 0.001f;
+	if (!leftKeyDown)
+	{
+		thrustRight = 0;
+	}
+
 	world.SetSpriteForce("lander", thrust, false);
-	
+	world.SetSpriteForce("lander", thrustRight, true);
+	world.SetSpriteForce("lander", thrustLeft, true);
 	world.Process();
 	world.Draw(pGfx);
 	pGfx->Present(hwnd);
