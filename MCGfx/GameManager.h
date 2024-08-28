@@ -74,6 +74,5 @@ void Render(HWND hwnd)
 }
 
 
-
 };
 
