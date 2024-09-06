@@ -24,6 +24,18 @@ public:
 	{
 	}
 
+	int GetSpriteIndex(const string& name)
+	{
+		for (int i = 0; i < sprites.size(); i++)
+		{
+			if (sprites[i].GetName() == name)
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+
 	// public functions
 	void Load()
 	{
@@ -31,60 +43,88 @@ public:
 
 		//pre allocate to avoid stale pointers
 		sprites.reserve(1000);
+		int index = -1;
+		RGBTRIPLE NearColor = { 105, 100, 75 };
+		RGBTRIPLE MidColor = DarkenColor({ 105, 100, 75 }, 25);
 
 		TBSprite s;
-		sprites.push_back(s);
-		sprites.back().Create(0, g_pixelHeight-50, g_pixelWidth, 50, { 205, 100, 100 }); //for each change color with 3 last values in {}. { blue, green, red}
-		sprites.back().SetName("ground");
-		sprites.back().SetLayer(LAYER::layer_BACK);
-		sprites.back().setHasAnimation(false);
-		sprites.back().setPhysics(false);
+		//sprites.push_back(s);
+		//sprites.back().Create(0, g_pixelHeight-50, g_pixelWidth, 50, { 205, 100, 100 }); //for each change color with 3 last values in {}. { blue, green, red}
+		//sprites.back().SetName("ground");
+		//sprites.back().SetLayer(LAYER::layer_BACK);
+		//sprites.back().SetHasAnimation(false);
+		//sprites.back().setPhysics(false);
 
 
 		sprites.push_back(s);
-		sprites.back().Create(400, 380, 300, 220, { 205, 100, 100 });
-		sprites.back().SetName("mtA2");
-		sprites.back().SetVx(-0.05f);
+		sprites.back().Create(g_pixelWidth/4 , g_pixelHeight/2 - 15 , 50, g_pixelHeight/2 , MidColor);
+		sprites.back().SetName("mtAMid");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::Layer_MID);
-		sprites.back().setHasAnimation(false);
+		sprites.back().SetHasAnimation(true);
+		sprites.back().SetAnimationX(-0.01f);
 		sprites.back().setPhysics(false);
+
+		sprites.push_back(s);
+		sprites.back().Create(g_pixelWidth / 4 + 50, g_pixelHeight / 2 - 15, 50, g_pixelHeight / 2, MidColor);
+		sprites.back().SetName("mtBMid");
+		sprites.back().SetWrap(true);
+		sprites.back().SetLayer(LAYER::Layer_MID);
+		sprites.back().SetHasAnimation(true);
+		sprites.back().SetAnimationX(-0.01f);
+		sprites.back().setPhysics(false);
+
+		sprites.push_back(s);
+		sprites.back().Create(0, g_pixelHeight / 2 - 10, g_pixelWidth, g_pixelHeight / 2, MidColor);
+		sprites.back().SetName("groundMid");
+		sprites.back().SetWrap(true);
+		sprites.back().SetLayer(LAYER::Layer_MID);
+		sprites.back().SetHasAnimation(false);
+		sprites.back().setPhysics(false);
+
 
 		//mountains
 		sprites.push_back(s);
-		sprites.back().Create(400, 300, 100, 300, { 205, 100, 100 });
-		sprites.back().SetName("mtA");
-		sprites.back().SetVx(-0.1f);
+		sprites.back().Create(g_pixelWidth / 4, g_pixelHeight - 48, 50, g_pixelHeight / 2 -10 , NearColor);
+		sprites.back().SetName("mtANear");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_NEAR);
-		sprites.back().setHasAnimation(false);
+		sprites.back().SetHasAnimation(true);
+		sprites.back().SetAnimationX(-0.03f);
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(600, 250, 50, 350, { 205, 100, 100 });
-		sprites.back().SetName("mtB");
-		sprites.back().SetVx(-0.1f);
+		sprites.back().Create(g_pixelWidth / 5 + 5, g_pixelHeight - 49, 50, g_pixelHeight / 2 - 10, NearColor);
+		sprites.back().SetName("mtBNear");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_NEAR);
-		sprites.back().setHasAnimation(false);
+		sprites.back().SetHasAnimation(true);
+		sprites.back().SetAnimationX(-0.03f);
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(0, 250, 50, 350, { 205, 100, 100 });
-		sprites.back().SetName("mtC");
-		sprites.back().SetVx(-0.1f);
+		sprites.back().Create(g_pixelWidth / 3 + 20 , g_pixelHeight - 52, 50, g_pixelHeight / 2 - 10, NearColor);
+		sprites.back().SetName("mtCNear");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_NEAR);
-		sprites.back().setHasAnimation(false);
+		sprites.back().SetHasAnimation(true);
+		sprites.back().SetAnimationX(-0.03f);
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(250,250, 50, 350, { 205, 100, 100 });
-		sprites.back().SetName("mtD");
-		sprites.back().SetVx(-0.1f);
+		sprites.back().Create(g_pixelWidth + 15, g_pixelHeight - 55, 50, g_pixelHeight / 2 - 10, NearColor);
+		sprites.back().SetName("mtDNear");
 		sprites.back().SetWrap(true); 
 		sprites.back().SetLayer(LAYER::layer_NEAR);
-		sprites.back().setHasAnimation(false);
+		sprites.back().SetHasAnimation(true);
+		sprites.back().SetAnimationX(-0.03f);
+		sprites.back().setPhysics(false);
+
+		sprites.push_back(s);
+		sprites.back().Create(0, g_pixelHeight - 50, g_pixelWidth, 50, NearColor); //for each change color with 3 last values in {}. { blue, green, red}
+		sprites.back().SetName("ground");
+		sprites.back().SetLayer(LAYER::layer_BACK);
+		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
 
 
@@ -96,43 +136,59 @@ public:
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_FRONT);
 		sprites.back().SetStayAboveGround(true);
-		sprites.back().setHasAnimation(true);
+		sprites.back().SetHasAnimation(true);
 		sprites.back().setPhysics(true);
 
 		sprites.push_back(s);
 		sprites.back().Create(1, 5, 2, 2, { 0, 0, 255});  
 		sprites.back().SetName("fire");
-		sprites.back().SetParent(&sprites[6]);
+		index = GetSpriteIndex("lander");
+		if (index >= 0)
+		{
+			sprites.back().SetParent(&sprites[index]);
+		}
 		sprites.back().SetVisible(false);
 		sprites.back().SetLayer(LAYER::layer_NONE);
-		sprites.back().setHasAnimation(true);
+		sprites.back().SetHasAnimation(true);
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
 		sprites.back().Create(5, 1, 2, 2, { 0, 0, 255 });
 		sprites.back().SetName("right");
-		sprites.back().SetParent(&sprites[6]);
+		index = GetSpriteIndex("lander");
+		if (index >= 0)
+		{
+			sprites.back().SetParent(&sprites[index]);
+		}
 		sprites.back().SetVisible(false);
 		sprites.back().SetLayer(LAYER::layer_NONE);
-		sprites.back().setHasAnimation(true);
+		sprites.back().SetHasAnimation(true);
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
 		sprites.back().Create(-3, 1, 2, 2, { 0, 0, 255 });
 		sprites.back().SetName("left");
-		sprites.back().SetParent(&sprites[6]);
+		index = GetSpriteIndex("lander");
+		if (index >= 0)
+		{
+			sprites.back().SetParent(&sprites[index]);
+		}
 		sprites.back().SetVisible(false);
 		sprites.back().SetLayer(LAYER::layer_NONE);
-		sprites.back().setHasAnimation(true);
+		sprites.back().SetHasAnimation(true);
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
 		sprites.back().Create(1, -3, 2, 2, { 0, 0, 255 });
 		sprites.back().SetName("Up");
-		sprites.back().SetParent(&sprites[6]);
+		index = GetSpriteIndex("lander");
+		if (index >= 0)
+		{
+			sprites.back().SetParent(&sprites[index]);
+		}
 		sprites.back().SetVisible(false);
 		sprites.back().SetLayer(LAYER::layer_NONE);
-		sprites.back().setHasAnimation(true);
+		sprites.back().SetHasAnimation(true);
 		sprites.back().setPhysics(false);
 
 

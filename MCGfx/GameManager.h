@@ -3,6 +3,7 @@
 #include <vector>
 #include "MCGraphics.cpp"
 #include "TBWorld.cpp"
+#include "TBGlobals.h"
 using namespace std;
 
 

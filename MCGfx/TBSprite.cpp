@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "MCGraphics.cpp"
+#include "TBGlobals.h"
 
 using namespace std;
 //Enum class Layers near to far
@@ -26,6 +27,7 @@ private:
 	int h = 0; //height
 	RGBTRIPLE color;
 	string name;
+	bool hasPhysics = false;
 	float vx = 0.0f;
 	float vy = 0.0f;
 	float fx = 0.0f;
@@ -38,7 +40,8 @@ private:
 	bool visible = true;
 	bool wrap = false;
 	bool hasAnimation = false;
-	bool physics = false;
+	float animationX = 0.0f;
+	float animationY = 0.0f;
 	LAYER layer = LAYER::layer_NONE;
 
 
@@ -124,7 +127,7 @@ public:
 		fy += f;
 	}
 
-	void setHasAnimation(bool hA)
+	void SetHasAnimation(bool hA)
 	{
 		hasAnimation = hA;
 	}
@@ -133,35 +136,55 @@ public:
 		return hasAnimation;
 	}
 
+	float GetAnimationX()
+	{
+		return animationX;
+	}
+
+	float GetAnimationY()
+	{
+		return animationY;
+	}
+
+	void SetAnimationX(float ax)
+	{
+		animationX = ax;
+	}
+
+	void SetAnimationY(float ay)
+	{
+		animationY = ay;
+	}
+
 	void setPhysics(bool ph)
 	{
-		physics = ph;
+		hasPhysics = ph;
 	}
 	bool getPhysics()
 	{
-		return physics;
+		return hasPhysics;
 	}
 
-		void SetLayer(LAYER l)
+	void SetLayer(LAYER l)
 		{
 			layer = l;
 		}
-		LAYER GetLayer()
+	LAYER GetLayer()
 		{
 			return layer;
 		}
 
-		void SetStayAboveGround(bool sa) //ground accessor
+	void SetStayAboveGround(bool sa) //ground accessor
 		{
 			stayAboveGround = sa;
 		}
 
-		void SetWrap(bool wrapOn) //Wrap accessor
+	void SetWrap(bool wrapOn) //Wrap accessor
 		{
 			wrap = wrapOn;
 		} 
 		// constructors / destructors
-		TBSprite()
+	TBSprite()
 		{
 			name = "";
 			x = 0.0f;
@@ -171,16 +194,16 @@ public:
 
 			color = { 255, 255, 255 };
 		}
-		TBSprite(int left, int top, int width, int height, const RGBTRIPLE& rgbtriple)
+	TBSprite(int left, int top, int width, int height, const RGBTRIPLE& rgbtriple)
 		{
 			Create(left, top, width, height, rgbtriple);
 		}
-		~TBSprite()
+	~TBSprite()
 		{
 		}
 
-		//public functions
-		void Create(int left, int top, int width, int height, const RGBTRIPLE& rgbtriple)
+	//public functions
+	void Create(int left, int top, int width, int height, const RGBTRIPLE& rgbtriple)
 		{
 			x = (float)left;
 			y = (float)top;
@@ -192,8 +215,10 @@ public:
 
 		}
 
-		void Process()
+	void Process()
 		{
+			if (hasPhysics == true)
+			{
 				//check y against ground
 				if (y >= ground && this->stayAboveGround)
 				{
@@ -206,7 +231,7 @@ public:
 
 				// setup forces
 				float fx = this->fx;
-				float fy = this->fy; 
+				float fy = this->fy;
 
 				if (gravityActive)
 				{
@@ -223,9 +248,15 @@ public:
 
 				//zero out forces
 				this->fx = this->fy = 0.0f;
+			}
+			if (hasAnimation == true)
+			{
+				x += animationX;
+				y += animationY;
+			}
 		}
 		//code for wrapping function
-		void Draw(MCGraphics* pGFX)
+	void Draw(MCGraphics* pGFX)
 		{
 			if (visible)
 			{
