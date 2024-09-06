@@ -20,6 +20,7 @@ private:
 	bool leftKeyDown = false;
 	bool rightKeyDown = false;
 	bool thrustKeyDown = false;
+	bool upKeyDown = false;
 	bool restart = false;
 
 public:
@@ -85,6 +86,10 @@ void HandleKey(int key, bool keyDown)
 	{
 		rightKeyDown = keyDown;
 	}
+	else if (key == 'S') //down thrust
+	{
+		upKeyDown = keyDown;
+	}
 }
 
 void Render(HWND hwnd)
@@ -111,9 +116,18 @@ void Render(HWND hwnd)
 		thrustRight = 0;
 	}
 
+	world.SetSpriteVisible("Up", upKeyDown);
+	float thrustDown = 0.001f;
+	if (!upKeyDown)
+	{
+		thrustDown = 0;
+	}
+
+	// lander forces 
 	world.SetSpriteForce("lander", thrust, false);
 	world.SetSpriteForce("lander", thrustRight, true);
 	world.SetSpriteForce("lander", thrustLeft, true);
+	world.SetSpriteForce("lander", thrustDown, false);
 	world.Process();
 	world.Draw(pGfx);
 	pGfx->Present(hwnd);

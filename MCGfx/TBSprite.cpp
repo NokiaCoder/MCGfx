@@ -19,108 +19,128 @@ enum class LAYER
 
 class TBSprite
 {
-	private:
-		float x = 0.0f; //left most
-		float y = 0.0f; //upper most
-		int w = 0; //width
-		int h = 0; //height
-		RGBTRIPLE color;
-		string name;
-		float vx = 0.0f;
-		float vy = 0.0f;
-		float fx = 0.0f;
-		float fy = 0.0f;
-		float g = 0.00001f;
-		float ground = 202.0f; //Value for ground (change value to change height of ground
-		bool stayAboveGround = false;
-		bool gravityActive = false;
-		TBSprite* pParent = nullptr;
-		bool visible = true;
-		bool wrap = false;
-		LAYER layer = LAYER::layer_NONE;
-		
+private:
+	float x = 0.0f; //left most
+	float y = 0.0f; //upper most
+	int w = 0; //width
+	int h = 0; //height
+	RGBTRIPLE color;
+	string name;
+	float vx = 0.0f;
+	float vy = 0.0f;
+	float fx = 0.0f;
+	float fy = 0.0f;
+	float g = 0.00001f;
+	float ground = 202.0f; //Value for ground (change value to change height of ground
+	bool stayAboveGround = false;
+	bool gravityActive = false;
+	TBSprite* pParent = nullptr;
+	bool visible = true;
+	bool wrap = false;
+	bool hasAnimation = false;
+	bool physics = false;
+	LAYER layer = LAYER::layer_NONE;
+
 
 public:
-		// accessors
-		string GetName()
-		{
-			return name;
-		}
-		void SetName(string n)
-		{
-			name = n;
-		}
+	// accessors
+	string GetName()
+	{
+		return name;
+	}
+	void SetName(string n)
+	{
+		name = n;
+	}
 
-		//Gravity accessors
-		bool GetGravityOn()
+	//Gravity accessors
+	bool GetGravityOn()
+	{
+		return gravityActive;
+	}
+	void SetGravityOn(bool gravityOn)
+	{
+		gravityActive = gravityOn;
+		if (gravityActive)
 		{
-			return gravityActive;
+			vy += 0.1f;
 		}
-		void SetGravityOn(bool gravityOn)
+		else
 		{
-			gravityActive = gravityOn;
-			if (gravityActive)
-			{
-				vy += 0.1f;
-			}
-			else
-			{
-				vy -= 0.1f;
-			}
+			vy -= 0.1f;
 		}
+	}
 
-		TBSprite* GetParent()
-		{
-			return pParent;
-		}
-		void SetParent(TBSprite* pP)
-		{
-			pParent = pP;
-		}
+	TBSprite* GetParent()
+	{
+		return pParent;
+	}
+	void SetParent(TBSprite* pP)
+	{
+		pParent = pP;
+	}
 
-		float GetX()
+	float GetX()
+	{
+		if (pParent != nullptr)
 		{
-			if (pParent != nullptr)
-			{
-				return x + pParent->GetX();
-			}
-			return x;
+			return x + pParent->GetX();
 		}
-		float GetY()
+		return x;
+	}
+	float GetY()
+	{
+		if (pParent != nullptr)
 		{
-			if (pParent != nullptr)
-			{
-				return y + pParent->GetY();
-			}
-			return y;
+			return y + pParent->GetY();
 		}
+		return y;
+	}
 
-		void SetVx(float v)
-		{
-			vx = v;
-		}
-		void SetVy(float v)
-		{
-			vy = v;
-		}
+	void SetVx(float v)
+	{
+		vx = v;
+	}
+	void SetVy(float v)
+	{
+		vy = v;
+	}
 
-		bool GetVisible()
-		{
-			return visible;
-		}
-		void SetVisible(bool v)
-		{
-			visible = v;
-		}
+	bool GetVisible()
+	{
+		return visible;
+	}
+	void SetVisible(bool v)
+	{
+		visible = v;
+	}
 
-		void SetFx(float f)
-		{
-			fx += f;
-		}
-		void SetFy(float f)
-		{
-			fy += f;
-		}
+	void SetFx(float f)
+	{
+		fx += f;
+	}
+	void SetFy(float f)
+	{
+		fy += f;
+	}
+
+	void setHasAnimation(bool hA)
+	{
+		hasAnimation = hA;
+	}
+	bool GetHasAnimation()
+	{
+		return hasAnimation;
+	}
+
+	void setPhysics(bool ph)
+	{
+		physics = ph;
+	}
+	bool getPhysics()
+	{
+		return physics;
+	}
 
 		void SetLayer(LAYER l)
 		{

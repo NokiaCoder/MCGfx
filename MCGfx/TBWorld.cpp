@@ -37,6 +37,8 @@ public:
 		sprites.back().Create(0, g_pixelHeight-50, g_pixelWidth, 50, { 205, 100, 100 }); //for each change color with 3 last values in {}. { blue, green, red}
 		sprites.back().SetName("ground");
 		sprites.back().SetLayer(LAYER::layer_BACK);
+		sprites.back().setHasAnimation(false);
+		sprites.back().setPhysics(false);
 
 
 		sprites.push_back(s);
@@ -45,6 +47,8 @@ public:
 		sprites.back().SetVx(-0.05f);
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::Layer_MID);
+		sprites.back().setHasAnimation(false);
+		sprites.back().setPhysics(false);
 
 		//mountains
 		sprites.push_back(s);
@@ -53,6 +57,8 @@ public:
 		sprites.back().SetVx(-0.1f);
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_NEAR);
+		sprites.back().setHasAnimation(false);
+		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
 		sprites.back().Create(600, 250, 50, 350, { 205, 100, 100 });
@@ -60,6 +66,8 @@ public:
 		sprites.back().SetVx(-0.1f);
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_NEAR);
+		sprites.back().setHasAnimation(false);
+		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
 		sprites.back().Create(0, 250, 50, 350, { 205, 100, 100 });
@@ -67,6 +75,8 @@ public:
 		sprites.back().SetVx(-0.1f);
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_NEAR);
+		sprites.back().setHasAnimation(false);
+		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
 		sprites.back().Create(250,250, 50, 350, { 205, 100, 100 });
@@ -74,6 +84,8 @@ public:
 		sprites.back().SetVx(-0.1f);
 		sprites.back().SetWrap(true); 
 		sprites.back().SetLayer(LAYER::layer_NEAR);
+		sprites.back().setHasAnimation(false);
+		sprites.back().setPhysics(false);
 
 
 		sprites.push_back(s);
@@ -84,6 +96,8 @@ public:
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_FRONT);
 		sprites.back().SetStayAboveGround(true);
+		sprites.back().setHasAnimation(true);
+		sprites.back().setPhysics(true);
 
 		sprites.push_back(s);
 		sprites.back().Create(1, 5, 2, 2, { 0, 0, 255});  
@@ -91,6 +105,8 @@ public:
 		sprites.back().SetParent(&sprites[6]);
 		sprites.back().SetVisible(false);
 		sprites.back().SetLayer(LAYER::layer_NONE);
+		sprites.back().setHasAnimation(true);
+		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
 		sprites.back().Create(5, 1, 2, 2, { 0, 0, 255 });
@@ -98,6 +114,8 @@ public:
 		sprites.back().SetParent(&sprites[6]);
 		sprites.back().SetVisible(false);
 		sprites.back().SetLayer(LAYER::layer_NONE);
+		sprites.back().setHasAnimation(true);
+		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
 		sprites.back().Create(-3, 1, 2, 2, { 0, 0, 255 });
@@ -105,6 +123,17 @@ public:
 		sprites.back().SetParent(&sprites[6]);
 		sprites.back().SetVisible(false);
 		sprites.back().SetLayer(LAYER::layer_NONE);
+		sprites.back().setHasAnimation(true);
+		sprites.back().setPhysics(false);
+
+		sprites.push_back(s);
+		sprites.back().Create(1, -3, 2, 2, { 0, 0, 255 });
+		sprites.back().SetName("Up");
+		sprites.back().SetParent(&sprites[6]);
+		sprites.back().SetVisible(false);
+		sprites.back().SetLayer(LAYER::layer_NONE);
+		sprites.back().setHasAnimation(true);
+		sprites.back().setPhysics(false);
 
 
 		SetScrollSpeed(-0.0f);
