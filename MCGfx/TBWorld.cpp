@@ -46,8 +46,16 @@ public:
 		int index = -1;
 		RGBTRIPLE NearColor = { 105, 100, 75 };
 		RGBTRIPLE MidColor = DarkenColor({ 105, 100, 75 }, 25);
+		RGBTRIPLE FIRECOLOR = { 0, 0, 255 };
+		RGBTRIPLE LANDERCOLOR = { 255, 255, 255 };
 
+		float mountMidSpeed = -0.01f;
+		float mountNearSpeed = -0.03f;
+		float landerSpeed = -0.0f;
+		float scrollSpeed = -0.0f;
 		TBSprite s;
+
+
 		//sprites.push_back(s);
 		//sprites.back().Create(0, g_pixelHeight-50, g_pixelWidth, 50, { 205, 100, 100 }); //for each change color with 3 last values in {}. { blue, green, red}
 		//sprites.back().SetName("ground");
@@ -62,7 +70,7 @@ public:
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::Layer_MID);
 		sprites.back().SetHasAnimation(true);
-		sprites.back().SetAnimationX(-0.01f);
+		sprites.back().SetAnimationX(mountMidSpeed);
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
@@ -71,7 +79,7 @@ public:
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::Layer_MID);
 		sprites.back().SetHasAnimation(true);
-		sprites.back().SetAnimationX(-0.01f);
+		sprites.back().SetAnimationX(mountMidSpeed);
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
@@ -90,7 +98,7 @@ public:
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_NEAR);
 		sprites.back().SetHasAnimation(true);
-		sprites.back().SetAnimationX(-0.03f);
+		sprites.back().SetAnimationX(mountNearSpeed);
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
@@ -99,7 +107,7 @@ public:
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_NEAR);
 		sprites.back().SetHasAnimation(true);
-		sprites.back().SetAnimationX(-0.03f);
+		sprites.back().SetAnimationX(mountNearSpeed);
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
@@ -108,7 +116,7 @@ public:
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_NEAR);
 		sprites.back().SetHasAnimation(true);
-		sprites.back().SetAnimationX(-0.03f);
+		sprites.back().SetAnimationX(mountNearSpeed);
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
@@ -117,7 +125,7 @@ public:
 		sprites.back().SetWrap(true); 
 		sprites.back().SetLayer(LAYER::layer_NEAR);
 		sprites.back().SetHasAnimation(true);
-		sprites.back().SetAnimationX(-0.03f);
+		sprites.back().SetAnimationX(mountNearSpeed);
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
@@ -129,10 +137,10 @@ public:
 
 
 		sprites.push_back(s);
-		sprites.back().Create(140, 0, 4, 4, { 255, 255, 255 });
+		sprites.back().Create(140, 0, 4, 4, LANDERCOLOR);
 		sprites.back().SetName("lander");
 		sprites.back().SetGravityOn(true);
-		sprites.back().SetVx(-0.0f);
+		sprites.back().SetVx(landerSpeed);
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_FRONT);
 		sprites.back().SetStayAboveGround(true);
@@ -140,7 +148,7 @@ public:
 		sprites.back().setPhysics(true);
 
 		sprites.push_back(s);
-		sprites.back().Create(1, 5, 2, 2, { 0, 0, 255});  
+		sprites.back().Create(1, 5, 2, 2, FIRECOLOR);
 		sprites.back().SetName("fire");
 		index = GetSpriteIndex("lander");
 		if (index >= 0)
@@ -153,7 +161,7 @@ public:
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(5, 1, 2, 2, { 0, 0, 255 });
+		sprites.back().Create(5, 1, 2, 2, FIRECOLOR);
 		sprites.back().SetName("right");
 		index = GetSpriteIndex("lander");
 		if (index >= 0)
@@ -166,7 +174,7 @@ public:
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(-3, 1, 2, 2, { 0, 0, 255 });
+		sprites.back().Create(-3, 1, 2, 2, FIRECOLOR);
 		sprites.back().SetName("left");
 		index = GetSpriteIndex("lander");
 		if (index >= 0)
@@ -179,7 +187,7 @@ public:
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(1, -3, 2, 2, { 0, 0, 255 });
+		sprites.back().Create(1, -3, 2, 2, FIRECOLOR);
 		sprites.back().SetName("Up");
 		index = GetSpriteIndex("lander");
 		if (index >= 0)
@@ -192,7 +200,7 @@ public:
 		sprites.back().setPhysics(false);
 
 
-		SetScrollSpeed(-0.0f);
+		SetScrollSpeed(scrollSpeed);
 	}
 	//Sets scroll speed for each layer
 	void SetScrollSpeed(float v) 
