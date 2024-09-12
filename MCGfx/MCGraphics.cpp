@@ -223,7 +223,8 @@ public:
                             SRCCOPY
                         );
 
-            ReleaseDC(hwnd, hdc);   
+            ReleaseDC(hwnd, hdc);  
+           
         }
     }
 };

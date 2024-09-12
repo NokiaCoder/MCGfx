@@ -1,6 +1,7 @@
 #pragma once
 #include <windows.h>
 #include <string>
+#include <thread>
 #include "GameManager.h"
 #include "MCGraphics.cpp"
 #include "TBGlobals.h"
@@ -17,7 +18,7 @@ POINT lastMouseDown;
 POINT lastMousePos;
 int windowWidth = 800;
 int windowHeight = 600;
-wstring windowTitle = L"Graphics Window";
+wstring windowTitle = L"";
 
 
 // Forward declaration of the Window Procedure
@@ -81,6 +82,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
         TranslateMessage(&msg);
         DispatchMessage(&msg);
         game.Render(hwnd);
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 
     return 0;
@@ -163,7 +165,7 @@ LRESULT CALLBACK WindowProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ WPARAM wParam, 
             lastMousePos.x = x;
             lastMousePos.y = y;
             game.Update(lMouseButtonDown, rMouseButtonDown, x, y);
-            SetWindowText(hwnd, (windowTitle + L"      mouse: " + to_wstring(x) + L", " + to_wstring(y)).c_str());
+            SetWindowText(hwnd, (g_GameTitle + L"      mouse: " + to_wstring(x) + L", " + to_wstring(y) + L"  Seconds:  " + to_wstring(GetElapsedSeconds())).c_str());
         }
 		return 0;
     }

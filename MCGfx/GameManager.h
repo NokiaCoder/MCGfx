@@ -29,6 +29,7 @@ public:
 	void Initialize()
 	{
 		world.Load();
+		StartTimer();
 	}
 
 void SetPointer(MCGraphics* ptr)
@@ -95,30 +96,38 @@ void HandleKey(int key, bool keyDown)
 
 void Render(HWND hwnd)
 {
+	//Get Master Timeslice
+	double  elapsedTimeSec = GetElapsedFrameSeconds();
+
+	//Test for collision
+	world.TestCollision();
+
+
 	// sets amount of thrust for fire
 	world.SetSpriteVisible("fire", thrustKeyDown);
-	float thrust = -0.001f;
+	float thrust = (-4.0f * (float)elapsedTimeSec);
 	if (!thrustKeyDown)
 	{
 		thrust = 0;
 	}
 	///failed so far. trying to push lander left faster while on
 	world.SetSpriteVisible("right", rightKeyDown);
-	float thrustLeft = -0.001f;
+	float thrustLeft = (-2.0f * (float)elapsedTimeSec);
 	if (!rightKeyDown)
 	{
 		thrustLeft = 0;
 	}
 
 	world.SetSpriteVisible("left", leftKeyDown);
-	float thrustRight = 0.001f;
+	float thrustRight = (2.0f * (float)elapsedTimeSec);
 	if (!leftKeyDown)
 	{
 		thrustRight = 0;
 	}
 
+	//TODO remember to delete before final version.
 	world.SetSpriteVisible("Up", upKeyDown);
-	float thrustDown = 0.001f;
+	float thrustDown = (6.0f * (float)elapsedTimeSec);
 	if (!upKeyDown)
 	{
 		thrustDown = 0;
@@ -129,7 +138,7 @@ void Render(HWND hwnd)
 	world.SetSpriteForce("lander", thrustRight, true);
 	world.SetSpriteForce("lander", thrustLeft, true);
 	world.SetSpriteForce("lander", thrustDown, false);
-	world.Process();
+	world.Process(elapsedTimeSec);
 	world.Draw(pGfx);
 	pGfx->Present(hwnd);
 }

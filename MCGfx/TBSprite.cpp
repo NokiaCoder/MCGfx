@@ -32,7 +32,6 @@ private:
 	float vy = 0.0f;
 	float fx = 0.0f;
 	float fy = 0.0f;
-	float g = 0.00001f;
 	float ground = 202.0f; //Value for ground (change value to change height of ground
 	bool stayAboveGround = false;
 	bool gravityActive = false;
@@ -40,6 +39,7 @@ private:
 	bool visible = true;
 	bool wrap = false;
 	bool hasAnimation = false;
+	bool canCollide = false;
 	float animationX = 0.0f;
 	float animationY = 0.0f;
 	LAYER layer = LAYER::layer_NONE;
@@ -54,6 +54,16 @@ public:
 	void SetName(string n)
 	{
 		name = n;
+	}
+
+	//Collision Accessors
+	bool GetCollide()
+	{
+		return canCollide;
+	}
+	void SetCollide(bool active)
+	{
+		canCollide = active;
 	}
 
 	//Gravity accessors
@@ -215,14 +225,38 @@ public:
 
 		}
 
-	void Process()
+	void TestCollision(vector<TBSprite>& sprites)
+	{
+		if (GetCollide() && getPhysics())
 		{
+			for (int i = 0; i < (int)sprites.size(); i++)
+			{
+				if (name != sprites[i].name)
+				{
+					if (sprites[i].GetCollide())
+					{
+						if (TestIntersection(x, y, (float)w, (float)h, sprites[i].x, sprites[i].y, (float)sprites[i].w, (float)sprites[i].h))
+						{
+							setPhysics(false);
+							x = floor(x);
+							y = floor(y);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	void Process(double elapsedTimeSec)
+		{
+			
 			if (hasPhysics == true)
 			{
 				//check y against ground
 				if (y >= ground && this->stayAboveGround)
 				{
 					y = ground;
+					vx = 0.0f;
 					vy = 0.0f;
 					x += vx;
 					this->fx = this->fy = 0.0f;
@@ -230,12 +264,12 @@ public:
 				}
 
 				// setup forces
-				float fx = this->fx;
-				float fy = this->fy;
+				float fx = (this->fx * (float)elapsedTimeSec);
+				float fy = (this->fy * (float)elapsedTimeSec);
 
 				if (gravityActive)
 				{
-					fy += g;
+					fy += (g * (float)elapsedTimeSec);
 				}
 
 				//calculate velocities
@@ -251,8 +285,8 @@ public:
 			}
 			if (hasAnimation == true)
 			{
-				x += animationX;
-				y += animationY;
+				x += (animationX * (float)elapsedTimeSec);
+				y += (animationY * (float)elapsedTimeSec);
 			}
 		}
 		//code for wrapping function

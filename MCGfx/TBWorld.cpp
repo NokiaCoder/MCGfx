@@ -55,31 +55,68 @@ public:
 		float scrollSpeed = -0.0f;
 		TBSprite s;
 
-
-		//sprites.push_back(s);
-		//sprites.back().Create(0, g_pixelHeight-50, g_pixelWidth, 50, { 205, 100, 100 }); //for each change color with 3 last values in {}. { blue, green, red}
-		//sprites.back().SetName("ground");
-		//sprites.back().SetLayer(LAYER::layer_BACK);
-		//sprites.back().SetHasAnimation(false);
-		//sprites.back().setPhysics(false);
-
-
+		//mid mountains
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth/4 , g_pixelHeight/2 - 15 , 50, g_pixelHeight/2 , MidColor);
+		sprites.back().Create(g_pixelWidth / 4 + 10 , g_pixelHeight/2 - 15 , 50, g_pixelHeight/2 , MidColor);
 		sprites.back().SetName("mtAMid");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::Layer_MID);
 		sprites.back().SetHasAnimation(true);
-		sprites.back().SetAnimationX(mountMidSpeed);
+		sprites.back().SetAnimationX(mountMidSpeed * scrollSpeed);
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth / 4 + 50, g_pixelHeight / 2 - 15, 50, g_pixelHeight / 2, MidColor);
+		sprites.back().Create(g_pixelWidth / 4 + 48, g_pixelHeight / 2 - 15, 40, g_pixelHeight / 2, MidColor);
 		sprites.back().SetName("mtBMid");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::Layer_MID);
 		sprites.back().SetHasAnimation(true);
-		sprites.back().SetAnimationX(mountMidSpeed);
+		sprites.back().SetAnimationX(mountMidSpeed * scrollSpeed);
+		sprites.back().setPhysics(false);
+
+		sprites.push_back(s);
+		sprites.back().Create(g_pixelWidth / 4 + 55, g_pixelHeight / 2 - 25, 20, g_pixelHeight / 2, MidColor);
+		sprites.back().SetName("mtB1Mid");
+		sprites.back().SetWrap(true);
+		sprites.back().SetLayer(LAYER::Layer_MID);
+		sprites.back().SetHasAnimation(true);
+		sprites.back().SetAnimationX(mountMidSpeed * scrollSpeed);
+		sprites.back().setPhysics(false);
+
+		sprites.push_back(s);
+		sprites.back().Create(g_pixelWidth - 288, g_pixelHeight / 2 - 25, 40, g_pixelHeight / 2, MidColor);
+		sprites.back().SetName("mtCMid");
+		sprites.back().SetWrap(true);
+		sprites.back().SetLayer(LAYER::Layer_MID);
+		sprites.back().SetHasAnimation(true);
+		sprites.back().SetAnimationX(mountMidSpeed * scrollSpeed);
+		sprites.back().setPhysics(false);
+
+		sprites.push_back(s);
+		sprites.back().Create(g_pixelWidth - 268, g_pixelHeight / 2 - 35, 20, g_pixelHeight / 2, MidColor);
+		sprites.back().SetName("mtC1Mid");
+		sprites.back().SetWrap(true);
+		sprites.back().SetLayer(LAYER::Layer_MID);
+		sprites.back().SetHasAnimation(true);
+		sprites.back().SetAnimationX(mountMidSpeed * scrollSpeed);
+		sprites.back().setPhysics(false);
+
+		sprites.push_back(s);
+		sprites.back().Create(g_pixelWidth - 48, g_pixelHeight / 2 - 25, 48, g_pixelHeight / 2, MidColor);
+		sprites.back().SetName("mtDMid");
+		sprites.back().SetWrap(true);
+		sprites.back().SetLayer(LAYER::Layer_MID);
+		sprites.back().SetHasAnimation(true);
+		sprites.back().SetAnimationX(mountMidSpeed * scrollSpeed);
+		sprites.back().setPhysics(false);
+
+		sprites.push_back(s);
+		sprites.back().Create(g_pixelWidth - 28, g_pixelHeight / 2 - 35, 28, g_pixelHeight / 2, MidColor);
+		sprites.back().SetName("mtD1Mid");
+		sprites.back().SetWrap(true);
+		sprites.back().SetLayer(LAYER::Layer_MID);
+		sprites.back().SetHasAnimation(true);
+		sprites.back().SetAnimationX(mountMidSpeed * scrollSpeed);
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
@@ -89,26 +126,29 @@ public:
 		sprites.back().SetLayer(LAYER::Layer_MID);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
+		sprites.back().SetCollide(false);
 
 
-		//mountains
+		//Near mountains
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth / 4, g_pixelHeight - 48, 50, g_pixelHeight / 2 -10 , NearColor);
+		sprites.back().Create(g_pixelWidth / 4, g_pixelHeight - 59, 50, g_pixelHeight / 2 -10 , NearColor);
 		sprites.back().SetName("mtANear");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_NEAR);
 		sprites.back().SetHasAnimation(true);
-		sprites.back().SetAnimationX(mountNearSpeed);
+		sprites.back().SetAnimationX(mountNearSpeed * scrollSpeed);
 		sprites.back().setPhysics(false);
+		sprites.back().SetCollide(true);
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth / 5 + 5, g_pixelHeight - 49, 50, g_pixelHeight / 2 - 10, NearColor);
+		sprites.back().Create(g_pixelWidth / 5 + 5, g_pixelHeight - 69, 50, g_pixelHeight / 2 - 10, NearColor);
 		sprites.back().SetName("mtBNear");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_NEAR);
 		sprites.back().SetHasAnimation(true);
-		sprites.back().SetAnimationX(mountNearSpeed);
+		sprites.back().SetAnimationX(mountNearSpeed * scrollSpeed);
 		sprites.back().setPhysics(false);
+		sprites.back().SetCollide(true);
 
 		sprites.push_back(s);
 		sprites.back().Create(g_pixelWidth / 3 + 20 , g_pixelHeight - 52, 50, g_pixelHeight / 2 - 10, NearColor);
@@ -116,8 +156,9 @@ public:
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_NEAR);
 		sprites.back().SetHasAnimation(true);
-		sprites.back().SetAnimationX(mountNearSpeed);
+		sprites.back().SetAnimationX(mountNearSpeed * scrollSpeed);
 		sprites.back().setPhysics(false);
+		sprites.back().SetCollide(true);
 
 		sprites.push_back(s);
 		sprites.back().Create(g_pixelWidth + 15, g_pixelHeight - 55, 50, g_pixelHeight / 2 - 10, NearColor);
@@ -125,8 +166,88 @@ public:
 		sprites.back().SetWrap(true); 
 		sprites.back().SetLayer(LAYER::layer_NEAR);
 		sprites.back().SetHasAnimation(true);
-		sprites.back().SetAnimationX(mountNearSpeed);
+		sprites.back().SetAnimationX(mountNearSpeed * scrollSpeed);
 		sprites.back().setPhysics(false);
+		sprites.back().SetCollide(true);
+
+		sprites.push_back(s);
+		sprites.back().Create(g_pixelWidth / 4 + 180, g_pixelHeight - 69, 36, g_pixelHeight / 2 - 5, NearColor);
+		sprites.back().SetName("mtENear");
+		sprites.back().SetWrap(true);
+		sprites.back().SetLayer(LAYER::layer_NEAR);
+		sprites.back().SetHasAnimation(true);
+		sprites.back().SetAnimationX(mountNearSpeed * scrollSpeed);
+		sprites.back().setPhysics(false);
+		sprites.back().SetCollide(true);
+
+sprites.push_back(s);
+		sprites.back().Create(g_pixelWidth / 4 + 206, g_pixelHeight - 74, 10, g_pixelHeight / 2 - 5, NearColor);
+		sprites.back().SetName("mtE1Near");
+		sprites.back().SetWrap(true);
+		sprites.back().SetLayer(LAYER::layer_NEAR);
+		sprites.back().SetHasAnimation(true);
+		sprites.back().SetAnimationX(mountNearSpeed* scrollSpeed);
+		sprites.back().setPhysics(false);
+		sprites.back().SetCollide(true);
+
+		sprites.push_back(s);
+		sprites.back().Create(g_pixelWidth / 4 + 130, g_pixelHeight - 60, 35, g_pixelHeight / 2 - 30, NearColor);
+		sprites.back().SetName("mtFNear");
+		sprites.back().SetWrap(true);
+		sprites.back().SetLayer(LAYER::layer_NEAR);
+		sprites.back().SetHasAnimation(true);
+		sprites.back().SetAnimationX(mountNearSpeed * scrollSpeed);
+		sprites.back().setPhysics(false);
+		sprites.back().SetCollide(true);
+		sprites.push_back(s);
+
+		sprites.push_back(s);
+		sprites.back().Create(g_pixelWidth - 288, g_pixelHeight - 89, 30, g_pixelHeight / 2 - 10, NearColor);
+		sprites.back().SetName("mtGNear");
+		sprites.back().SetWrap(true);
+		sprites.back().SetLayer(LAYER::layer_NEAR);
+		sprites.back().SetHasAnimation(true);
+		sprites.back().SetAnimationX(mountNearSpeed* scrollSpeed);
+		sprites.back().setPhysics(false);
+		sprites.back().SetCollide(true);
+
+		sprites.push_back(s);
+		sprites.back().Create(g_pixelWidth - 278, g_pixelHeight - 68, 30, g_pixelHeight / 2 - 10, NearColor);
+		sprites.back().SetName("mtG1Near");
+		sprites.back().SetWrap(true);
+		sprites.back().SetLayer(LAYER::layer_NEAR);
+		sprites.back().SetHasAnimation(true);
+		sprites.back().SetAnimationX(mountNearSpeed* scrollSpeed);
+		sprites.back().setPhysics(false);
+		sprites.back().SetCollide(true);
+
+		sprites.push_back(s);
+		sprites.back().Create(g_pixelWidth - 274, g_pixelHeight - 98, 10, g_pixelHeight / 2 - 10, NearColor);
+		sprites.back().SetName("mtG2Near");
+		sprites.back().SetWrap(true);
+		sprites.back().SetLayer(LAYER::layer_NEAR);
+		sprites.back().SetHasAnimation(true);
+		sprites.back().SetAnimationX(mountNearSpeed* scrollSpeed);
+		sprites.back().setPhysics(false);
+		sprites.back().SetCollide(true);
+		
+		sprites.push_back(s);
+		sprites.back().Create(g_pixelWidth - 220, g_pixelHeight - 76, 14, g_pixelHeight / 2 - 10, NearColor);
+		sprites.back().SetName("mtHNear");
+		sprites.back().SetWrap(true);
+		sprites.back().SetLayer(LAYER::layer_NEAR);
+		sprites.back().SetHasAnimation(true);
+		sprites.back().SetAnimationX(mountNearSpeed* scrollSpeed);
+		sprites.back().setPhysics(false);
+		sprites.back().SetCollide(true);
+
+
+
+	
+
+		
+
+
 
 		sprites.push_back(s);
 		sprites.back().Create(0, g_pixelHeight - 50, g_pixelWidth, 50, NearColor); //for each change color with 3 last values in {}. { blue, green, red}
@@ -134,6 +255,7 @@ public:
 		sprites.back().SetLayer(LAYER::layer_BACK);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
+		sprites.back().SetCollide(true);
 
 
 		sprites.push_back(s);
@@ -146,6 +268,7 @@ public:
 		sprites.back().SetStayAboveGround(true);
 		sprites.back().SetHasAnimation(true);
 		sprites.back().setPhysics(true);
+		sprites.back().SetCollide(true);
 
 		sprites.push_back(s);
 		sprites.back().Create(1, 5, 2, 2, FIRECOLOR);
@@ -255,12 +378,20 @@ public:
 		}
 	}
 
+	void TestCollision()
+	{
+		int id = GetSpriteIndex("lander");
+		if (id > -1)
+		{
+			sprites[id].TestCollision(sprites);
+		}
+	}
 
-	void Process()
+	void Process(double elapsedTimeSec)
 	{
 		for (int i = 0; i < (int)sprites.size(); i++)
 		{
-			sprites[i].Process();
+			sprites[i].Process(elapsedTimeSec);
 		}
 	}
 	//Draw Function
