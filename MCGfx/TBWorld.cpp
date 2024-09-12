@@ -44,11 +44,13 @@ public:
 		//pre allocate to avoid stale pointers
 		sprites.reserve(1000);
 		int index = -1;
+		//mountain/fire/lander color
 		RGBTRIPLE NearColor = { 105, 100, 75 };
 		RGBTRIPLE MidColor = DarkenColor({ 105, 100, 75 }, 25);
 		RGBTRIPLE FIRECOLOR = { 0, 0, 255 };
 		RGBTRIPLE LANDERCOLOR = { 255, 255, 255 };
 
+		//Speed settings
 		float mountMidSpeed = -0.01f;
 		float mountNearSpeed = -0.03f;
 		float landerSpeed = -0.0f;
@@ -119,6 +121,7 @@ public:
 		sprites.back().SetAnimationX(mountMidSpeed * scrollSpeed);
 		sprites.back().setPhysics(false);
 
+		//Mid ground
 		sprites.push_back(s);
 		sprites.back().Create(0, g_pixelHeight / 2 - 10, g_pixelWidth, g_pixelHeight / 2, MidColor);
 		sprites.back().SetName("groundMid");
@@ -241,14 +244,7 @@ sprites.push_back(s);
 		sprites.back().setPhysics(false);
 		sprites.back().SetCollide(true);
 
-
-
-	
-
-		
-
-
-
+		//Near Ground
 		sprites.push_back(s);
 		sprites.back().Create(0, g_pixelHeight - 50, g_pixelWidth, 50, NearColor); //for each change color with 3 last values in {}. { blue, green, red}
 		sprites.back().SetName("ground");
@@ -257,7 +253,7 @@ sprites.push_back(s);
 		sprites.back().setPhysics(false);
 		sprites.back().SetCollide(true);
 
-
+		//Lander and fire
 		sprites.push_back(s);
 		sprites.back().Create(140, 0, 4, 4, LANDERCOLOR);
 		sprites.back().SetName("lander");

@@ -18,6 +18,17 @@ enum class LAYER
 	layer_NONE,
 };
 
+//collide behavior enum
+enum class Collide
+{
+	Win = 0,
+	Loss,
+	Explode,
+	Restart,
+	Push,
+	Random,
+};
+
 class TBSprite
 {
 private:
@@ -40,6 +51,7 @@ private:
 	bool wrap = false;
 	bool hasAnimation = false;
 	bool canCollide = false;
+	bool hitTarget = false;
 	float animationX = 0.0f;
 	float animationY = 0.0f;
 	LAYER layer = LAYER::layer_NONE;
@@ -56,6 +68,16 @@ public:
 		name = n;
 	}
 
+	//hittarget accessors
+	bool GetHitTarget()
+	{
+		return hitTarget;
+	}
+	void SetHitTarget(bool hTarget)
+	{
+		hitTarget = hTarget;
+	}
+	
 	//Collision Accessors
 	bool GetCollide()
 	{
