@@ -88,10 +88,6 @@ void HandleKey(int key, bool keyDown)
 	{
 		rightKeyDown = keyDown;
 	}
-	else if (key == 'S') //down thrust
-	{
-		upKeyDown = keyDown;
-	}
 }
 
 void Render(HWND hwnd)
@@ -125,19 +121,10 @@ void Render(HWND hwnd)
 		thrustRight = 0;
 	}
 
-	//TODO remember to delete before final version.
-	world.SetSpriteVisible("Up", upKeyDown);
-	float thrustDown = (6.0f * (float)elapsedTimeSec);
-	if (!upKeyDown)
-	{
-		thrustDown = 0;
-	}
-
 	// lander forces 
 	world.SetSpriteForce("lander", thrust, false);
 	world.SetSpriteForce("lander", thrustRight, true);
 	world.SetSpriteForce("lander", thrustLeft, true);
-	world.SetSpriteForce("lander", thrustDown, false);
 	world.Process(elapsedTimeSec);
 	world.Draw(pGfx);
 	pGfx->Present(hwnd);

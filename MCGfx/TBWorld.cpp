@@ -48,6 +48,7 @@ public:
 		RGBTRIPLE NearColor = { 105, 100, 75 };
 		RGBTRIPLE MidColor = DarkenColor({ 105, 100, 75 }, 25);
 		RGBTRIPLE FarColor = DarkenColor({ 105, 100, 75 }, 5);
+		RGBTRIPLE SkyBoxColor = DarkenColor({ 105, 100, 75 }, 100);
 		RGBTRIPLE FIRECOLOR = { 0, 0, 255 };
 		RGBTRIPLE LANDERCOLOR = { 255, 255, 255 };
 
@@ -57,6 +58,16 @@ public:
 		float landerSpeed = -0.0f;
 		float scrollSpeed = -0.0f;
 		TBSprite s;
+
+		//skylimit
+		sprites.push_back(s);
+		sprites.back().Create(0, g_pixelHeight - 305, g_pixelWidth, g_pixelHeight / 3, SkyBoxColor);
+		sprites.back().SetName("skybox");
+		sprites.back().SetWrap(true);
+		sprites.back().SetLayer(LAYER::layer_NEAR);
+		sprites.back().SetHasAnimation(false);
+		sprites.back().setPhysics(false);
+		sprites.back().SetCollide(true);
 
 		//Far mountains
 		sprites.push_back(s);
@@ -371,19 +382,6 @@ sprites.push_back(s);
 		sprites.push_back(s);
 		sprites.back().Create(-3, 1, 2, 2, FIRECOLOR);
 		sprites.back().SetName("left");
-		index = GetSpriteIndex("lander");
-		if (index >= 0)
-		{
-			sprites.back().SetParent(&sprites[index]);
-		}
-		sprites.back().SetVisible(false);
-		sprites.back().SetLayer(LAYER::layer_NONE);
-		sprites.back().SetHasAnimation(true);
-		sprites.back().setPhysics(false);
-
-		sprites.push_back(s);
-		sprites.back().Create(1, -3, 2, 2, FIRECOLOR);
-		sprites.back().SetName("Up");
 		index = GetSpriteIndex("lander");
 		if (index >= 0)
 		{
