@@ -165,7 +165,7 @@ LRESULT CALLBACK WindowProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ WPARAM wParam, 
             lastMousePos.x = x;
             lastMousePos.y = y;
             game.Update(lMouseButtonDown, rMouseButtonDown, x, y);
-            SetWindowText(hwnd, (g_GameTitle + L"      mouse: " + to_wstring(x) + L", " + to_wstring(y) + L"  Seconds:  " + to_wstring(GetElapsedSeconds()), L",  ",).c_str());
+            SetWindowText(hwnd, (g_GameTitle + L"      mouse: " + to_wstring(x) + L", " + to_wstring(y) + L"  Seconds:  " + to_wstring(GetElapsedSeconds())).c_str());
         }
 		return 0;
     }
