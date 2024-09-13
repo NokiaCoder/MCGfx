@@ -60,7 +60,7 @@ public:
 
 		//Far mountains
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth / 4 + 10, g_pixelHeight / 2 - 15, 50, g_pixelHeight / 2, FarColor);
+		sprites.back().Create(g_pixelWidth / 4 + 10, g_pixelHeight / 2 - 85, 50, g_pixelHeight / 2, FarColor);
 		sprites.back().SetName("mtAFar");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_FAR);
@@ -69,7 +69,7 @@ public:
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth / 4 + 48, g_pixelHeight / 2 + 5, 40, g_pixelHeight / 2, FarColor);
+		sprites.back().Create(g_pixelWidth / 4 + 48, g_pixelHeight / 2 - 65, 40, g_pixelHeight / 2, FarColor);
 		sprites.back().SetName("mtBFar");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_FAR);
@@ -78,7 +78,7 @@ public:
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth / 4 + 55, g_pixelHeight / 2 - 5, 20, g_pixelHeight / 2, FarColor);
+		sprites.back().Create(g_pixelWidth / 4 - 15, g_pixelHeight / 2 - 75, 20, g_pixelHeight / 2, FarColor);
 		sprites.back().SetName("mtB1Far");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_FAR);
@@ -87,7 +87,7 @@ public:
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth - 288, g_pixelHeight / 2 - 5, 40, g_pixelHeight / 2, FarColor);
+		sprites.back().Create(g_pixelWidth - 258, g_pixelHeight / 2 - 75, 40, g_pixelHeight / 2, FarColor);
 		sprites.back().SetName("mtCFar");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_FAR);
@@ -96,7 +96,7 @@ public:
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth - 268, g_pixelHeight / 2 - 15, 20, g_pixelHeight / 2, FarColor);
+		sprites.back().Create(g_pixelWidth - 288, g_pixelHeight / 2 - 85, 20, g_pixelHeight / 2, FarColor);
 		sprites.back().SetName("mtC1Far");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_FAR);
@@ -105,7 +105,7 @@ public:
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth - 48, g_pixelHeight / 2 - 5, 48, g_pixelHeight / 2, FarColor);
+		sprites.back().Create(g_pixelWidth - 28, g_pixelHeight / 2 - 75, 48, g_pixelHeight / 2, FarColor);
 		sprites.back().SetName("mtDFar");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_FAR);
@@ -114,7 +114,7 @@ public:
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth - 28, g_pixelHeight / 2 - 15, 28, g_pixelHeight / 2, FarColor);
+		sprites.back().Create(g_pixelWidth - 28, g_pixelHeight / 2 - 85, 28, g_pixelHeight / 2, FarColor);
 		sprites.back().SetName("mtD1far");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_FAR);
@@ -124,7 +124,7 @@ public:
 
 		//Far ground
 		sprites.push_back(s);
-		sprites.back().Create(0, g_pixelHeight / 2 - 30, g_pixelWidth, g_pixelHeight / 2, FarColor);
+		sprites.back().Create(0, g_pixelHeight / 2 - 50, g_pixelWidth, g_pixelHeight / 2, FarColor);
 		sprites.back().SetName("groundFar");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_FAR);
