@@ -51,6 +51,7 @@ public:
 		RGBTRIPLE SkyBoxColor = DarkenColor({ 105, 100, 75 }, 100);
 		RGBTRIPLE FIRECOLOR = { 0, 0, 255 };
 		RGBTRIPLE LANDERCOLOR = { 255, 255, 255 };
+		RGBTRIPLE TargetCOLOR = { 0, 255, 0 };
 
 		//Speed settings
 		float mountMidSpeed = -0.01f;
@@ -67,7 +68,7 @@ public:
 		sprites.back().SetLayer(LAYER::layer_NEAR);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
-		sprites.back().SetCollide(true);
+	
 
 		//Far mountains
 		sprites.push_back(s);
@@ -141,7 +142,7 @@ public:
 		sprites.back().SetLayer(LAYER::layer_FAR);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
-		sprites.back().SetCollide(false);
+		
 
 
 		//mid mountains
@@ -216,7 +217,7 @@ public:
 		sprites.back().SetLayer(LAYER::Layer_MID);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
-		sprites.back().SetCollide(false);
+
 
 
 		//Near mountains
@@ -228,7 +229,7 @@ public:
 		sprites.back().SetHasAnimation(true);
 		sprites.back().SetAnimationX(mountNearSpeed * scrollSpeed);
 		sprites.back().setPhysics(false);
-		sprites.back().SetCollide(true);
+
 
 		sprites.push_back(s);
 		sprites.back().Create(g_pixelWidth / 5 + 5, g_pixelHeight - 49, 50, g_pixelHeight / 2 - 10, NearColor);
@@ -238,7 +239,7 @@ public:
 		sprites.back().SetHasAnimation(true);
 		sprites.back().SetAnimationX(mountNearSpeed * scrollSpeed);
 		sprites.back().setPhysics(false);
-		sprites.back().SetCollide(true);
+
 
 		sprites.push_back(s);
 		sprites.back().Create(g_pixelWidth / 3 + 20 , g_pixelHeight - 32, 50, g_pixelHeight / 2 - 10, NearColor);
@@ -248,7 +249,7 @@ public:
 		sprites.back().SetHasAnimation(true);
 		sprites.back().SetAnimationX(mountNearSpeed * scrollSpeed);
 		sprites.back().setPhysics(false);
-		sprites.back().SetCollide(true);
+
 
 		sprites.push_back(s);
 		sprites.back().Create(g_pixelWidth + 15, g_pixelHeight - 35, 50, g_pixelHeight / 2 - 10, NearColor);
@@ -258,7 +259,7 @@ public:
 		sprites.back().SetHasAnimation(true);
 		sprites.back().SetAnimationX(mountNearSpeed * scrollSpeed);
 		sprites.back().setPhysics(false);
-		sprites.back().SetCollide(true);
+
 
 		sprites.push_back(s);
 		sprites.back().Create(g_pixelWidth / 4 + 180, g_pixelHeight - 49, 36, g_pixelHeight / 2 - 5, NearColor);
@@ -268,9 +269,9 @@ public:
 		sprites.back().SetHasAnimation(true);
 		sprites.back().SetAnimationX(mountNearSpeed * scrollSpeed);
 		sprites.back().setPhysics(false);
-		sprites.back().SetCollide(true);
 
-sprites.push_back(s);
+
+		sprites.push_back(s);
 		sprites.back().Create(g_pixelWidth / 4 + 206, g_pixelHeight - 54, 10, g_pixelHeight / 2 - 5, NearColor);
 		sprites.back().SetName("mtE1Near");
 		sprites.back().SetWrap(true);
@@ -278,7 +279,7 @@ sprites.push_back(s);
 		sprites.back().SetHasAnimation(true);
 		sprites.back().SetAnimationX(mountNearSpeed* scrollSpeed);
 		sprites.back().setPhysics(false);
-		sprites.back().SetCollide(true);
+
 
 		sprites.push_back(s);
 		sprites.back().Create(g_pixelWidth / 4 + 130, g_pixelHeight - 40, 35, g_pixelHeight / 2 - 30, NearColor);
@@ -288,8 +289,6 @@ sprites.push_back(s);
 		sprites.back().SetHasAnimation(true);
 		sprites.back().SetAnimationX(mountNearSpeed * scrollSpeed);
 		sprites.back().setPhysics(false);
-		sprites.back().SetCollide(true);
-		sprites.push_back(s);
 
 		sprites.push_back(s);
 		sprites.back().Create(g_pixelWidth - 288, g_pixelHeight - 69, 30, g_pixelHeight / 2 - 10, NearColor);
@@ -299,7 +298,7 @@ sprites.push_back(s);
 		sprites.back().SetHasAnimation(true);
 		sprites.back().SetAnimationX(mountNearSpeed* scrollSpeed);
 		sprites.back().setPhysics(false);
-		sprites.back().SetCollide(true);
+
 
 		sprites.push_back(s);
 		sprites.back().Create(g_pixelWidth - 278, g_pixelHeight - 48, 30, g_pixelHeight / 2 - 10, NearColor);
@@ -309,7 +308,7 @@ sprites.push_back(s);
 		sprites.back().SetHasAnimation(true);
 		sprites.back().SetAnimationX(mountNearSpeed* scrollSpeed);
 		sprites.back().setPhysics(false);
-		sprites.back().SetCollide(true);
+
 
 		sprites.push_back(s);
 		sprites.back().Create(g_pixelWidth - 274, g_pixelHeight - 78, 10, g_pixelHeight / 2 - 10, NearColor);
@@ -319,7 +318,7 @@ sprites.push_back(s);
 		sprites.back().SetHasAnimation(true);
 		sprites.back().SetAnimationX(mountNearSpeed* scrollSpeed);
 		sprites.back().setPhysics(false);
-		sprites.back().SetCollide(true);
+
 		
 		sprites.push_back(s);
 		sprites.back().Create(g_pixelWidth - 220, g_pixelHeight - 56, 14, g_pixelHeight / 2 - 10, NearColor);
@@ -329,7 +328,7 @@ sprites.push_back(s);
 		sprites.back().SetHasAnimation(true);
 		sprites.back().SetAnimationX(mountNearSpeed* scrollSpeed);
 		sprites.back().setPhysics(false);
-		sprites.back().SetCollide(true);
+	
 
 		//Near Ground
 		sprites.push_back(s);
@@ -338,7 +337,16 @@ sprites.push_back(s);
 		sprites.back().SetLayer(LAYER::layer_BACK);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
-		sprites.back().SetCollide(true);
+
+		sprites.push_back(s);
+		sprites.back().Create(g_pixelWidth / 2, g_pixelHeight - 35, 8, 8, TargetCOLOR); //for each change color with 3 last values in {}. { blue, green, red}
+		sprites.back().SetName("target");
+		sprites.back().SetLayer(LAYER::layer_FRONT);
+		sprites.back().SetHasAnimation(false);
+		sprites.back().setPhysics(false);
+		sprites.back().SetCollide(CollideType::Win);
+
+		
 
 		//Lander and fire
 		sprites.push_back(s);
@@ -351,7 +359,7 @@ sprites.push_back(s);
 		sprites.back().SetStayAboveGround(true);
 		sprites.back().SetHasAnimation(true);
 		sprites.back().setPhysics(true);
-		sprites.back().SetCollide(true);
+		sprites.back().SetCollide(CollideType::Win);
 
 		sprites.push_back(s);
 		sprites.back().Create(1, 5, 2, 2, FIRECOLOR);
@@ -402,6 +410,7 @@ sprites.push_back(s);
 		sprites.back().SetLayer(LAYER::layer_FRONT);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
+		sprites.back().SetLifeTime(5.0f);
 
 
 		SetScrollSpeed(scrollSpeed);

@@ -19,14 +19,17 @@ enum class LAYER
 };
 
 //collide behavior enum
-enum class Collide
+enum class CollideType
 {
-	Win = 0,
-	Loss,
+	None = 0,
+	Win,
+	Lose,
 	Explode,
 	Restart,
 	Push,
 	Random,
+
+	
 };
 
 class TBSprite
@@ -50,16 +53,27 @@ private:
 	bool visible = true;
 	bool wrap = false;
 	bool hasAnimation = false;
-	bool canCollide = false;
+	CollideType collideType = CollideType::None;
 	bool isTextSprite = false;
 	string spriteText = "";
 	bool hitTarget = false;
 	float animationX = 0.0f;
 	float animationY = 0.0f;
+	float lifeTime = -1.0f;
+	float age = 0.0f;
 	LAYER layer = LAYER::layer_NONE;
 
 
 public:
+	//lifetime setter/getter
+	float GetLifeTime()
+	{
+		return lifeTime;
+	}
+	void SetLifeTime(float lT)
+	{
+		lifeTime = lT;
+	}
 	//text sprite
 	bool GetIsTextSprite()
 	{
@@ -101,13 +115,13 @@ public:
 	}
 	
 	//Collision Accessors
-	bool GetCollide()
+	CollideType GetCollide()
 	{
-		return canCollide;
+		return collideType;
 	}
-	void SetCollide(bool active)
+	void SetCollide(CollideType c)
 	{
-		canCollide = active;
+		collideType = c;
 	}
 
 	//Gravity accessors
@@ -170,6 +184,10 @@ public:
 	void SetVisible(bool v)
 	{
 		visible = v;
+		if (v)
+		{
+			age = 0.0f;
+		}
 	}
 
 	void SetFx(float f)
@@ -271,19 +289,20 @@ public:
 
 	void TestCollision(vector<TBSprite>& sprites)
 	{
-		if (GetCollide() && getPhysics())
+		if (GetCollide() != CollideType::None && getPhysics())
 		{
 			for (int i = 0; i < (int)sprites.size(); i++)
 			{
 				if (name != sprites[i].name)
 				{
-					if (sprites[i].GetCollide())
+					if (sprites[i].GetCollide() != CollideType::None)
 					{
 						if (TestIntersection(x, y, (float)w, (float)h, sprites[i].x, sprites[i].y, (float)sprites[i].w, (float)sprites[i].h))
 						{
 							setPhysics(false);
 							x = floor(x);
 							y = floor(y);
+							return;
 						}
 					}
 				}
@@ -293,7 +312,11 @@ public:
 
 	void Process(double elapsedTimeSec)
 		{
-			
+			age += (float)elapsedTimeSec;
+			if (lifeTime >= 0.0f && age >= lifeTime)
+			{
+				SetVisible(false);
+			}
 			if (hasPhysics == true)
 			{
 				//check y against ground
