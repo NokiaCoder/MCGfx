@@ -51,6 +51,8 @@ private:
 	bool wrap = false;
 	bool hasAnimation = false;
 	bool canCollide = false;
+	bool isTextSprite = false;
+	string spriteText = "";
 	bool hitTarget = false;
 	float animationX = 0.0f;
 	float animationY = 0.0f;
@@ -58,6 +60,26 @@ private:
 
 
 public:
+	//text sprite
+	bool GetIsTextSprite()
+	{
+		return isTextSprite;
+	}
+	void SetIsTextSprite(bool tS)
+	{
+		isTextSprite = tS;
+	}
+
+	//sprite text
+	string GetSpriteText()
+	{
+		return spriteText;
+	}
+	void SetSpriteText(string s)
+	{
+		spriteText = s;
+	}
+
 	// accessors
 	string GetName()
 	{
@@ -316,6 +338,11 @@ public:
 		{
 			if (visible)
 			{
+				if (GetIsTextSprite())
+				{
+					pGFX->DrawTextString(spriteText, GetX(), GetY(), GetX() + w, GetY() + h);
+					return;
+				}
 				if (pParent != nullptr)
 				{
 					pGFX->FillRectangle((int)GetX(), (int)GetY(), (int)GetX() + w, (int)GetY() + h, color);

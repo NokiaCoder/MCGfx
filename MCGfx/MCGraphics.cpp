@@ -7,7 +7,28 @@
 
 using namespace std;
 
-
+struct TextBlock
+{
+    float x, y, w, h;
+    string text;
+    TextBlock() = default;
+    TextBlock(float fx, float fy, float fw, float fh, const string& txt)
+    {
+        x = fx;
+        y = fy;
+        w = fw;
+        h = fh;
+        text = txt;
+    }
+    TextBlock(const TextBlock& copy)
+    {
+        x = copy.x;
+        y = copy.y;
+        w = copy.w;
+        h = copy.h;
+        text = copy.text;
+    }
+};
 
 
 
@@ -21,6 +42,8 @@ private:
     bool stretchToFill = false;
     bool randomizeColors = false;
     RGBTRIPLE clearColor = { 0, 0, 0 };
+    vector<TextBlock> textToRender;
+    HFONT hFontSans = 0;
 
     //info for blit
     BITMAPINFO bitmapInfo;
@@ -63,6 +86,23 @@ public:
         Clear();
 		InitializeBitmapInfo();
         isActive = true;
+
+        hFontSans = CreateFont(
+            24,                        // Height of the font
+            0,                         // Width of the font (0 = default)
+            0,                         // Angle of escapement
+            0,                         // Orientation angle
+            FW_NORMAL,                 // Font weight (FW_BOLD for bold)
+            FALSE,                     // Italic attribute
+            FALSE,                     // Underline attribute
+            FALSE,                     // Strikeout attribute
+            DEFAULT_CHARSET,           // Character set
+            OUT_DEFAULT_PRECIS,        // Output precision
+            CLIP_DEFAULT_PRECIS,       // Clipping precision
+            DEFAULT_QUALITY,           // Output quality
+            DEFAULT_PITCH | FF_SWISS,  // Pitch and family
+            L"Lucida Sans"                   // Font face name
+        );
 	}
 
     //Public Getters & Setters
@@ -198,6 +238,11 @@ public:
 			}
 		}
 	}
+    void DrawTextString(const string& text, float x, float y, float w, float h)
+    {
+        TextBlock tb(x, y, w, h, text);
+        textToRender.push_back(tb);
+    }
 
     //Present to Screen
     void Present(HWND hwnd)
@@ -222,6 +267,20 @@ public:
                             DIB_RGB_COLORS,
                             SRCCOPY
                         );
+            HFONT oldFont = (HFONT)SelectObject(hdc, hFontSans);
+
+            SetTextColor(hdc, RGB(255, 255, 255)); // White text
+            SetBkMode(hdc, TRANSPARENT);           // Transparent background
+            for (int i = 0; i < (int)textToRender.size(); i++)
+            {
+                RECT textRect = { (int)(textToRender[i].x),
+                                    (int)(textToRender[i].y),
+                                    (int)((textToRender[i].x + textToRender[i].w)),
+                                    (int)((float)(textToRender[i].y + textToRender[i].h)) };
+
+                DrawTextA(hdc, textToRender[i].text.c_str(), -1, &textRect, DT_LEFT | DT_TOP | DT_WORDBREAK);
+            }
+            textToRender.clear();
 
             ReleaseDC(hwnd, hdc);  
            

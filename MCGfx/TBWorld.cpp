@@ -47,7 +47,7 @@ public:
 		//mountain/fire/lander color
 		RGBTRIPLE NearColor = { 105, 100, 75 };
 		RGBTRIPLE MidColor = DarkenColor({ 105, 100, 75 }, 25);
-		RGBTRIPLE FarColor = DarkenColor({ 105, 100, 75 }, 5);
+		RGBTRIPLE FarColor = DarkenColor({ 105, 100, 75 }, 10);
 		RGBTRIPLE SkyBoxColor = DarkenColor({ 105, 100, 75 }, 100);
 		RGBTRIPLE FIRECOLOR = { 0, 0, 255 };
 		RGBTRIPLE LANDERCOLOR = { 255, 255, 255 };
@@ -390,6 +390,17 @@ sprites.push_back(s);
 		sprites.back().SetVisible(false);
 		sprites.back().SetLayer(LAYER::layer_NONE);
 		sprites.back().SetHasAnimation(true);
+		sprites.back().setPhysics(false);
+
+		sprites.push_back(s);
+		//sprites.back().Create(10, 10, 100, 300, FIRECOLOR);
+		sprites.back().Create(10, 10, 300, 300, FIRECOLOR);
+		sprites.back().SetName("title");
+		sprites.back().SetSpriteText("TanLander\nwritten by\nTanner Boudreau\n2024");
+		sprites.back().SetIsTextSprite(true);
+		sprites.back().SetVisible(true);
+		sprites.back().SetLayer(LAYER::layer_FRONT);
+		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
 
 
