@@ -100,6 +100,7 @@ LRESULT CALLBACK WindowProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ WPARAM wParam, 
         graphics.Clear();
         game.SetPointer(&graphics);
         game.Initialize();
+        
         return 0;
 
     case WM_DESTROY:
@@ -165,7 +166,7 @@ LRESULT CALLBACK WindowProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ WPARAM wParam, 
             lastMousePos.x = x;
             lastMousePos.y = y;
             game.Update(lMouseButtonDown, rMouseButtonDown, x, y);
-            wstring txt = g_GameTitle + L"      mouse: " + to_wstring(x) + L", " + to_wstring(y) + L"  Seconds:  " + to_wstring(GetElapsedSeconds());
+            wstring txt = g_GameTitle + L"      mouse: " + to_wstring(x) + L", " + to_wstring(y);
             SetWindowTextW(hwnd, txt.c_str());
         }
 		return 0;

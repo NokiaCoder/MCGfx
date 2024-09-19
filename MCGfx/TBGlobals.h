@@ -20,6 +20,22 @@ static RGBTRIPLE DarkenColor(const RGBTRIPLE& s, int percent)
 	return result;
 }
 
+static int GetRandomH()
+{
+    return (int)((((float)rand() / (float)RAND_MAX) * (float)g_pixelWidth));
+}
+
+static int GetRandomV()
+{
+    return (int)((((float)rand() / (float)RAND_MAX) * (float)g_pixelHeight));
+}
+static float GetRandNorm()
+{
+    return (((float)rand() / (float)RAND_MAX) * 2.0f) - 1.0f;
+}
+
+static int g_CurrentScore = 0;
+
 //Game Timer
 static LARGE_INTEGER    g_frequency;
 static LARGE_INTEGER    g_startTime;

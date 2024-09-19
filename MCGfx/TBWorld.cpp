@@ -56,7 +56,7 @@ public:
 		//Speed settings
 		float mountMidSpeed = -0.01f;
 		float mountNearSpeed = -0.03f;
-		float landerSpeed = -0.0f;
+		float landerSpeed = GetRandNorm() * 0.5f;
 		float scrollSpeed = -0.0f;
 		TBSprite s;
 
@@ -339,13 +339,14 @@ public:
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth / 2, g_pixelHeight - 35, 8, 8, TargetCOLOR); //for each change color with 3 last values in {}. { blue, green, red}
+		sprites.back().Create(GetRandomH(), g_pixelHeight - 35, 8, 8, TargetCOLOR); //for each change color with 3 last values in {}. { blue, green, red}
 		sprites.back().SetName("target");
 		sprites.back().SetLayer(LAYER::layer_FRONT);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
 		sprites.back().SetCollide(CollideType::Win);
 
+		
 		
 
 		//Lander and fire
@@ -357,9 +358,10 @@ public:
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_FRONT);
 		sprites.back().SetStayAboveGround(true);
-		sprites.back().SetHasAnimation(true);
+		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(true);
 		sprites.back().SetCollide(CollideType::Win);
+		
 
 		sprites.push_back(s);
 		sprites.back().Create(1, 5, 2, 2, FIRECOLOR);
@@ -401,43 +403,35 @@ public:
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		//sprites.back().Create(10, 10, 100, 300, FIRECOLOR);
-		sprites.back().Create(10, 10, 300, 300, FIRECOLOR);
-		sprites.back().SetName("title");
-		sprites.back().SetSpriteText("TanLander\nwritten by\nTanner Boudreau\n2024");
+		sprites.back().Create(300, g_pixelHeight -10 , 400, 300, FIRECOLOR);
+		sprites.back().SetName("winText");
+		sprites.back().SetSpriteText("YOU WIN!!!!\nHit SPACE to play again.");
+		sprites.back().SetIsTextSprite(true);
+		sprites.back().SetVisible(false);
+		sprites.back().SetLayer(LAYER::layer_FRONT);
+		sprites.back().SetHasAnimation(false);
+		sprites.back().setPhysics(false);
+		sprites.back().SetLifeTime(50.0f);
+
+		sprites.push_back(s);
+		sprites.back().Create(700, 10, 400, 300, FIRECOLOR);
+		sprites.back().SetName("scoreText");
+		sprites.back().SetSpriteText("SCORE\n<score>");
 		sprites.back().SetIsTextSprite(true);
 		sprites.back().SetVisible(true);
 		sprites.back().SetLayer(LAYER::layer_FRONT);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
-		sprites.back().SetLifeTime(5.0f);
 
-
-		SetScrollSpeed(scrollSpeed);
-	}
-	//Sets scroll speed for each layer
-	void SetScrollSpeed(float v) 
-	{
-		for (int i = 0; i < (int)sprites.size(); i++)
+		//set pointers
+		int targetIndex = GetSpriteIndex("target");
+		index = GetSpriteIndex("winText");
+		if (index >= 0)
 		{
-			if (sprites[i].GetLayer() == LAYER::layer_FRONT)
-			{
-				sprites[i].SetVx(v);
-			}
-			else if (sprites[i].GetLayer() == LAYER::layer_NEAR)
-			{
-				sprites[i].SetVx(v * 0.075f);
-			}
-			else if (sprites[i].GetLayer() == LAYER::Layer_MID)
-			{
-				sprites[i].SetVx(v * 0.05f);
-			}
-			else if (sprites[i].GetLayer() == LAYER::layer_BACK)
-			{
-				sprites[i].SetVx(0.0f);
-			}
+			sprites[targetIndex].SetShowOnCollide(&sprites[index]);
 		}
 	}
+
 
 	void SetSpriteVisible(string name, bool show)
 	{

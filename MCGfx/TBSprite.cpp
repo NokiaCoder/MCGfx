@@ -50,6 +50,7 @@ private:
 	bool stayAboveGround = false;
 	bool gravityActive = false;
 	TBSprite* pParent = nullptr;
+	TBSprite* pShowOnCollide = nullptr;
 	bool visible = true;
 	bool wrap = false;
 	bool hasAnimation = false;
@@ -65,6 +66,17 @@ private:
 
 
 public:
+	void ShowOnCollide()
+	{
+		if (pShowOnCollide != nullptr)
+		{
+			pShowOnCollide->SetVisible(true);
+		}
+	}
+	void SetShowOnCollide(TBSprite* pS)
+	{
+		pShowOnCollide = pS;
+	}
 	//lifetime setter/getter
 	float GetLifeTime()
 	{
@@ -302,6 +314,15 @@ public:
 							setPhysics(false);
 							x = floor(x);
 							y = floor(y);
+							sprites[i].ShowOnCollide();
+							if (sprites[i].GetCollide() == CollideType::Win)
+							{
+								g_CurrentScore += 100;
+							}
+							else if (sprites[i].GetCollide() == CollideType::Win)
+							{
+								g_CurrentScore -= 100;
+							}
 							return;
 						}
 					}
@@ -319,6 +340,10 @@ public:
 			}
 			if (hasPhysics == true)
 			{
+				if (name == "lander")
+				{
+					int u = 0;
+				}
 				//check y against ground
 				if (y >= ground && this->stayAboveGround)
 				{
@@ -363,6 +388,12 @@ public:
 			{
 				if (GetIsTextSprite())
 				{
+					int pos = (int)spriteText.find("<score>");
+					if (pos != string::npos)
+					{
+						spriteText = spriteText.substr(0, pos);
+						spriteText += to_string(g_CurrentScore);
+					}
 					pGFX->DrawTextString(spriteText, GetX(), GetY(), GetX() + w, GetY() + h);
 					return;
 				}

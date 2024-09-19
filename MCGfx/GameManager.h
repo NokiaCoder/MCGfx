@@ -4,6 +4,7 @@
 #include "MCGraphics.cpp"
 #include "TBWorld.cpp"
 #include "TBGlobals.h"
+#include <thread>
 using namespace std;
 
 
@@ -23,6 +24,7 @@ private:
 	bool thrustKeyDown = false;
 	bool upKeyDown = false;
 	bool restart = false;
+	bool startShown = false;
 
 public:
 
@@ -30,6 +32,33 @@ public:
 	{
 		world.Load();
 		StartTimer();
+	}
+	void ShowStartScreen()
+	{
+		TBSprite start;
+		start.Create(g_pixelWidth / 2, g_pixelHeight / 2, 500, 300, { 255, 255, 255 });
+		start.SetName("startText");
+		start.SetSpriteText("TanLander\nwritten by\nTanner Boudreau\n2024");
+		start.SetIsTextSprite(true);
+		start.SetVisible(true);
+		start.SetLayer(LAYER::layer_FRONT);
+		start.SetHasAnimation(false);
+		start.setPhysics(false);
+		start.Process(0.0f);
+		start.Draw(pGfx);
+	}
+
+	bool HandleStartScreen()
+	{
+		if (!startShown)
+		{
+			if (GetElapsedSeconds() <= 3.0f)
+			{
+				ShowStartScreen();
+				return false;
+			}
+		}
+		return true;
 	}
 
 void SetPointer(MCGraphics* ptr)
@@ -92,6 +121,12 @@ void HandleKey(int key, bool keyDown)
 
 void Render(HWND hwnd)
 {
+	if (HandleStartScreen() == false)
+	{
+		pGfx->Present(hwnd);
+		return;
+	}
+	startShown = true;
 	//Get Master Timeslice
 	double  elapsedTimeSec = GetElapsedFrameSeconds();
 
