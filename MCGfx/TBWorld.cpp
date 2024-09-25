@@ -414,7 +414,7 @@ public:
 		sprites.back().SetLifeTime(50.0f);
 
 		sprites.push_back(s);
-		sprites.back().Create(700, 10, 400, 300, FIRECOLOR);
+		sprites.back().Create(720, 10, 400, 300, FIRECOLOR);
 		sprites.back().SetName("scoreText");
 		sprites.back().SetSpriteText("SCORE\n<score>");
 		sprites.back().SetIsTextSprite(true);
