@@ -147,6 +147,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="MCGraphics.h" />
+    <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TBGlobals.h" />
@@ -155,6 +156,7 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="MCGfx.cpp" />
     <ClCompile Include="MCGraphics.cpp" />
+    <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="TBGlobals.cpp" />
     <ClCompile Include="TBSprite.cpp" />
     <ClCompile Include="TBWorld.cpp" />

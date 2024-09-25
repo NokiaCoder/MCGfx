@@ -6,6 +6,7 @@
 #include "MCGraphics.cpp"
 #include "TBSprite.cpp"
 #include "TBGlobals.h"
+#include "ParticleSystem.h"
 
 using namespace std;
 
@@ -13,6 +14,8 @@ class TBWorld
 {
 private:
 	vector<TBSprite> sprites;
+	vector<ParticleSystem> particles;
+
 
 public:
 	// constructor / destructor
@@ -430,6 +433,13 @@ public:
 		{
 			sprites[targetIndex].SetShowOnCollide(&sprites[index]);
 		}
+
+		//add particle systems
+		ParticleSystem ps;
+		particles.push_back(ps);
+		particles.back().Create(138, 104, "volcano");
+		particles.back().SetGravityOn(false);
+
 	}
 
 
@@ -477,6 +487,11 @@ public:
 		{
 			sprites[i].Process(elapsedTimeSec);
 		}
+
+		for (int i = 0; i < (int)particles.size(); i++)
+		{
+			particles[i].Process(elapsedTimeSec);
+		}
 	}
 	//Draw Function
 	void Draw(MCGraphics* pGFX)
@@ -485,6 +500,11 @@ public:
 		for (int i = 0; i < (int)sprites.size(); i++)
 		{
 			sprites[i].Draw(pGFX);
+		}
+
+		for (int i = 0; i < (int)particles.size(); i++)
+		{
+			particles[i].Draw(pGFX);
 		}
 	}
 

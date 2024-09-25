@@ -10,6 +10,9 @@ static wstring g_GameTitle = L"TanLander";
 static  int g_pixelWidth = 288;
 static int g_pixelHeight = 224;
 
+static float g_fPI = 3.14159265358979323846264338327950f;
+static double g_PI = 3.14159265358979323846264338327950;
+
 //Force of Gravity
 static float g = 0.01f;
 
@@ -18,6 +21,23 @@ static RGBTRIPLE DarkenColor(const RGBTRIPLE& s, int percent)
 	float pc = (float)percent / 100.0f;
 	RGBTRIPLE result = { (BYTE)((float)s.rgbtBlue * pc),(BYTE)((float)s.rgbtGreen * pc), (BYTE)((float)s.rgbtRed * pc) };
 	return result;
+}
+
+static RGBQUAD RGBQ(byte r, byte g, byte b, byte a)
+{
+    RGBQUAD color;
+    color.rgbRed = r;
+    color.rgbGreen = g;
+    color.rgbBlue = b;
+    color.rgbReserved = a;
+    return color;
+}
+
+static void GetRandCircle(float radius, float* px, float* py)
+{
+    double theta = ((double)rand() / (double)RAND_MAX) * 2.0 * g_PI;
+    *px = radius * (float)cos(theta);
+    *py = radius * (float)sin(theta);
 }
 
 static int GetRandomH()
