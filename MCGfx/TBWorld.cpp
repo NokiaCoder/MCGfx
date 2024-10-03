@@ -39,10 +39,23 @@ public:
 		return -1;
 	}
 
+	int GetParticleSystemIndex(const string& name)
+	{
+		for (int i = 0; i < particles.size(); i++)
+		{
+			if (particles[i].GetName() == name)
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+
 	// public functions
 	void Load()
 	{
 		sprites.clear();
+		particles.clear();
 
 		//pre allocate to avoid stale pointers
 		sprites.reserve(1000);
@@ -365,19 +378,19 @@ public:
 		sprites.back().setPhysics(true);
 		sprites.back().SetCollide(CollideType::Win);
 		
-
-		sprites.push_back(s);
-		sprites.back().Create(1, 5, 2, 2, FIRECOLOR);
-		sprites.back().SetName("fire");
-		index = GetSpriteIndex("lander");
-		if (index >= 0)
-		{
-			sprites.back().SetParent(&sprites[index]);
-		}
-		sprites.back().SetVisible(false);
-		sprites.back().SetLayer(LAYER::layer_NONE);
-		sprites.back().SetHasAnimation(true);
-		sprites.back().setPhysics(false);
+		//OLD THRUST SPRITE
+		//sprites.push_back(s);
+		//sprites.back().Create(1, 5, 2, 2, FIRECOLOR);
+		//sprites.back().SetName("fire");
+		//index = GetSpriteIndex("lander");
+		//if (index >= 0)
+		//{
+		//	sprites.back().SetParent(&sprites[index]);
+		//}
+		//sprites.back().SetVisible(false);
+		//sprites.back().SetLayer(LAYER::layer_NONE);
+		//sprites.back().SetHasAnimation(true);
+		//sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
 		sprites.back().Create(5, 1, 2, 2, FIRECOLOR);
@@ -437,9 +450,33 @@ public:
 		//add particle systems
 		ParticleSystem ps;
 		particles.push_back(ps);
-		particles.back().Create(138, 104, "volcano");
-		particles.back().SetGravityOn(false);
+		particles.back().Create(138, 107, "volcano");
+		particles.back().SetParticleColor({ 100,255,255 });
+		particles.back().SetMag(10.0f);
+		particles.back().SetRangeDeg(240, 300);
+		particles.back().SetLifespan(4.0f);
+		particles.back().SetGravityOn(true);
 
+		particles.push_back(ps);
+		particles.back().Create(138, 107, "volcano1");
+		particles.back().SetParticleColor({ 100,100,255 });
+		particles.back().SetMag(10.0f);
+		particles.back().SetRangeDeg(240, 300);
+		particles.back().SetLifespan(4.0f);
+		particles.back().SetGravityOn(true);
+
+		particles.push_back(ps);
+		particles.back().Create(2, 5, "landerthrust");
+		particles.back().SetParticleColor({ 0,0,255 });
+		particles.back().SetMag(60.0f);
+		particles.back().SetRangeDeg(80, 100);
+		particles.back().SetLifespan(0.1f);
+		particles.back().SetGravityOn(false);
+		index = GetSpriteIndex("lander");
+		if (index >= 0)
+		{
+			particles.back().SetParent(&sprites[index]);
+		}
 	}
 
 
@@ -451,6 +488,15 @@ public:
 			{
 				sprites[i].SetVisible(show);
 			}
+		}
+	}
+
+	void SetParticleSystemActive(string name, bool on)
+	{
+		int index = GetParticleSystemIndex(name);
+		if (index >= 0)
+		{
+			particles[index].SetActive(on);
 		}
 	}
 
@@ -505,6 +551,7 @@ public:
 		for (int i = 0; i < (int)particles.size(); i++)
 		{
 			particles[i].Draw(pGFX);
+			
 		}
 	}
 

@@ -25,6 +25,8 @@ private:
 	bool upKeyDown = false;
 	bool restart = false;
 	bool startShown = false;
+	float mainThrust = -5.0f;
+	float sideThrust = 4.0f;
 
 public:
 
@@ -136,21 +138,22 @@ void Render(HWND hwnd)
 
 	// sets amount of thrust for fire
 	world.SetSpriteVisible("fire", thrustKeyDown);
-	float thrust = (-4.0f * (float)elapsedTimeSec);
+	world.SetParticleSystemActive("landerthrust", thrustKeyDown);
+	float thrust = (mainThrust * (float)elapsedTimeSec);
 	if (!thrustKeyDown)
 	{
 		thrust = 0;
 	}
 	///failed so far. trying to push lander left faster while on
 	world.SetSpriteVisible("right", rightKeyDown);
-	float thrustLeft = (-2.0f * (float)elapsedTimeSec);
+	float thrustLeft = (-sideThrust * (float)elapsedTimeSec);
 	if (!rightKeyDown)
 	{
 		thrustLeft = 0;
 	}
 
 	world.SetSpriteVisible("left", leftKeyDown);
-	float thrustRight = (2.0f * (float)elapsedTimeSec);
+	float thrustRight = (sideThrust * (float)elapsedTimeSec);
 	if (!leftKeyDown)
 	{
 		thrustRight = 0;

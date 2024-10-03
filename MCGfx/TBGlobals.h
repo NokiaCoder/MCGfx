@@ -12,6 +12,7 @@ static int g_pixelHeight = 224;
 
 static float g_fPI = 3.14159265358979323846264338327950f;
 static double g_PI = 3.14159265358979323846264338327950;
+static double g_DEG2RAD = g_PI / 180.0;
 
 //Force of Gravity
 static float g = 0.01f;
@@ -21,6 +22,17 @@ static RGBTRIPLE DarkenColor(const RGBTRIPLE& s, int percent)
 	float pc = (float)percent / 100.0f;
 	RGBTRIPLE result = { (BYTE)((float)s.rgbtBlue * pc),(BYTE)((float)s.rgbtGreen * pc), (BYTE)((float)s.rgbtRed * pc) };
 	return result;
+}
+
+static RGBTRIPLE BlendColor(const RGBTRIPLE& a, const RGBTRIPLE& b, int percent)
+{
+    float w = (float)percent / 100.0f;
+
+    RGBTRIPLE c;
+    c.rgbtBlue = (BYTE)(((float)a.rgbtBlue * w) + ((float)b.rgbtBlue * (1.0f - w)));
+    c.rgbtGreen = (BYTE)(((float)a.rgbtGreen * w) + ((float)b.rgbtGreen * (1.0f - w)));
+    c.rgbtRed = (BYTE)(((float)a.rgbtRed * w) + ((float)b.rgbtRed * (1.0f - w)));
+    return c;
 }
 
 static RGBQUAD RGBQ(byte r, byte g, byte b, byte a)
@@ -33,9 +45,33 @@ static RGBQUAD RGBQ(byte r, byte g, byte b, byte a)
     return color;
 }
 
+//RAND FUNCTIONS
+
+static float GetRandNorm()
+{
+    return (((float)rand() / (float)RAND_MAX) * 2.0f) - 1.0f;
+}
+
+static float GetRandF()
+{
+    return (float)rand() / (float)RAND_MAX;
+}
+
+static float GetRandRange(float from, float to)
+{
+    return from + GetRandF() * (to - from);
+}
+
 static void GetRandCircle(float radius, float* px, float* py)
 {
     double theta = ((double)rand() / (double)RAND_MAX) * 2.0 * g_PI;
+    *px = radius * (float)cos(theta);
+    *py = radius * (float)sin(theta);
+}
+
+static void GetRandCircle(float radius, float startDeg, float endDeg, float* px, float* py)
+{
+    double theta = GetRandRange(startDeg, endDeg) * g_DEG2RAD;
     *px = radius * (float)cos(theta);
     *py = radius * (float)sin(theta);
 }
@@ -49,10 +85,7 @@ static int GetRandomV()
 {
     return (int)((((float)rand() / (float)RAND_MAX) * (float)g_pixelHeight));
 }
-static float GetRandNorm()
-{
-    return (((float)rand() / (float)RAND_MAX) * 2.0f) - 1.0f;
-}
+
 
 static int g_CurrentScore = 0;
 
@@ -81,6 +114,13 @@ static double GetElapsedFrameSeconds()
     LARGE_INTEGER last = g_lastFrameTime;
     g_lastFrameTime = currentTime;
     return static_cast<double>(currentTime.QuadPart - last.QuadPart) / g_frequency.QuadPart;
+}
+
+static double GetElapsedMilliSecondsSinceFrame()
+{
+    LARGE_INTEGER currentTime;
+    QueryPerformanceCounter(&currentTime);
+    return 1000.0 * static_cast<double>(currentTime.QuadPart - g_lastFrameTime.QuadPart) / g_frequency.QuadPart;
 }
 
 static double GetElapsedMilliseconds()

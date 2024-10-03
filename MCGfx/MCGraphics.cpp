@@ -152,6 +152,14 @@ public:
             backBuffer[y * width + x] = color;
         }
     }
+    RGBTRIPLE GetPixel(int x, int y)
+    {
+        if (x >= 0 && x < width && y >= 0 && y < height)
+        {
+            return backBuffer[y * width + x];
+        }
+        return { 0, 0, 0 };
+    }
     void DrawLine(int x0, int y0, int x1, int y1, RGBTRIPLE color)
 	{
 		int dx = abs(x1 - x0);

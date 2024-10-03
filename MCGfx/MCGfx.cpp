@@ -82,7 +82,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
         TranslateMessage(&msg);
         DispatchMessage(&msg);
         game.Render(hwnd);
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        //double t = GetElapsedMilliseconds();
+        //while (t < 1000.0)
+        //{
+        //    int i = 5;
+        //}
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 
     return 0;
