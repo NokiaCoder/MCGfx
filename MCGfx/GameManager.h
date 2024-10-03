@@ -138,7 +138,7 @@ void Render(HWND hwnd)
 
 	// sets amount of thrust for fire
 	world.SetSpriteVisible("fire", thrustKeyDown);
-	world.SetParticleSystemActive("landerthrust", thrustKeyDown);
+	world.SetParticleSystemActive("thrust", thrustKeyDown);
 	float thrust = (mainThrust * (float)elapsedTimeSec);
 	if (!thrustKeyDown)
 	{

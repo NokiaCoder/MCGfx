@@ -466,7 +466,7 @@ public:
 		particles.back().SetGravityOn(true);
 
 		particles.push_back(ps);
-		particles.back().Create(2, 5, "landerthrust");
+		particles.back().Create(2, 5, "thrust");
 		particles.back().SetParticleColor({ 0,0,255 });
 		particles.back().SetMag(60.0f);
 		particles.back().SetRangeDeg(80, 100);
