@@ -137,7 +137,7 @@ void Render(HWND hwnd)
 
 
 	// sets amount of thrust for fire
-	world.SetSpriteVisible("fire", thrustKeyDown);
+	//world.SetSpriteVisible("fire", thrustKeyDown);
 	world.SetParticleSystemActive("thrust", thrustKeyDown);
 	float thrust = (mainThrust * (float)elapsedTimeSec);
 	if (!thrustKeyDown)
@@ -145,14 +145,16 @@ void Render(HWND hwnd)
 		thrust = 0;
 	}
 	///failed so far. trying to push lander left faster while on
-	world.SetSpriteVisible("right", rightKeyDown);
+	//world.SetSpriteVisible("right", rightKeyDown);
+	world.SetParticleSystemActive("thrust2", rightKeyDown);
 	float thrustLeft = (-sideThrust * (float)elapsedTimeSec);
 	if (!rightKeyDown)
 	{
 		thrustLeft = 0;
 	}
 
-	world.SetSpriteVisible("left", leftKeyDown);
+	//world.SetSpriteVisible("left", leftKeyDown);
+	world.SetParticleSystemActive("thrust3", leftKeyDown);
 	float thrustRight = (sideThrust * (float)elapsedTimeSec);
 	if (!leftKeyDown)
 	{
@@ -160,6 +162,9 @@ void Render(HWND hwnd)
 	}
 
 	// lander forces 
+	world.SetSpriteForce("lander", thrust, false);
+	world.SetSpriteForce("lander", thrustRight, true);
+	world.SetSpriteForce("lander", thrustLeft, true);
 	world.SetSpriteForce("lander", thrust, false);
 	world.SetSpriteForce("lander", thrustRight, true);
 	world.SetSpriteForce("lander", thrustLeft, true);

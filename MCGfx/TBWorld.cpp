@@ -88,7 +88,7 @@ public:
 
 		//Far mountains
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth / 4 + 10, g_pixelHeight / 2 - 85, 50, g_pixelHeight / 2, FarColor);
+		sprites.back().Create(g_pixelWidth / 4 + 10, g_pixelHeight / 2 - 35, 50, g_pixelHeight / 2, FarColor);
 		sprites.back().SetName("mtAFar");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_FAR);
@@ -97,7 +97,7 @@ public:
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth / 4 + 48, g_pixelHeight / 2 - 65, 40, g_pixelHeight / 2, FarColor);
+		sprites.back().Create(g_pixelWidth / 4 + 48, g_pixelHeight / 2 - 15, 40, g_pixelHeight / 2, FarColor);
 		sprites.back().SetName("mtBFar");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_FAR);
@@ -106,7 +106,7 @@ public:
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth / 4 - 15, g_pixelHeight / 2 - 75, 20, g_pixelHeight / 2, FarColor);
+		sprites.back().Create(g_pixelWidth / 4 - 15, g_pixelHeight / 2 - 25, 20, g_pixelHeight / 2, FarColor);
 		sprites.back().SetName("mtB1Far");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_FAR);
@@ -115,7 +115,7 @@ public:
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth - 258, g_pixelHeight / 2 - 75, 40, g_pixelHeight / 2, FarColor);
+		sprites.back().Create(g_pixelWidth - 258, g_pixelHeight / 2 - 25, 40, g_pixelHeight / 2, FarColor);
 		sprites.back().SetName("mtCFar");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_FAR);
@@ -124,7 +124,7 @@ public:
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth - 288, g_pixelHeight / 2 - 85, 20, g_pixelHeight / 2, FarColor);
+		sprites.back().Create(g_pixelWidth - 288, g_pixelHeight / 2 - 35, 20, g_pixelHeight / 2, FarColor);
 		sprites.back().SetName("mtC1Far");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_FAR);
@@ -133,7 +133,7 @@ public:
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth - 28, g_pixelHeight / 2 - 75, 48, g_pixelHeight / 2, FarColor);
+		sprites.back().Create(g_pixelWidth - 28, g_pixelHeight / 2 - 25, 48, g_pixelHeight / 2, FarColor);
 		sprites.back().SetName("mtDFar");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_FAR);
@@ -142,7 +142,7 @@ public:
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth - 28, g_pixelHeight / 2 - 85, 28, g_pixelHeight / 2, FarColor);
+		sprites.back().Create(g_pixelWidth - 28, g_pixelHeight / 2 - 35, 28, g_pixelHeight / 2, FarColor);
 		sprites.back().SetName("mtD1far");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_FAR);
@@ -152,7 +152,7 @@ public:
 
 		//Far ground
 		sprites.push_back(s);
-		sprites.back().Create(0, g_pixelHeight / 2 - 50, g_pixelWidth, g_pixelHeight / 2, FarColor);
+		sprites.back().Create(0, g_pixelHeight / 2, g_pixelWidth, g_pixelHeight / 2, FarColor);
 		sprites.back().SetName("groundFar");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_FAR);
@@ -163,7 +163,7 @@ public:
 
 		//mid mountains
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth / 4 + 10 , g_pixelHeight/2 - 15 , 50, g_pixelHeight/2 , MidColor);
+		sprites.back().Create(g_pixelWidth / 4 + 10 , g_pixelHeight/2 + 35 , 50, g_pixelHeight/2 , MidColor);
 		sprites.back().SetName("mtAMid");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::Layer_MID);
@@ -172,7 +172,7 @@ public:
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth / 4 + 48, g_pixelHeight / 2 + 5, 40, g_pixelHeight / 2, MidColor);
+		sprites.back().Create(g_pixelWidth / 4 + 48, g_pixelHeight / 2 + 30, 40, g_pixelHeight / 2, MidColor);
 		sprites.back().SetName("mtBMid");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::Layer_MID);
@@ -181,7 +181,7 @@ public:
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth / 4 + 55, g_pixelHeight / 2 - 5, 20, g_pixelHeight / 2, MidColor);
+		sprites.back().Create(g_pixelWidth / 4 + 55, g_pixelHeight / 2 + 35, 20, g_pixelHeight / 2, MidColor);
 		sprites.back().SetName("mtB1Mid");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::Layer_MID);
@@ -190,7 +190,7 @@ public:
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth - 288, g_pixelHeight / 2 - 5, 40, g_pixelHeight / 2, MidColor);
+		sprites.back().Create(g_pixelWidth - 288, g_pixelHeight / 2 + 25, 40, g_pixelHeight / 2, MidColor);
 		sprites.back().SetName("mtCMid");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::Layer_MID);
@@ -199,7 +199,7 @@ public:
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth - 268, g_pixelHeight / 2 - 15, 20, g_pixelHeight / 2, MidColor);
+		sprites.back().Create(g_pixelWidth - 268, g_pixelHeight / 2 + 15, 20, g_pixelHeight / 2, MidColor);
 		sprites.back().SetName("mtC1Mid");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::Layer_MID);
@@ -208,7 +208,7 @@ public:
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth - 48, g_pixelHeight / 2 - 5, 48, g_pixelHeight / 2, MidColor);
+		sprites.back().Create(g_pixelWidth - 48, g_pixelHeight / 2 + 25, 48, g_pixelHeight / 2, MidColor);
 		sprites.back().SetName("mtDMid");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::Layer_MID);
@@ -217,7 +217,7 @@ public:
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth - 28, g_pixelHeight / 2 - 15, 28, g_pixelHeight / 2, MidColor);
+		sprites.back().Create(g_pixelWidth - 28, g_pixelHeight / 2 + 15, 28, g_pixelHeight / 2, MidColor);
 		sprites.back().SetName("mtD1Mid");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::Layer_MID);
@@ -227,7 +227,7 @@ public:
 
 		//Mid ground
 		sprites.push_back(s);
-		sprites.back().Create(0, g_pixelHeight / 2 + 20, g_pixelWidth, g_pixelHeight / 2, MidColor);
+		sprites.back().Create(0, g_pixelHeight / 2 + 50, g_pixelWidth, g_pixelHeight / 2, MidColor);
 		sprites.back().SetName("groundMid");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::Layer_MID);
@@ -238,7 +238,7 @@ public:
 
 		//Near mountains
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth / 4, g_pixelHeight - 39, 50, g_pixelHeight / 2 -10 , NearColor);
+		sprites.back().Create(g_pixelWidth / 4, g_pixelHeight - 29, 50, g_pixelHeight / 2 -10 , NearColor);
 		sprites.back().SetName("mtANear");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_NEAR);
@@ -248,7 +248,7 @@ public:
 
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth / 5 + 5, g_pixelHeight - 49, 50, g_pixelHeight / 2 - 10, NearColor);
+		sprites.back().Create(g_pixelWidth / 5 + 5, g_pixelHeight - 39, 50, g_pixelHeight / 2 - 10, NearColor);
 		sprites.back().SetName("mtBNear");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_NEAR);
@@ -258,7 +258,7 @@ public:
 
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth / 3 + 20 , g_pixelHeight - 32, 50, g_pixelHeight / 2 - 10, NearColor);
+		sprites.back().Create(g_pixelWidth / 3 + 20 , g_pixelHeight - 22, 50, g_pixelHeight / 2 - 10, NearColor);
 		sprites.back().SetName("mtCNear");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_NEAR);
@@ -268,7 +268,7 @@ public:
 
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth + 15, g_pixelHeight - 35, 50, g_pixelHeight / 2 - 10, NearColor);
+		sprites.back().Create(g_pixelWidth + 15, g_pixelHeight - 25, 50, g_pixelHeight / 2 - 10, NearColor);
 		sprites.back().SetName("mtDNear");
 		sprites.back().SetWrap(true); 
 		sprites.back().SetLayer(LAYER::layer_NEAR);
@@ -278,7 +278,7 @@ public:
 
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth / 4 + 180, g_pixelHeight - 49, 36, g_pixelHeight / 2 - 5, NearColor);
+		sprites.back().Create(g_pixelWidth / 4 + 180, g_pixelHeight - 19, 36, g_pixelHeight / 2 - 5, NearColor);
 		sprites.back().SetName("mtENear");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_NEAR);
@@ -288,7 +288,7 @@ public:
 
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth / 4 + 206, g_pixelHeight - 54, 10, g_pixelHeight / 2 - 5, NearColor);
+		sprites.back().Create(g_pixelWidth / 4 + 206, g_pixelHeight - 24, 10, g_pixelHeight / 2 - 5, NearColor);
 		sprites.back().SetName("mtE1Near");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_NEAR);
@@ -298,7 +298,7 @@ public:
 
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth / 4 + 130, g_pixelHeight - 40, 35, g_pixelHeight / 2 - 30, NearColor);
+		sprites.back().Create(g_pixelWidth / 4 + 130, g_pixelHeight - 10, 35, g_pixelHeight / 2 - 30, NearColor);
 		sprites.back().SetName("mtFNear");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_NEAR);
@@ -307,7 +307,7 @@ public:
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth - 288, g_pixelHeight - 69, 30, g_pixelHeight / 2 - 10, NearColor);
+		sprites.back().Create(g_pixelWidth - 288, g_pixelHeight - 39, 30, g_pixelHeight / 2 - 10, NearColor);
 		sprites.back().SetName("mtGNear");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_NEAR);
@@ -317,7 +317,7 @@ public:
 
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth - 278, g_pixelHeight - 48, 30, g_pixelHeight / 2 - 10, NearColor);
+		sprites.back().Create(g_pixelWidth - 278, g_pixelHeight - 18, 30, g_pixelHeight / 2 - 10, NearColor);
 		sprites.back().SetName("mtG1Near");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_NEAR);
@@ -327,7 +327,7 @@ public:
 
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth - 274, g_pixelHeight - 78, 10, g_pixelHeight / 2 - 10, NearColor);
+		sprites.back().Create(g_pixelWidth - 274, g_pixelHeight - 48, 10, g_pixelHeight / 2 - 10, NearColor);
 		sprites.back().SetName("mtG2Near");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_NEAR);
@@ -337,7 +337,7 @@ public:
 
 		
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth - 220, g_pixelHeight - 56, 14, g_pixelHeight / 2 - 10, NearColor);
+		sprites.back().Create(g_pixelWidth - 220, g_pixelHeight - 26, 14, g_pixelHeight / 2 - 10, NearColor);
 		sprites.back().SetName("mtHNear");
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_NEAR);
@@ -348,7 +348,7 @@ public:
 
 		//Near Ground
 		sprites.push_back(s);
-		sprites.back().Create(0, g_pixelHeight - 30, g_pixelWidth, 50, NearColor); //for each change color with 3 last values in {}. { blue, green, red}
+		sprites.back().Create(0, g_pixelHeight - 30, g_pixelWidth + 30, 50, NearColor); //for each change color with 3 last values in {}. { blue, green, red}
 		sprites.back().SetName("ground");
 		sprites.back().SetLayer(LAYER::layer_BACK);
 		sprites.back().SetHasAnimation(false);
@@ -392,31 +392,31 @@ public:
 		//sprites.back().SetHasAnimation(true);
 		//sprites.back().setPhysics(false);
 
-		sprites.push_back(s);
-		sprites.back().Create(5, 1, 2, 2, FIRECOLOR);
-		sprites.back().SetName("right");
-		index = GetSpriteIndex("lander");
-		if (index >= 0)
-		{
-			sprites.back().SetParent(&sprites[index]);
-		}
-		sprites.back().SetVisible(false);
-		sprites.back().SetLayer(LAYER::layer_NONE);
-		sprites.back().SetHasAnimation(true);
-		sprites.back().setPhysics(false);
+		//sprites.push_back(s);
+		//sprites.back().Create(5, 1, 2, 2, FIRECOLOR);
+		//sprites.back().SetName("right");
+		//index = GetSpriteIndex("lander");
+		//if (index >= 0)
+		//{
+		//	sprites.back().SetParent(&sprites[index]);
+		//}
+		//sprites.back().SetVisible(false);
+		//sprites.back().SetLayer(LAYER::layer_NONE);
+		//sprites.back().SetHasAnimation(true);
+		//sprites.back().setPhysics(false);
 
-		sprites.push_back(s);
-		sprites.back().Create(-3, 1, 2, 2, FIRECOLOR);
-		sprites.back().SetName("left");
-		index = GetSpriteIndex("lander");
-		if (index >= 0)
-		{
-			sprites.back().SetParent(&sprites[index]);
-		}
-		sprites.back().SetVisible(false);
-		sprites.back().SetLayer(LAYER::layer_NONE);
-		sprites.back().SetHasAnimation(true);
-		sprites.back().setPhysics(false);
+		//sprites.push_back(s);
+		//sprites.back().Create(-3, 1, 2, 2, FIRECOLOR);
+		//sprites.back().SetName("left");
+		//index = GetSpriteIndex("lander");
+		//if (index >= 0)
+		//{
+		//	sprites.back().SetParent(&sprites[index]);
+		//}
+		//sprites.back().SetVisible(false);
+		//sprites.back().SetLayer(LAYER::layer_NONE);
+		//sprites.back().SetHasAnimation(true);
+		//sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
 		sprites.back().Create(300, g_pixelHeight -10 , 400, 300, FIRECOLOR);
@@ -450,7 +450,7 @@ public:
 		//add particle systems
 		ParticleSystem ps;
 		particles.push_back(ps);
-		particles.back().Create(138, 107, "volcano");
+		particles.back().Create(138, 141, "volcano");
 		particles.back().SetParticleColor({ 100,255,255 });
 		particles.back().SetMag(10.0f);
 		particles.back().SetRangeDeg(240, 300);
@@ -458,7 +458,7 @@ public:
 		particles.back().SetGravityOn(true);
 
 		particles.push_back(ps);
-		particles.back().Create(138, 107, "volcano1");
+		particles.back().Create(138, 141, "volcano1");
 		particles.back().SetParticleColor({ 100,100,255 });
 		particles.back().SetMag(10.0f);
 		particles.back().SetRangeDeg(240, 300);
@@ -470,6 +470,32 @@ public:
 		particles.back().SetParticleColor({ 0,0,255 });
 		particles.back().SetMag(60.0f);
 		particles.back().SetRangeDeg(80, 100);
+		particles.back().SetLifespan(0.1f);
+		particles.back().SetGravityOn(false);
+		index = GetSpriteIndex("lander");
+		if (index >= 0)
+		{
+			particles.back().SetParent(&sprites[index]);
+		}
+
+		particles.push_back(ps);
+		particles.back().Create(6, 1, "thrust2");
+		particles.back().SetParticleColor({ 0,0,255 });
+		particles.back().SetMag(60.0f);
+		particles.back().SetRangeDeg(20, -20);
+		particles.back().SetLifespan(0.1f);
+		particles.back().SetGravityOn(false);
+		index = GetSpriteIndex("lander");
+		if (index >= 0)
+		{
+			particles.back().SetParent(&sprites[index]);
+		}
+
+		particles.push_back(ps);
+		particles.back().Create(-1, 1, "thrust3");
+		particles.back().SetParticleColor({ 0,0,255 });
+		particles.back().SetMag(60.0f);
+		particles.back().SetRangeDeg(160, 200);
 		particles.back().SetLifespan(0.1f);
 		particles.back().SetGravityOn(false);
 		index = GetSpriteIndex("lander");
