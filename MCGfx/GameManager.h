@@ -30,7 +30,7 @@ private:
 
 public:
 
-	void Initialize()
+	void Restart()
 	{
 		world.Load();
 		StartTimer();
@@ -66,10 +66,6 @@ public:
 void SetPointer(MCGraphics* ptr)
 {
 	pGfx = ptr;
-}
-void Restart()
-{
-	Initialize();
 }
 //Handles mouse click. Left and Right click
 void Update(bool lb, bool rb, int x, int y)

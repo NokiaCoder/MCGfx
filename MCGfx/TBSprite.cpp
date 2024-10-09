@@ -7,16 +7,6 @@
 #include "TBGlobals.h"
 
 using namespace std;
-//Enum class Layers near to far
-enum class LAYER
-{
-	layer_BACK = 0,
-	layer_FAR,
-	Layer_MID,
-	layer_NEAR,
-	layer_FRONT,
-	layer_NONE,
-};
 
 //collide behavior enum
 enum class CollideType
@@ -28,13 +18,12 @@ enum class CollideType
 	Restart,
 	Push,
 	Random,
-
-	
 };
 
 class TBSprite
 {
 private:
+	//PRIVATE MEMBERS
 	float x = 0.0f; //left most
 	float y = 0.0f; //upper most
 	int w = 0; //width
@@ -66,6 +55,7 @@ private:
 
 
 public:
+	//ACCESSORS
 	void ShowOnCollide()
 	{
 		if (pShowOnCollide != nullptr)
@@ -77,6 +67,7 @@ public:
 	{
 		pShowOnCollide = pS;
 	}
+	
 	//lifetime setter/getter
 	float GetLifeTime()
 	{
@@ -86,6 +77,7 @@ public:
 	{
 		lifeTime = lT;
 	}
+	
 	//text sprite
 	bool GetIsTextSprite()
 	{
@@ -116,7 +108,7 @@ public:
 		name = n;
 	}
 
-	//hittarget accessors
+	//hit target accessors
 	bool GetHitTarget()
 	{
 		return hitTarget;
@@ -224,7 +216,6 @@ public:
 	{
 		return animationX;
 	}
-
 	float GetAnimationY()
 	{
 		return animationY;
@@ -234,7 +225,6 @@ public:
 	{
 		animationX = ax;
 	}
-
 	void SetAnimationY(float ay)
 	{
 		animationY = ay;
@@ -267,7 +257,8 @@ public:
 		{
 			wrap = wrapOn;
 		} 
-		// constructors / destructors
+
+	//constructors / destructors
 	TBSprite()
 		{
 			name = "";
@@ -278,6 +269,39 @@ public:
 
 			color = { 255, 255, 255 };
 		}
+
+	TBSprite(const TBSprite& copy)
+	{
+		x = copy.x;
+		y = copy.y; 
+		w = copy.w; 
+		h = copy.h; 
+		color = copy.color;
+		name = copy.name;
+		hasPhysics = copy.hasPhysics;
+		vx = copy.vx;
+		vy = copy.vy;
+		fx = copy.fx;
+		fy = copy.fy;
+		ground = copy.ground; 
+		stayAboveGround = copy.stayAboveGround;
+		gravityActive = copy.gravityActive;
+		pParent = copy.pParent;
+		pShowOnCollide = copy.pShowOnCollide;
+		visible = copy.visible;
+		wrap = copy.wrap;
+		hasAnimation = copy.hasAnimation;
+		collideType = copy.collideType;
+		isTextSprite = copy.isTextSprite;
+		spriteText = copy.spriteText;
+		hitTarget = copy.hitTarget;
+		animationX = copy.animationX;
+		animationY = copy.animationY;
+		lifeTime = copy.lifeTime;
+		age = copy.age;
+		layer = copy.layer;
+	}
+
 	TBSprite(int left, int top, int width, int height, const RGBTRIPLE& rgbtriple)
 		{
 			Create(left, top, width, height, rgbtriple);
@@ -288,17 +312,15 @@ public:
 
 	//public functions
 	void Create(int left, int top, int width, int height, const RGBTRIPLE& rgbtriple)
-		{
-			x = (float)left;
-			y = (float)top;
-			w = width;
-			h = height;
-			color = rgbtriple;
-			name = "";
-			gravityActive = false;
-
-		}
-
+	{
+		x = (float)left;
+		y = (float)top;
+		w = width;
+		h = height;
+		color = rgbtriple;
+		name = "";
+		gravityActive = false;
+	}
 	void TestCollision(vector<TBSprite>& sprites)
 	{
 		if (GetCollide() != CollideType::None && getPhysics())
@@ -330,7 +352,6 @@ public:
 			}
 		}
 	}
-
 	void Process(double elapsedTimeSec)
 		{
 			age += (float)elapsedTimeSec;
@@ -381,7 +402,6 @@ public:
 				y += (animationY * (float)elapsedTimeSec);
 			}
 		}
-		//code for wrapping function
 	void Draw(MCGraphics* pGFX)
 		{
 			if (visible)
@@ -431,9 +451,4 @@ public:
 				}
 			}
 		}
-	
-		
-
-
-
 };

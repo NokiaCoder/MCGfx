@@ -38,7 +38,15 @@ public:
 		}
 		return -1;
 	}
-
+	TBSprite* GetSprite(const string& name)
+	{
+		int index = GetSpriteIndex(name);
+		if (index >= 0)
+		{
+			return &sprites[index];
+		}
+		return nullptr;
+	}
 	int GetParticleSystemIndex(const string& name)
 	{
 		for (int i = 0; i < particles.size(); i++)
@@ -50,7 +58,15 @@ public:
 		}
 		return -1;
 	}
-
+	ParticleSystem* GetParticleSystem(const string& name)
+	{
+		int index = GetParticleSystemIndex(name);
+		if (index >= 0)
+		{
+			return &particles[index];
+		}
+		return nullptr;
+	}
 	// public functions
 	void Load()
 	{
@@ -60,6 +76,8 @@ public:
 		//pre allocate to avoid stale pointers
 		sprites.reserve(1000);
 		int index = -1;
+		int psIndex = -1;
+
 		//mountain/fire/lander color
 		RGBTRIPLE NearColor = { 105, 100, 75 };
 		RGBTRIPLE MidColor = DarkenColor({ 105, 100, 75 }, 25);
@@ -350,7 +368,7 @@ public:
 		sprites.push_back(s);
 		sprites.back().Create(0, g_pixelHeight - 30, g_pixelWidth + 30, 50, NearColor); //for each change color with 3 last values in {}. { blue, green, red}
 		sprites.back().SetName("ground");
-		sprites.back().SetLayer(LAYER::layer_BACK);
+		sprites.back().SetLayer(LAYER::layer_NEAR);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
 
@@ -378,46 +396,6 @@ public:
 		sprites.back().setPhysics(true);
 		sprites.back().SetCollide(CollideType::Win);
 		
-		//OLD THRUST SPRITE
-		//sprites.push_back(s);
-		//sprites.back().Create(1, 5, 2, 2, FIRECOLOR);
-		//sprites.back().SetName("fire");
-		//index = GetSpriteIndex("lander");
-		//if (index >= 0)
-		//{
-		//	sprites.back().SetParent(&sprites[index]);
-		//}
-		//sprites.back().SetVisible(false);
-		//sprites.back().SetLayer(LAYER::layer_NONE);
-		//sprites.back().SetHasAnimation(true);
-		//sprites.back().setPhysics(false);
-
-		//sprites.push_back(s);
-		//sprites.back().Create(5, 1, 2, 2, FIRECOLOR);
-		//sprites.back().SetName("right");
-		//index = GetSpriteIndex("lander");
-		//if (index >= 0)
-		//{
-		//	sprites.back().SetParent(&sprites[index]);
-		//}
-		//sprites.back().SetVisible(false);
-		//sprites.back().SetLayer(LAYER::layer_NONE);
-		//sprites.back().SetHasAnimation(true);
-		//sprites.back().setPhysics(false);
-
-		//sprites.push_back(s);
-		//sprites.back().Create(-3, 1, 2, 2, FIRECOLOR);
-		//sprites.back().SetName("left");
-		//index = GetSpriteIndex("lander");
-		//if (index >= 0)
-		//{
-		//	sprites.back().SetParent(&sprites[index]);
-		//}
-		//sprites.back().SetVisible(false);
-		//sprites.back().SetLayer(LAYER::layer_NONE);
-		//sprites.back().SetHasAnimation(true);
-		//sprites.back().setPhysics(false);
-
 		sprites.push_back(s);
 		sprites.back().Create(300, g_pixelHeight -10 , 400, 300, FIRECOLOR);
 		sprites.back().SetName("winText");
@@ -452,57 +430,68 @@ public:
 		particles.push_back(ps);
 		particles.back().Create(138, 141, "volcano");
 		particles.back().SetParticleColor({ 100,255,255 });
-		particles.back().SetMag(10.0f);
+		particles.back().SetSpawnRadius(10.0f);
 		particles.back().SetRangeDeg(240, 300);
 		particles.back().SetLifespan(4.0f);
 		particles.back().SetGravityOn(true);
+		particles.back().SetLayer(LAYER::Layer_MID);
+		particles.back().SetActive(true);
 
 		particles.push_back(ps);
 		particles.back().Create(138, 141, "volcano1");
 		particles.back().SetParticleColor({ 100,100,255 });
-		particles.back().SetMag(10.0f);
+		particles.back().SetSpawnRadius(10.0f);
 		particles.back().SetRangeDeg(240, 300);
 		particles.back().SetLifespan(4.0f);
 		particles.back().SetGravityOn(true);
+		particles.back().SetLayer(LAYER::Layer_MID);
+		particles.back().SetActive(true);
 
 		particles.push_back(ps);
 		particles.back().Create(2, 5, "thrust");
 		particles.back().SetParticleColor({ 0,0,255 });
-		particles.back().SetMag(60.0f);
+		particles.back().SetSpawnRadius(60.0f);
 		particles.back().SetRangeDeg(80, 100);
 		particles.back().SetLifespan(0.1f);
 		particles.back().SetGravityOn(false);
-		index = GetSpriteIndex("lander");
-		if (index >= 0)
-		{
-			particles.back().SetParent(&sprites[index]);
-		}
+		particles.back().SetLayer(LAYER::layer_FRONT);
 
 		particles.push_back(ps);
 		particles.back().Create(6, 1, "thrust2");
 		particles.back().SetParticleColor({ 0,0,255 });
-		particles.back().SetMag(60.0f);
+		particles.back().SetSpawnRadius(60.0f);
 		particles.back().SetRangeDeg(20, -20);
 		particles.back().SetLifespan(0.1f);
 		particles.back().SetGravityOn(false);
-		index = GetSpriteIndex("lander");
-		if (index >= 0)
-		{
-			particles.back().SetParent(&sprites[index]);
-		}
+		particles.back().SetLayer(LAYER::layer_FRONT);
 
 		particles.push_back(ps);
 		particles.back().Create(-1, 1, "thrust3");
 		particles.back().SetParticleColor({ 0,0,255 });
-		particles.back().SetMag(60.0f);
+		particles.back().SetSpawnRadius(60.0f);
 		particles.back().SetRangeDeg(160, 200);
 		particles.back().SetLifespan(0.1f);
 		particles.back().SetGravityOn(false);
+		particles.back().SetLayer(LAYER::layer_FRONT);
+
+		//particles.push_back(ps);
+		//particles.back().Create((float)g_pixelWidth/2, 20.0f, "Stars");
+		//particles.back().SetParticleColor({ 255,255,255 });
+		//particles.back().SetSpawnRadius(144.0f);
+		//particles.back().SetRangeDeg(0, 360);
+		//particles.back().SetLifespan(-10.0f);
+		//particles.back().SetGravityOn(false);
+		//particles.back().SetLayer(LAYER::layer_BACK);
+		//particles.back().SetStaticParticles(true);
+
+		//Set Particle System Parents
 		index = GetSpriteIndex("lander");
-		if (index >= 0)
-		{
-			particles.back().SetParent(&sprites[index]);
-		}
+		psIndex = GetParticleSystemIndex("thrust");
+		particles[psIndex].SetParent(&sprites[index]);
+		psIndex = GetParticleSystemIndex("thrust2");
+		particles[psIndex].SetParent(&sprites[index]);
+		psIndex = GetParticleSystemIndex("thrust3");
+		particles[psIndex].SetParent(&sprites[index]);
 	}
 
 
@@ -569,15 +558,23 @@ public:
 	void Draw(MCGraphics* pGFX)
 	{
 		pGFX->Clear();
-		for (int i = 0; i < (int)sprites.size(); i++)
-		{
-			sprites[i].Draw(pGFX);
-		}
 
-		for (int i = 0; i < (int)particles.size(); i++)
+		for (int l = 0; l < 6; l++)
 		{
-			particles[i].Draw(pGFX);
-			
+			for (int i = 0; i < (int)particles.size(); i++)
+			{
+				if (particles[i].GetLayer() == (LAYER)l)
+				{
+					particles[i].Draw(pGFX);
+				} 
+			}
+			for (int i = 0; i < (int)sprites.size(); i++)
+			{
+				if (sprites[i].GetLayer() == (LAYER)l)
+				{
+					sprites[i].Draw(pGFX);
+				}
+			}
 		}
 	}
 

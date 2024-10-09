@@ -31,7 +31,14 @@ public:
 		y = 0.0f;
 		vx = velx;
 		vy = vely;
-		lifetimeSec = life * (GetRandNorm() + 0.5f);
+		if (life < 0.0)
+		{
+			lifetimeSec = life;
+		}
+		else
+		{
+			lifetimeSec = life * (GetRandNorm() + 0.5f);
+		}
 		age = 0.0;
 		color = c;
 		hasGravity = hasgrav;
@@ -42,7 +49,7 @@ public:
 		if (alive)
 		{
 			age += elapsedTimeSec;
-			if (age <= lifetimeSec)
+			if (age <= lifetimeSec /*|| lifetimeSec < 0.0*/)
 			{
 				if (hasGravity)
 				{
@@ -96,9 +103,11 @@ private:
 	float startDeg = 0.0f;
 	float endDeg = 360.0f;
 	float lifespanSec = 1.0f;
-	float mag = 1.0f;
 	int frameOn = 0;
+	float spawnRadius = 1.0f;
+	bool staticParticles = false;
 	RGBTRIPLE particleColor = { 255, 255, 255 };
+	LAYER layer = LAYER::layer_BACK;
 
 
 	vector<Particle> particles;
@@ -109,10 +118,14 @@ private:
 		Particle s;
 
 		particles.push_back(s);
-		float x;
-		float y;
-		GetRandCircle(GetRandNorm() + mag ,startDeg, endDeg, &x, &y);
-		particles.back().Create(x, y, lifespanSec, gravityActive, fadeOut, RGBQ(255, 100, 100, 255));
+		float vx;
+		float vy;
+		GetRandCircle(GetRandNorm() + spawnRadius ,startDeg, endDeg, &vx, &vy);
+		if (staticParticles)
+		{
+			vx = vy = 0;
+		}
+		particles.back().Create(vx, vy, lifespanSec, gravityActive, fadeOut, RGBQ(255, 100, 100, 255));
 		particles.back().SetColor(particleColor);
 	}
 
@@ -133,7 +146,10 @@ public:
 		endDeg = copy.endDeg;
 		lifespanSec = copy.lifespanSec;
 		active = copy.active;
-		mag = copy.mag;
+		layer = copy.layer;
+		particles = copy.particles;
+		spawnRadius = copy.spawnRadius;
+		staticParticles = copy.staticParticles;
 	}
 	//Gravity accessors
 	bool GetGravityOn()
@@ -145,9 +161,22 @@ public:
 		gravityActive = gravityOn;
 	}
 
-	void SetMag(float mg)
+	LAYER GetLayer()
 	{
-		mag = mg;
+		return layer;
+	}
+	
+	//implementation is in the cpp file..
+	void SetLayer(LAYER l);
+
+	void SetSpawnRadius(float mg)
+	{
+		spawnRadius = mg;
+	}
+
+	void SetStaticParticles(bool s)
+	{
+		staticParticles = s;
 	}
 
 	void SetParticleColor(const RGBTRIPLE& c)

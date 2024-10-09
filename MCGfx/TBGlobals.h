@@ -5,6 +5,18 @@
 #include "MCGraphics.cpp"
 using namespace std;
 
+//Enum class Layers near to far
+enum class LAYER
+{
+    layer_BACK = 0,
+    layer_FAR,
+    Layer_MID,
+    layer_NEAR,
+    layer_FRONT,
+    layer_NONE,
+};
+
+
 static wstring g_GameTitle = L"TanLander";
 
 static  int g_pixelWidth = 288;
