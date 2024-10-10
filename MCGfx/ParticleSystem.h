@@ -17,18 +17,18 @@ private:
 	float y = 0.0f;
 	float vx = 0.0f;
 	float vy = 0.0f;
-	RGBQUAD color;
-	double lifetimeSec;
-	double age;
+	RGBQUAD color = RGBQ(0, 0, 0, 0);
+	double lifetimeSec = 0.0;
+	double age = 0.0;
 	
 
 
 public:
-	void Create(float velx, float vely, double life, bool hasgrav, bool fade, RGBQUAD c)
+	void Create(float posx, float posy, float velx, float vely, double life, bool hasgrav, bool fade, RGBQUAD c)
 	{
 		alive = true;
-		x = 0.0f;
-		y = 0.0f;
+		x = posx;
+		y = posy;
 		vx = velx;
 		vy = vely;
 		if (life < 0.0)
@@ -38,6 +38,10 @@ public:
 		else
 		{
 			lifetimeSec = life * (GetRandNorm() + 0.5f);
+		}
+		if (lifetimeSec < 0.0)
+		{
+			int u = 0;
 		}
 		age = 0.0;
 		color = c;
@@ -49,7 +53,8 @@ public:
 		if (alive)
 		{
 			age += elapsedTimeSec;
-			if (age <= lifetimeSec /*|| lifetimeSec < 0.0*/)
+
+			if (age <= lifetimeSec || lifetimeSec < 0.0)
 			{
 				if (hasGravity)
 				{
@@ -99,12 +104,16 @@ private:
 	string name = "";
 	float emitterX = 0.0f;
 	float emitterY = 0.0f;
-	float rate = 10.0f;
+	float emitRate = 10.0f;
+	float emitDurationSec = -1.0f;
 	float startDeg = 0.0f;
 	float endDeg = 360.0f;
-	float lifespanSec = 1.0f;
+	float startSpeed = 0.0f;
+	float lifespanSec = 0.0f;
+	float runDurationSec = -1.0f;
 	int frameOn = 0;
-	float spawnRadius = 1.0f;
+	float spawnRadiusMin = 0.0f;
+	float spawnRadiusMax = 1.0f;
 	bool staticParticles = false;
 	RGBTRIPLE particleColor = { 255, 255, 255 };
 	LAYER layer = LAYER::layer_BACK;
@@ -118,14 +127,13 @@ private:
 		Particle s;
 
 		particles.push_back(s);
-		float vx;
-		float vy;
-		GetRandCircle(GetRandNorm() + spawnRadius ,startDeg, endDeg, &vx, &vy);
-		if (staticParticles)
-		{
-			vx = vy = 0;
-		}
-		particles.back().Create(vx, vy, lifespanSec, gravityActive, fadeOut, RGBQ(255, 100, 100, 255));
+		float vx = 0.0f;
+		float vy = 0.0f;
+		float posx = 0.0f;
+		float posy = 0.0f;
+		GetRandCircle(spawnRadiusMin, spawnRadiusMax ,startDeg, endDeg, startSpeed, &vx, &vy, &posx, &posy);
+
+		particles.back().Create(posx, posy, vx, vy, lifespanSec, gravityActive, fadeOut, RGBQ(255, 100, 100, 255));
 		particles.back().SetColor(particleColor);
 	}
 
@@ -139,17 +147,21 @@ public:
 		fadeOut = copy.fadeOut;
 		emitterX = copy.emitterX;
 		emitterY = copy.emitterY;
-		rate = copy.rate;
+		emitRate = copy.emitRate;
 		frameOn = copy.frameOn;
 		particleColor = copy.particleColor;
 		startDeg = copy.startDeg;
 		endDeg = copy.endDeg;
+		startSpeed = copy.startSpeed;
 		lifespanSec = copy.lifespanSec;
 		active = copy.active;
 		layer = copy.layer;
 		particles = copy.particles;
-		spawnRadius = copy.spawnRadius;
+		spawnRadiusMin = copy.spawnRadiusMin;
+		spawnRadiusMax = copy.spawnRadiusMax;
 		staticParticles = copy.staticParticles;
+		emitDurationSec = copy.emitDurationSec;
+		runDurationSec = copy.runDurationSec;
 	}
 	//Gravity accessors
 	bool GetGravityOn()
@@ -169,9 +181,20 @@ public:
 	//implementation is in the cpp file..
 	void SetLayer(LAYER l);
 
-	void SetSpawnRadius(float mg)
+	void SetSpawnRadius(float rmin, float rmax)
 	{
-		spawnRadius = mg;
+		spawnRadiusMin = rmin;
+		spawnRadiusMax = rmax;
+	}
+
+	void SetEmitRate(float er)
+	{
+		emitRate = er;
+	}
+	
+	void SetEmitDurationSec(float ed)
+	{
+		emitDurationSec = ed;
 	}
 
 	void SetStaticParticles(bool s)
@@ -186,6 +209,7 @@ public:
 	void SetActive(bool a)
 	{
 		active = a;
+		runDurationSec = 0;
 	}
 	bool GetActive()
 	{
@@ -202,10 +226,11 @@ public:
 		lifespanSec = lS;
 	}
 
-	void SetRangeDeg(float sDeg, float eDeg)
+	void SetParams(float sDeg, float eDeg, float startspd)
 	{
 		startDeg = sDeg;
 		endDeg = eDeg;
+		startSpeed = startspd;
 	}
 
 	TBSprite* GetParent()
@@ -227,6 +252,8 @@ public:
 
 	void Process(double elapsedTimeSec)
 	{
+		runDurationSec += static_cast<float>(elapsedTimeSec);
+
 		//process each defined particle
 		for (int i = 0; i < (int)particles.size(); i++)
 		{
@@ -242,11 +269,14 @@ public:
 			}
 		}
 
-
+		if (runDurationSec >= emitDurationSec && emitDurationSec > 0)
+		{
+			active = false;
+		}
 		//spawn new particles
 		if (frameOn > 0 && active)
 		{
-			int num = (int)(rate * elapsedTimeSec);
+			int num = (int)(emitRate * elapsedTimeSec);
 			num = num == 0 ? 1 : num;
 			for (int i = 0; i < num; i++)
 			{

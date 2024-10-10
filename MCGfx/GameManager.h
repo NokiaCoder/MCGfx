@@ -25,8 +25,8 @@ private:
 	bool upKeyDown = false;
 	bool restart = false;
 	bool startShown = false;
-	float mainThrust = -5.0f;
-	float sideThrust = 4.0f;
+	float mainThrust = -1.0f;
+	float sideThrust = 1.0f;
 
 public:
 

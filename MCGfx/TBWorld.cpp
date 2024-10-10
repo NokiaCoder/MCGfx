@@ -84,7 +84,7 @@ public:
 		RGBTRIPLE FarColor = DarkenColor({ 105, 100, 75 }, 10);
 		RGBTRIPLE SkyBoxColor = DarkenColor({ 105, 100, 75 }, 100);
 		RGBTRIPLE FIRECOLOR = { 0, 0, 255 };
-		RGBTRIPLE LANDERCOLOR = { 255, 255, 255 };
+		RGBTRIPLE LANDERCOLOR = { 100, 200, 200 };
 		RGBTRIPLE TargetCOLOR = { 0, 255, 0 };
 
 		//Speed settings
@@ -430,9 +430,9 @@ public:
 		particles.push_back(ps);
 		particles.back().Create(138, 141, "volcano");
 		particles.back().SetParticleColor({ 100,255,255 });
-		particles.back().SetSpawnRadius(10.0f);
-		particles.back().SetRangeDeg(240, 300);
-		particles.back().SetLifespan(4.0f);
+		particles.back().SetSpawnRadius(0.0f, 0.0f);
+		particles.back().SetParams(240, 300, 15.0f);
+		particles.back().SetLifespan(3.0f);
 		particles.back().SetGravityOn(true);
 		particles.back().SetLayer(LAYER::Layer_MID);
 		particles.back().SetActive(true);
@@ -440,9 +440,9 @@ public:
 		particles.push_back(ps);
 		particles.back().Create(138, 141, "volcano1");
 		particles.back().SetParticleColor({ 100,100,255 });
-		particles.back().SetSpawnRadius(10.0f);
-		particles.back().SetRangeDeg(240, 300);
-		particles.back().SetLifespan(4.0f);
+		particles.back().SetSpawnRadius(0.0f, 0.0f);
+		particles.back().SetParams(240, 300, 15.0f);
+		particles.back().SetLifespan(3.0f);
 		particles.back().SetGravityOn(true);
 		particles.back().SetLayer(LAYER::Layer_MID);
 		particles.back().SetActive(true);
@@ -450,39 +450,44 @@ public:
 		particles.push_back(ps);
 		particles.back().Create(2, 5, "thrust");
 		particles.back().SetParticleColor({ 0,0,255 });
-		particles.back().SetSpawnRadius(60.0f);
-		particles.back().SetRangeDeg(80, 100);
-		particles.back().SetLifespan(0.1f);
+		particles.back().SetSpawnRadius(0.0f, 0.0f);
+		particles.back().SetParams(80, 100, 20.0f);
+		particles.back().SetLifespan(0.2f);
 		particles.back().SetGravityOn(false);
 		particles.back().SetLayer(LAYER::layer_FRONT);
+		particles.back().SetEmitRate(10.0f);
 
 		particles.push_back(ps);
-		particles.back().Create(6, 1, "thrust2");
+		particles.back().Create(5, 1, "thrust2"); //right
 		particles.back().SetParticleColor({ 0,0,255 });
-		particles.back().SetSpawnRadius(60.0f);
-		particles.back().SetRangeDeg(20, -20);
-		particles.back().SetLifespan(0.1f);
+		particles.back().SetSpawnRadius(0.0f, 0.0f);
+		particles.back().SetParams(20, -20, 20.0f);
+		particles.back().SetLifespan(0.2f);
 		particles.back().SetGravityOn(false);
 		particles.back().SetLayer(LAYER::layer_FRONT);
+		particles.back().SetEmitRate(10.0f);
 
 		particles.push_back(ps);
-		particles.back().Create(-1, 1, "thrust3");
+		particles.back().Create(-1, 1, "thrust3"); //left
 		particles.back().SetParticleColor({ 0,0,255 });
-		particles.back().SetSpawnRadius(60.0f);
-		particles.back().SetRangeDeg(160, 200);
-		particles.back().SetLifespan(0.1f);
+		particles.back().SetSpawnRadius(0.0f, 0.0f);
+		particles.back().SetParams(160, 200, 20.0f);
+		particles.back().SetLifespan(0.2f);
 		particles.back().SetGravityOn(false);
 		particles.back().SetLayer(LAYER::layer_FRONT);
+		particles.back().SetEmitRate(10.0f);
 
-		//particles.push_back(ps);
-		//particles.back().Create((float)g_pixelWidth/2, 20.0f, "Stars");
-		//particles.back().SetParticleColor({ 255,255,255 });
-		//particles.back().SetSpawnRadius(144.0f);
-		//particles.back().SetRangeDeg(0, 360);
-		//particles.back().SetLifespan(-10.0f);
-		//particles.back().SetGravityOn(false);
-		//particles.back().SetLayer(LAYER::layer_BACK);
-		//particles.back().SetStaticParticles(true);
+		particles.push_back(ps);
+		particles.back().Create((float)g_pixelWidth/2, 20.0f, "Stars");
+		particles.back().SetParticleColor({ 180,180,180 });
+		particles.back().SetSpawnRadius(0.0f, 300.0f);
+		particles.back().SetParams(0, 360, 0.0f);
+		particles.back().SetLifespan(-1.0f);
+		particles.back().SetGravityOn(false);
+		particles.back().SetLayer(LAYER::layer_BACK);
+		particles.back().SetEmitRate(100.0f);
+		particles.back().SetEmitDurationSec(10.0f);
+		particles.back().SetActive(true);
 
 		//Set Particle System Parents
 		index = GetSpriteIndex("lander");

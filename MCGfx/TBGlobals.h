@@ -57,16 +57,42 @@ static RGBQUAD RGBQ(byte r, byte g, byte b, byte a)
     return color;
 }
 
-//RAND FUNCTIONS
+//Math Library
 
 static float GetRandNorm()
 {
-    return (((float)rand() / (float)RAND_MAX) * 2.0f) - 1.0f;
+    return (((float)rand() / (float)RAND_MAX) + 1.0f) * 0.5f;
 }
 
 static float GetRandF()
 {
     return (float)rand() / (float)RAND_MAX;
+}
+
+static float GetMag(float x, float y)
+{
+    return sqrt(x * x + y * y);
+}
+
+static void Normalize(float& x, float& y)
+{
+    float mag = GetMag(x, y);
+    if (mag == 0.0f)
+    {
+        x = 0.0f;
+        y = 0.0f;
+    }
+    else
+    {
+        x /= mag;
+        y /= mag;
+    }
+}
+
+static void Scale(float& x, float& y, const float& scalar)
+{
+    x *= scalar;
+    y *= scalar;
 }
 
 static float GetRandRange(float from, float to)
@@ -81,11 +107,21 @@ static void GetRandCircle(float radius, float* px, float* py)
     *py = radius * (float)sin(theta);
 }
 
-static void GetRandCircle(float radius, float startDeg, float endDeg, float* px, float* py)
+static void GetRandCircle(float radiusMin, float radiusMax, float startDeg, float endDeg, float speed, float* vx,float* vy, float* px, float* py)
 {
+    float rad = GetRandRange(radiusMin, radiusMax);
     double theta = GetRandRange(startDeg, endDeg) * g_DEG2RAD;
-    *px = radius * (float)cos(theta);
-    *py = radius * (float)sin(theta);
+    float velx = (float)cos(theta);
+    float vely = (float)sin(theta);
+    
+    *px = rad * velx;
+    *py = rad * vely;
+
+    Normalize(velx, vely);
+    Scale(velx, vely, speed * GetRandNorm());
+    
+    *vx = velx;
+    *vy = vely;
 }
 
 static int GetRandomH()
