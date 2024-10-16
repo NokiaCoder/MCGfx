@@ -395,7 +395,75 @@ public:
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(true);
 		sprites.back().SetCollide(CollideType::Win);
+
+		sprites.push_back(s);
+		sprites.back().Create(1, -4, 2, 3, LANDERCOLOR);
+		sprites.back().SetName("Lander Head");
+		index = GetSpriteIndex("lander");
+		if (index >= 0)
+		{
+			sprites.back().SetParent(&sprites[index]);
+		}
+		sprites.back().SetVisible(true);
+		sprites.back().SetLayer(LAYER::layer_FRONT);
+		sprites.back().SetHasAnimation(true);
+		sprites.back().setPhysics(false);
+		sprites.back().SetWrap(true);
 		
+	/*	sprites.push_back(s);
+		sprites.back().Create(-1, -1, 1, 2, LANDERCOLOR);
+		sprites.back().SetName("Left lander wing");
+		index = GetSpriteIndex("lander");
+		if (index >= 0)
+		{
+			sprites.back().SetParent(&sprites[index]);
+		}
+		sprites.back().SetVisible(true);
+		sprites.back().SetLayer(LAYER::layer_FRONT);
+		sprites.back().SetHasAnimation(true);
+		sprites.back().setPhysics(false);*/
+
+		sprites.push_back(s);
+		sprites.back().Create(-2, 2, 2, 2, LANDERCOLOR);
+		sprites.back().SetName("Left lander wing1");
+		index = GetSpriteIndex("lander");
+		if (index >= 0)
+		{
+			sprites.back().SetParent(&sprites[index]);
+		}
+		sprites.back().SetVisible(true);
+		sprites.back().SetLayer(LAYER::layer_FRONT);
+		sprites.back().SetHasAnimation(true);
+		sprites.back().setPhysics(false);
+		sprites.back().SetWrap(true);
+
+		/*sprites.push_back(s);
+		sprites.back().Create(4, -1, 1, 2, LANDERCOLOR);
+		sprites.back().SetName("right lander wing");
+		index = GetSpriteIndex("lander");
+		if (index >= 0)
+		{
+			sprites.back().SetParent(&sprites[index]);
+		}
+		sprites.back().SetVisible(true);
+		sprites.back().SetLayer(LAYER::layer_FRONT);
+		sprites.back().SetHasAnimation(true);
+		sprites.back().setPhysics(false);*/
+
+		sprites.push_back(s);
+		sprites.back().Create(5, 2, 1, 2, LANDERCOLOR);
+		sprites.back().SetName("right lander wing1");
+		index = GetSpriteIndex("lander");
+		if (index >= 0)
+		{
+			sprites.back().SetParent(&sprites[index]);
+		}
+		sprites.back().SetVisible(true);
+		sprites.back().SetLayer(LAYER::layer_FRONT);
+		sprites.back().SetHasAnimation(true);
+		sprites.back().setPhysics(false);
+		sprites.back().SetWrap(true);
+
 		sprites.push_back(s);
 		sprites.back().Create(300, g_pixelHeight -10 , 400, 300, FIRECOLOR);
 		sprites.back().SetName("winText");
