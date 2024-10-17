@@ -77,6 +77,12 @@ public:
 		}
 		return nullptr;
 	}
+	void SetParticlesParent(const string& name, const string& parentSpriteName)
+	{
+		ParticleSystem* pPS = GetParticleSystem(name);
+		TBSprite* pS = GetSprite(parentSpriteName);
+		pPS->SetParent(pS);
+	}
 	// public functions
 	void Load()
 	{
@@ -581,6 +587,17 @@ public:
 		particles.back().SetEmitRate(100.0f);
 		particles.back().SetEmitDurationSec(10.0f);
 		particles.back().SetActive(true);
+
+		particles.push_back(ps);
+		particles.back().Create(0, 0, "explosion");
+		particles.back().SetParticleColor({ 0,0,255 });
+		particles.back().SetSpawnRadius(0.0f, 360.0f);
+		particles.back().SetParams(160, 200, 20.0f);
+		particles.back().SetLifespan(1.0f);
+		particles.back().SetGravityOn(false);
+		particles.back().SetLayer(LAYER::layer_FRONT);
+		particles.back().SetEmitRate(10.0f);
+		particles.back().SetActive(false);
 
 		//Set Particle System Parents
 		index = GetSpriteIndex("lander");

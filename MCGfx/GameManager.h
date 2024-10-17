@@ -150,6 +150,8 @@ public:
 					g_CurrentScore -= 100;
 					if (g_CurrentScore > losingScore)
 					{
+						world.SetParticlesParent("explosion", "lander");
+						world.SetParticleSystemActive("explosion", true);
 						world.SetSpriteVisible("losetext", true);
 					}
 				}
