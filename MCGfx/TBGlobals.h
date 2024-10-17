@@ -16,6 +16,27 @@ enum class LAYER
     layer_NONE,
 };
 
+struct CollisionInfo
+{
+    string a;
+    string b;
+    bool isSprite;
+    
+    CollisionInfo(string aId, string bId, bool s)
+    {
+        a = aId;
+        b = bId;
+        isSprite = s;
+    }
+
+    CollisionInfo(const CollisionInfo& copy)
+    {
+        a = copy.a;
+        b = copy.b;
+        isSprite = copy.isSprite;
+    }
+};
+
 
 static wstring g_GameTitle = L"TanLander";
 

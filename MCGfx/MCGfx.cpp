@@ -81,6 +81,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
     {
         TranslateMessage(&msg);
         DispatchMessage(&msg);
+        game.Process();
         game.Render(hwnd);
         //double t = GetElapsedMilliseconds();
         //while (t < 1000.0)

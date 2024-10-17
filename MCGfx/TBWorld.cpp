@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <deque>
 #include "MCGraphics.cpp"
 #include "TBSprite.cpp"
 #include "TBGlobals.h"
@@ -12,10 +13,11 @@ using namespace std;
 
 class TBWorld
 {
+
 private:
 	vector<TBSprite> sprites;
 	vector<ParticleSystem> particles;
-
+	deque<CollisionInfo>* pCollisions = nullptr;
 
 public:
 	// constructor / destructor
@@ -46,6 +48,14 @@ public:
 			return &sprites[index];
 		}
 		return nullptr;
+	}
+	void SetSpriteText(const string& name, string s)
+	{
+		TBSprite* pS = GetSprite(name);
+		if (pS != nullptr)
+		{
+			pS->SetSpriteText(s);
+		}
 	}
 	int GetParticleSystemIndex(const string& name)
 	{
@@ -371,6 +381,7 @@ public:
 		sprites.back().SetLayer(LAYER::layer_NEAR);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
+		sprites.back().SetCollide(CollideType::Lose);
 
 		sprites.push_back(s);
 		sprites.back().Create(GetRandomH(), g_pixelHeight - 35, 8, 8, TargetCOLOR); //for each change color with 3 last values in {}. { blue, green, red}
@@ -383,7 +394,7 @@ public:
 		
 		
 
-		//Lander and fire
+		//Lander and attachments
 		sprites.push_back(s);
 		sprites.back().Create(140, 0, 4, 4, LANDERCOLOR);
 		sprites.back().SetName("lander");
@@ -466,8 +477,30 @@ public:
 
 		sprites.push_back(s);
 		sprites.back().Create(300, g_pixelHeight -10 , 400, 300, FIRECOLOR);
-		sprites.back().SetName("winText");
-		sprites.back().SetSpriteText("YOU WIN!!!!\nHit SPACE to play again.");
+		sprites.back().SetName("wintext");
+		sprites.back().SetSpriteText("+100 Points\nYOU WIN!!!!\nHit SPACE to play again.");
+		sprites.back().SetIsTextSprite(true);
+		sprites.back().SetVisible(false);
+		sprites.back().SetLayer(LAYER::layer_FRONT);
+		sprites.back().SetHasAnimation(false);
+		sprites.back().setPhysics(false);
+		sprites.back().SetLifeTime(50.0f);
+
+		sprites.push_back(s);
+		sprites.back().Create(300, g_pixelHeight - 10, 400, 300, FIRECOLOR);
+		sprites.back().SetName("losetext");
+		sprites.back().SetSpriteText("-100 Points\nYOU LOSE!!!!\nHit SPACE to play again.");
+		sprites.back().SetIsTextSprite(true);
+		sprites.back().SetVisible(false);
+		sprites.back().SetLayer(LAYER::layer_FRONT);
+		sprites.back().SetHasAnimation(false);
+		sprites.back().setPhysics(false);
+		sprites.back().SetLifeTime(50.0f);
+
+		sprites.push_back(s);
+		sprites.back().Create(300, g_pixelHeight - 10, 400, 300, FIRECOLOR);
+		sprites.back().SetName("losegametext");
+		sprites.back().SetSpriteText("GAME OVER");
 		sprites.back().SetIsTextSprite(true);
 		sprites.back().SetVisible(false);
 		sprites.back().SetLayer(LAYER::layer_FRONT);
@@ -477,21 +510,13 @@ public:
 
 		sprites.push_back(s);
 		sprites.back().Create(720, 10, 400, 300, FIRECOLOR);
-		sprites.back().SetName("scoreText");
+		sprites.back().SetName("scoretext");
 		sprites.back().SetSpriteText("SCORE\n<score>");
 		sprites.back().SetIsTextSprite(true);
 		sprites.back().SetVisible(true);
 		sprites.back().SetLayer(LAYER::layer_FRONT);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
-
-		//set pointers
-		int targetIndex = GetSpriteIndex("target");
-		index = GetSpriteIndex("winText");
-		if (index >= 0)
-		{
-			sprites[targetIndex].SetShowOnCollide(&sprites[index]);
-		}
 
 		//add particle systems
 		ParticleSystem ps;
@@ -567,7 +592,6 @@ public:
 		particles[psIndex].SetParent(&sprites[index]);
 	}
 
-
 	void SetSpriteVisible(string name, bool show)
 	{
 		for (int i = 0; i < (int)sprites.size(); i++)
@@ -578,7 +602,6 @@ public:
 			}
 		}
 	}
-
 	void SetParticleSystemActive(string name, bool on)
 	{
 		int index = GetParticleSystemIndex(name);
@@ -587,7 +610,6 @@ public:
 			particles[index].SetActive(on);
 		}
 	}
-
 	void SetSpriteForce(string name, float force, bool isX)
 	{
 		for (int i = 0; i < (int)sprites.size(); i++)
@@ -605,16 +627,27 @@ public:
 			}
 		}
 	}
-
+	void SetCollisionsPtr(deque<CollisionInfo>* pC)
+	{
+		pCollisions = pC;
+	}
+	void OnSpriteCollision(string a, string b)
+	{
+		if (pCollisions != nullptr)
+		{
+			CollisionInfo info(a, b, true);
+			pCollisions->push_back(info);
+		}
+	}
 	void TestCollision()
 	{
 		int id = GetSpriteIndex("lander");
 		if (id > -1)
 		{
-			sprites[id].TestCollision(sprites);
+			string hit = sprites[id].TestCollision(sprites);
+			OnSpriteCollision(sprites[id].GetName(), hit);
 		}
 	}
-
 	void Process(double elapsedTimeSec)
 	{
 		for (int i = 0; i < (int)sprites.size(); i++)
@@ -650,5 +683,6 @@ public:
 			}
 		}
 	}
+	
 
 };

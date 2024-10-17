@@ -321,7 +321,7 @@ public:
 		name = "";
 		gravityActive = false;
 	}
-	void TestCollision(vector<TBSprite>& sprites)
+	string TestCollision(vector<TBSprite>& sprites)
 	{
 		if (GetCollide() != CollideType::None && getPhysics())
 		{
@@ -333,24 +333,19 @@ public:
 					{
 						if (TestIntersection(x, y, (float)w, (float)h, sprites[i].x, sprites[i].y, (float)sprites[i].w, (float)sprites[i].h))
 						{
+							//A collision has happened!
 							setPhysics(false);
 							x = floor(x);
 							y = floor(y);
 							sprites[i].ShowOnCollide();
-							if (sprites[i].GetCollide() == CollideType::Win)
-							{
-								g_CurrentScore += 100;
-							}
-							else if (sprites[i].GetCollide() == CollideType::Win)
-							{
-								g_CurrentScore -= 100;
-							}
-							return;
+
+							return sprites[i].name;
 						}
 					}
 				}
 			}
 		}
+		return "";
 	}
 	void Process(double elapsedTimeSec)
 		{
