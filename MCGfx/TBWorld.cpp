@@ -106,7 +106,7 @@ public:
 		//Speed settings
 		float mountMidSpeed = -0.01f;
 		float mountNearSpeed = -0.03f;
-		float landerSpeed = GetRandNorm() * 0.5f;
+		float landerSpeed = GetRandRange(-1.0f, 1.0f);
 		float scrollSpeed = -0.0f;
 		TBSprite s;
 

@@ -46,6 +46,7 @@ public:
 		{
 			return;
 		}
+		ShowCursor(FALSE);
 		world.Load();
 		StartTimer();
 	}
@@ -140,11 +141,13 @@ public:
 
 			if (ps != nullptr)
 			{
+				//Player wins!
 				if (ps->GetCollide() == CollideType::Win)
 				{
 					g_CurrentScore += 100;
 					world.SetSpriteVisible("wintext", true);
 				}
+				//Player loses :(
 				else if (ps->GetCollide() == CollideType::Lose)
 				{
 					g_CurrentScore -= 100;
@@ -156,6 +159,7 @@ public:
 					world.SetParticleSystemActive("explosion", true);
 					world.SetSpriteVisible("lander", false);
 				}
+
 				TBSprite* pScore = world.GetSprite("scoretext");
 				if (pScore != nullptr)
 				{
