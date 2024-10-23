@@ -150,10 +150,11 @@ public:
 					g_CurrentScore -= 100;
 					if (g_CurrentScore > losingScore)
 					{
-						world.SetParticlesParent("explosion", "lander");
-						world.SetParticleSystemActive("explosion", true);
 						world.SetSpriteVisible("losetext", true);
 					}
+					world.SetParticlesParent("explosion", "lander");
+					world.SetParticleSystemActive("explosion", true);
+					world.SetSpriteVisible("lander", false);
 				}
 				TBSprite* pScore = world.GetSprite("scoretext");
 				if (pScore != nullptr)
@@ -169,8 +170,8 @@ public:
 		//test for losing game condition
 		if (g_CurrentScore <= losingScore)
 		{
-			gameLost = true;
 			world.SetSpriteVisible("losegametext", true);
+			gameLost = true;
 		}
 	}
 

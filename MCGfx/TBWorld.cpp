@@ -590,14 +590,16 @@ public:
 
 		particles.push_back(ps);
 		particles.back().Create(0, 0, "explosion");
-		particles.back().SetParticleColor({ 0,0,255 });
-		particles.back().SetSpawnRadius(0.0f, 360.0f);
-		particles.back().SetParams(160, 200, 20.0f);
-		particles.back().SetLifespan(1.0f);
+		particles.back().SetParticleColor(LANDERCOLOR);
+		particles.back().SetSpawnRadius(0.0f, 5.0f);
+		particles.back().SetParams(0, 360, 40.0f);
+		particles.back().SetLifespan(3.0f);
 		particles.back().SetGravityOn(false);
 		particles.back().SetLayer(LAYER::layer_FRONT);
-		particles.back().SetEmitRate(10.0f);
+		particles.back().SetEmitRate(400.0f);
+		particles.back().SetEmitDurationSec(0.5f);
 		particles.back().SetActive(false);
+
 
 		//Set Particle System Parents
 		index = GetSpriteIndex("lander");
@@ -611,11 +613,20 @@ public:
 
 	void SetSpriteVisible(string name, bool show)
 	{
+		//TODO
+		//Eventually implement GetAncestor();
 		for (int i = 0; i < (int)sprites.size(); i++)
 		{
 			if (sprites[i].GetName() == name)
 			{
 				sprites[i].SetVisible(show);
+			}
+			if (sprites[i].GetParent() != nullptr)
+			{
+				if (sprites[i].GetParent()->GetName() == name)
+				{
+					sprites[i].SetVisible(show);
+				}
 			}
 		}
 	}
@@ -624,7 +635,15 @@ public:
 		int index = GetParticleSystemIndex(name);
 		if (index >= 0)
 		{
-			particles[index].SetActive(on);
+			TBSprite* pParent = particles[index].GetParent();
+			if (pParent != nullptr && pParent->GetVisible())
+			{
+				particles[index].SetActive(on);
+			}
+			else if (pParent != nullptr && !pParent->GetVisible())
+			{
+				particles[index].SetActive(false);
+			}
 		}
 	}
 	void SetSpriteForce(string name, float force, bool isX)
