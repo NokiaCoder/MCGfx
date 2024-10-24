@@ -55,9 +55,10 @@ public:
 	void ShowStartScreen()
 	{
 		TBSprite start;
-		start.Create(g_pixelWidth / 2, g_pixelHeight / 2, 500, 300, { 255, 255, 255 });
+		start.Create(0, g_pixelHeight/3,g_pixelWidth, g_pixelHeight, { 255, 255, 255 });
 		start.SetName("startText");
-		start.SetSpriteText("TanLander\nwritten by\nTanner Boudreau\n2024");
+		start.SetSpriteText("TANLANDER\nwritten by\nTanner Boudreau\n2024");
+		start.SetTextAlign(TEXT_ALIGN::CENTER);
 		start.SetIsTextSprite(true);
 		start.SetVisible(true);
 		start.SetLayer(LAYER::layer_FRONT);

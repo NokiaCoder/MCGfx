@@ -30,7 +30,12 @@ struct TextBlock
     }
 };
 
-
+enum class TEXT_ALIGN
+{
+	LEFT,
+	CENTER,
+	RIGHT
+};
 
 class MCGraphics
 {
@@ -48,8 +53,13 @@ private:
     //info for blit
     BITMAPINFO bitmapInfo;
 
-    //backBuffer array
-    std::vector<RGBTRIPLE> backBuffer;
+	HFONT hFontOCR = 0; //for rendering text
+
+    //for rendering text
+    HDC backbufferDC = 0;
+    HBITMAP hBitmap_ = 0;
+    RGBTRIPLE* pixelData_ = nullptr;
+    //
 
     // Private member functions
     void InitializeBitmapInfo()
@@ -81,28 +91,73 @@ public:
 	{
 		width = widthPixels;
 		height = heightPixels;
-		backBuffer.resize(width * height);
 
         Clear();
 		InitializeBitmapInfo();
         isActive = true;
 
         hFontSans = CreateFont(
-            24,                        // Height of the font
-            0,                         // Width of the font (0 = default)
-            0,                         // Angle of escapement
+            8,                        // Height (in points)
+            0,                         // Width (0 means calculate automatically)
+            0,                         // Escapement angle
             0,                         // Orientation angle
-            FW_NORMAL,                 // Font weight (FW_BOLD for bold)
-            FALSE,                     // Italic attribute
-            FALSE,                     // Underline attribute
-            FALSE,                     // Strikeout attribute
-            DEFAULT_CHARSET,           // Character set
-            OUT_DEFAULT_PRECIS,        // Output precision
-            CLIP_DEFAULT_PRECIS,       // Clipping precision
-            DEFAULT_QUALITY,           // Output quality
-            DEFAULT_PITCH | FF_SWISS,  // Pitch and family
-            L"Lucida Sans"                   // Font face name
-        );
+            FW_NORMAL,                  // Font weight
+            FALSE,                      // Italic
+            FALSE,                      // Underline
+            FALSE,                      // Strikeout
+            DEFAULT_CHARSET,            // Character set
+            OUT_DEFAULT_PRECIS,         // Output precision
+            CLIP_DEFAULT_PRECIS,        // Clipping precision
+            CLEARTYPE_QUALITY,          // Quality (for ClearType)
+            DEFAULT_PITCH | FF_SWISS,   // Font family
+            TEXT("Courier"));           // Font fac
+
+        //hFontSans = CreateFont(
+        //    12,                        // Height of the font
+        //    0,                         // Width of the font (0 = default)
+        //    0,                         // Angle of escapement
+        //    0,                         // Orientation angle
+        //    FW_NORMAL,                 // Font weight (FW_BOLD for bold)
+        //    FALSE,                     // Italic attribute
+        //    FALSE,                     // Underline attribute
+        //    FALSE,                     // Strikeout attribute
+        //    DEFAULT_CHARSET,           // Character set
+        //    OUT_DEFAULT_PRECIS,        // Output precision
+        //    CLIP_DEFAULT_PRECIS,       // Clipping precision
+        //    DEFAULT_QUALITY,           // Output quality
+        //    DEFAULT_PITCH | FF_SWISS,  // Pitch and family
+        //    L"Lucida Sans"                   // Font face name
+        //);
+
+        hFontOCR = CreateFont(
+            12,                      // Height of font
+            0,                       // Default width
+            0,                       // Escapement angle
+            0,                       // Orientation angle
+            FW_BOLD,                 // Font weight (bold)
+            FALSE,                   // Italic (false)
+            FALSE,                   // Underline (false)
+            FALSE,                   // StrikeOut (false)
+            ANSI_CHARSET,            // Character set
+            OUT_DEFAULT_PRECIS,      // Output precision
+            CLIP_DEFAULT_PRECIS,     // Clipping precision
+            DEFAULT_QUALITY,         // Output quality
+            DEFAULT_PITCH | FF_SWISS,// Pitch and family
+            L"OCR A");
+
+        HDC screenDC = GetDC(NULL);
+        backbufferDC = CreateCompatibleDC(screenDC);
+
+        // Create DIB section and link pixelData_ to the RGB buffer
+        hBitmap_ = CreateDIBSection(backbufferDC, &bitmapInfo, DIB_RGB_COLORS, (void**)&pixelData_, NULL, 0);
+        if (hBitmap_ != 0)
+        {
+            SelectObject(backbufferDC, hBitmap_);
+        }
+
+        ReleaseDC(NULL, screenDC);
+        
+        isActive = true;
 	}
 
     //Public Getters & Setters
@@ -134,7 +189,13 @@ public:
     //Public Backbuffer Drawing Functions
     void Clear()
     {
-        std::fill(backBuffer.begin(), backBuffer.end(), clearColor);
+        if (pixelData_ != nullptr)
+        {
+            for (int i = 0; i < width * height; i++)
+            {
+                pixelData_[i] = clearColor;
+            }
+        }
     }
     void Clear(COLORREF color)
     {
@@ -143,20 +204,32 @@ public:
         rgb.rgbtGreen = GetGValue(color);
         rgb.rgbtBlue = GetBValue(color);
 
-        std::fill(backBuffer.begin(), backBuffer.end(), rgb);
+        for (int i = 0; i < width * height; i++)
+        {
+            pixelData_[i] = rgb;
+        }
     }
     void SetPixel(int x, int y, RGBTRIPLE color)
     {
         if (x >= 0 && x < width && y >= 0 && y < height)
         {
-            backBuffer[y * width + x] = color;
+            pixelData_[y * width + x] = color;
         }
+    }
+    void WriteText(RECT& rect, const string& str, TEXT_ALIGN align)
+    {
+        SetBkMode(backbufferDC, TRANSPARENT);
+        COLORREF old_ = SetTextColor(backbufferDC, RGB(0, 255, 255));
+        SelectObject(backbufferDC, hFontSans);
+        DWORD dwFlags = align == TEXT_ALIGN::LEFT ? DT_LEFT : align == TEXT_ALIGN::CENTER ? DT_CENTER : DT_RIGHT;
+        DrawTextA(backbufferDC, str.c_str(), static_cast<int>(str.length()), &rect, dwFlags);
+        SetTextColor(backbufferDC, old_);
     }
     RGBTRIPLE GetPixel(int x, int y)
     {
         if (x >= 0 && x < width && y >= 0 && y < height)
         {
-            return backBuffer[y * width + x];
+            return pixelData_[y * width + x];
         }
         return { 0, 0, 0 };
     }
@@ -215,13 +288,13 @@ public:
 
         for( int i = xMin; i <= xMax; i++)
 		{
-            backBuffer[yMin * width + i] = color;
-            backBuffer[yMax * width + i] = color;
+            pixelData_[yMin * width + i] = color;
+            pixelData_[yMax * width + i] = color;
 		}
         for( int i = yMin; i <= yMax; i++)  
         {
-            backBuffer[i * width + xMin] = color;
-            backBuffer[i * width + xMax] = color;
+            pixelData_[i * width + xMin] = color;
+            pixelData_[i * width + xMax] = color;
             SetPixel(xMin, i, color);
 			SetPixel(xMax, i, color);
 		}
@@ -270,7 +343,7 @@ public:
                             hdc,
                             0, 0, destWidth, destHeight,    // Destination rectangle
                             0, 0, srcWidth, srcHeight,      // Source rectangle
-                            backBuffer.data(),
+                            pixelData_,
                             &bitmapInfo,
                             DIB_RGB_COLORS,
                             SRCCOPY

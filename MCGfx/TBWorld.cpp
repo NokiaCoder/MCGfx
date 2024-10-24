@@ -477,9 +477,10 @@ public:
 		sprites.back().SetWrap(true);
 
 		sprites.push_back(s);
-		sprites.back().Create(300, g_pixelHeight -10 , 400, 300, FIRECOLOR);
+		sprites.back().Create(0, g_pixelHeight/3, g_pixelWidth, g_pixelHeight, FIRECOLOR);
 		sprites.back().SetName("wintext");
 		sprites.back().SetSpriteText("+100 Points\nYOU WIN!!!!\nHit SPACE to play again.");
+		sprites.back().SetTextAlign(TEXT_ALIGN::CENTER);
 		sprites.back().SetIsTextSprite(true);
 		sprites.back().SetVisible(false);
 		sprites.back().SetLayer(LAYER::layer_FRONT);
@@ -488,9 +489,10 @@ public:
 		sprites.back().SetLifeTime(50.0f);
 
 		sprites.push_back(s);
-		sprites.back().Create(300, g_pixelHeight - 10, 400, 300, FIRECOLOR);
+		sprites.back().Create(0, g_pixelHeight / 3, g_pixelWidth, g_pixelHeight, FIRECOLOR);
 		sprites.back().SetName("losetext");
-		sprites.back().SetSpriteText("-100 Points\nYOU LOSE!!!!\nHit SPACE to play again.");
+		sprites.back().SetSpriteText("YOU CRASHED!!\nHit SPACE to play again.");
+		sprites.back().SetTextAlign(TEXT_ALIGN::CENTER);
 		sprites.back().SetIsTextSprite(true);
 		sprites.back().SetVisible(false);
 		sprites.back().SetLayer(LAYER::layer_FRONT);
@@ -499,7 +501,8 @@ public:
 		sprites.back().SetLifeTime(50.0f);
 
 		sprites.push_back(s);
-		sprites.back().Create(300, g_pixelHeight - 10, 400, 300, FIRECOLOR);
+		sprites.back().Create(0, g_pixelHeight / 3, g_pixelWidth, g_pixelHeight, FIRECOLOR);
+		sprites.back().SetTextAlign(TEXT_ALIGN::CENTER);
 		sprites.back().SetName("losegametext");
 		sprites.back().SetSpriteText("GAME OVER");
 		sprites.back().SetIsTextSprite(true);
@@ -510,7 +513,8 @@ public:
 		sprites.back().SetLifeTime(50.0f);
 
 		sprites.push_back(s);
-		sprites.back().Create(720, 10, 400, 300, FIRECOLOR);
+		sprites.back().Create(0, 5, g_pixelWidth-5, g_pixelHeight, FIRECOLOR);
+		sprites.back().SetTextAlign(TEXT_ALIGN::RIGHT);
 		sprites.back().SetName("scoretext");
 		sprites.back().SetSpriteText("SCORE\n<score>");
 		sprites.back().SetIsTextSprite(true);

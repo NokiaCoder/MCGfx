@@ -46,6 +46,7 @@ private:
 	bool hasAnimation = false;
 	CollideType collideType = CollideType::None;
 	bool isTextSprite = false;
+	TEXT_ALIGN textAlign = TEXT_ALIGN::LEFT;
 	string spriteText = "";
 	bool hitTarget = false;
 	float animationX = 0.0f;
@@ -97,6 +98,15 @@ public:
 	void SetSpriteText(string s)
 	{
 		spriteText = s;
+	}
+
+	void SetTextAlign(TEXT_ALIGN align)
+	{
+		textAlign = align;
+	}
+	TEXT_ALIGN GetTextAlign()
+	{
+		return textAlign;
 	}
 
 	// accessors
@@ -412,7 +422,8 @@ public:
 						spriteText = spriteText.substr(0, pos);
 						spriteText += to_string(g_CurrentScore);
 					}
-					pGFX->DrawTextString(spriteText, GetX(), GetY(), GetX() + w, GetY() + h);
+					RECT rect = { (int)GetX(), (int)GetY(), (int)GetX() + w, (int)GetY() + h };
+					pGFX->WriteText(rect, spriteText, GetTextAlign());
 					return;
 				}
 				if (pParent != nullptr)
