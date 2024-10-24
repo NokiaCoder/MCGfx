@@ -28,7 +28,7 @@ private:
 	bool startShown = false;
 	float mainThrust = -1.0f;
 	float sideThrust = 1.0f;
-	int losingScore = -300;
+	int losingScore = -400;
 	bool gameLost = false;
 	
 
@@ -161,6 +161,12 @@ public:
 					world.SetParticlesParent("explosion", "lander");
 					world.SetParticleSystemActive("explosion", true);
 					world.SetSpriteVisible("lander", false);
+				}
+				else if (ps->GetCollide() == CollideType::PowerUp)
+				{
+					ps->SetVisible(false);
+					ps->SetCollide(CollideType::None);
+					
 				}
 
 				TBSprite* pScore = world.GetSprite("scoretext");

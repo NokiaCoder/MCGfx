@@ -105,6 +105,7 @@ public:
 		RGBTRIPLE LANDERCOLOR = { 100, 200, 200 };
 		RGBTRIPLE TargetCOLOR = { 0, 255, 0 };
 		RGBTRIPLE MeteorCOLOR = { 255, 200, 200 };
+		RGBTRIPLE PowerUpCOLOR = { 255,255, 0 };
 
 		//Speed settings
 		float mountMidSpeed = -0.01f;
@@ -397,6 +398,21 @@ public:
 			sprites.back().SetGravityOn(false);
 		}
 
+		//powerup
+		for (int i = 0; i < enemyCount; i++)
+		{
+			sprites.push_back(s);
+			sprites.back().Create(0, static_cast<int>(GetRandRange(20.0f, 160.0f)), 2, 2, PowerUpCOLOR);
+			sprites.back().SetName("powerup" + to_string(i));
+			sprites.back().SetWrap(true);
+			sprites.back().SetLayer(LAYER::layer_NEAR);
+			sprites.back().SetHasAnimation(true);
+			sprites.back().SetAnimationX(GetRandRange(-10.0f, 10.0f) * 10.0f);
+			sprites.back().setPhysics(false);
+			sprites.back().SetCollide(CollideType::PowerUp);
+			sprites.back().SetGravityOn(false);
+		}
+
 		//Near Ground
 		sprites.push_back(s);
 		sprites.back().Create(0, g_pixelHeight - 30, g_pixelWidth + 30, 50, NearColor); //for each change color with 3 last values in {}. { blue, green, red}
@@ -574,7 +590,7 @@ public:
 		particles.back().SetEmitRate(10.0f);
 
 		particles.push_back(ps);
-		particles.back().Create(5, 1, "thrust2"); //right
+		particles.back().Create(7, 3, "thrust2"); //right
 		particles.back().SetParticleColor({ 0,0,255 });
 		particles.back().SetSpawnRadius(0.0f, 0.0f);
 		particles.back().SetParams(20, -20, 20.0f);
@@ -584,7 +600,7 @@ public:
 		particles.back().SetEmitRate(10.0f);
 
 		particles.push_back(ps);
-		particles.back().Create(-1, 1, "thrust3"); //left
+		particles.back().Create(-3, 3, "thrust3"); //left
 		particles.back().SetParticleColor({ 0,0,255 });
 		particles.back().SetSpawnRadius(0.0f, 0.0f);
 		particles.back().SetParams(160, 200, 20.0f);

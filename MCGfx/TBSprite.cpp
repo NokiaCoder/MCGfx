@@ -18,6 +18,7 @@ enum class CollideType
 	Restart,
 	Push,
 	Random,
+	PowerUp,
 };
 
 class TBSprite
@@ -334,10 +335,12 @@ public:
 						if (TestIntersection(x, y, (float)w, (float)h, sprites[i].x, sprites[i].y, (float)sprites[i].w, (float)sprites[i].h))
 						{
 							//A collision has happened!
-							setPhysics(false);
-							x = floor(x);
-							y = floor(y);
-							sprites[i].ShowOnCollide();
+							if (sprites[i].GetCollide() == CollideType::Lose || sprites[i].GetCollide() == CollideType::Win)
+							{
+								setPhysics(false);
+								x = floor(x);
+								y = floor(y);
+							}
 
 							return sprites[i].name;
 						}
