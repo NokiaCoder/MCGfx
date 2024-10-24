@@ -449,65 +449,27 @@ public:
 		sprites.push_back(s);
 		sprites.back().Create(1, -4, 2, 3, LANDERCOLOR);
 		sprites.back().SetName("Lander Head");
-		index = GetSpriteIndex("lander");
-		if (index >= 0)
-		{
-			sprites.back().SetParent(&sprites[index]);
-		}
+		sprites.back().SetParent(GetSprite("lander"));
 		sprites.back().SetVisible(true);
 		sprites.back().SetLayer(LAYER::layer_FRONT);
 		sprites.back().SetHasAnimation(true);
 		sprites.back().setPhysics(false);
 		sprites.back().SetWrap(true);
 		
-	/*	sprites.push_back(s);
-		sprites.back().Create(-1, -1, 1, 2, LANDERCOLOR);
-		sprites.back().SetName("Left lander wing");
-		index = GetSpriteIndex("lander");
-		if (index >= 0)
-		{
-			sprites.back().SetParent(&sprites[index]);
-		}
-		sprites.back().SetVisible(true);
-		sprites.back().SetLayer(LAYER::layer_FRONT);
-		sprites.back().SetHasAnimation(true);
-		sprites.back().setPhysics(false);*/
-
 		sprites.push_back(s);
-		sprites.back().Create(-2, 2, 2, 2, LANDERCOLOR);
+		sprites.back().Create(-1, 2, 2, 2, LANDERCOLOR);
 		sprites.back().SetName("Left lander wing1");
-		index = GetSpriteIndex("lander");
-		if (index >= 0)
-		{
-			sprites.back().SetParent(&sprites[index]);
-		}
+		sprites.back().SetParent(GetSprite("lander"));
 		sprites.back().SetVisible(true);
 		sprites.back().SetLayer(LAYER::layer_FRONT);
 		sprites.back().SetHasAnimation(true);
 		sprites.back().setPhysics(false);
 		sprites.back().SetWrap(true);
 
-		/*sprites.push_back(s);
-		sprites.back().Create(4, -1, 1, 2, LANDERCOLOR);
-		sprites.back().SetName("right lander wing");
-		index = GetSpriteIndex("lander");
-		if (index >= 0)
-		{
-			sprites.back().SetParent(&sprites[index]);
-		}
-		sprites.back().SetVisible(true);
-		sprites.back().SetLayer(LAYER::layer_FRONT);
-		sprites.back().SetHasAnimation(true);
-		sprites.back().setPhysics(false);*/
-
 		sprites.push_back(s);
-		sprites.back().Create(5, 2, 1, 2, LANDERCOLOR);
+		sprites.back().Create(4, 2, 1, 2, LANDERCOLOR);
 		sprites.back().SetName("right lander wing1");
-		index = GetSpriteIndex("lander");
-		if (index >= 0)
-		{
-			sprites.back().SetParent(&sprites[index]);
-		}
+		sprites.back().SetParent(GetSprite("lander"));
 		sprites.back().SetVisible(true);
 		sprites.back().SetLayer(LAYER::layer_FRONT);
 		sprites.back().SetHasAnimation(true);
@@ -590,7 +552,7 @@ public:
 		particles.back().SetEmitRate(10.0f);
 
 		particles.push_back(ps);
-		particles.back().Create(7, 3, "thrust2"); //right
+		particles.back().Create(6, 3, "thrust2"); //right
 		particles.back().SetParticleColor({ 0,0,255 });
 		particles.back().SetSpawnRadius(0.0f, 0.0f);
 		particles.back().SetParams(20, -20, 20.0f);
@@ -600,7 +562,7 @@ public:
 		particles.back().SetEmitRate(10.0f);
 
 		particles.push_back(ps);
-		particles.back().Create(-3, 3, "thrust3"); //left
+		particles.back().Create(-2, 3, "thrust3"); //left
 		particles.back().SetParticleColor({ 0,0,255 });
 		particles.back().SetSpawnRadius(0.0f, 0.0f);
 		particles.back().SetParams(160, 200, 20.0f);
