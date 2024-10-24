@@ -4,7 +4,6 @@
 #include <thread>
 #include "GameManager.h"
 #include "MCGraphics.cpp"
-#include "TBGlobals.h"
 
 using namespace std;
 

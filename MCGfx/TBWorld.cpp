@@ -94,6 +94,8 @@ public:
 		int index = -1;
 		int psIndex = -1;
 
+		int enemyCount = 2 * g_LevelOn;
+
 		//mountain/fire/lander color
 		RGBTRIPLE NearColor = { 105, 100, 75 };
 		RGBTRIPLE MidColor = DarkenColor({ 105, 100, 75 }, 25);
@@ -102,6 +104,7 @@ public:
 		RGBTRIPLE FIRECOLOR = { 0, 0, 255 };
 		RGBTRIPLE LANDERCOLOR = { 100, 200, 200 };
 		RGBTRIPLE TargetCOLOR = { 0, 255, 0 };
+		RGBTRIPLE MeteorCOLOR = { 255, 200, 200 };
 
 		//Speed settings
 		float mountMidSpeed = -0.01f;
@@ -378,7 +381,21 @@ public:
 		sprites.back().SetHasAnimation(true);
 		sprites.back().SetAnimationX(mountNearSpeed* scrollSpeed);
 		sprites.back().setPhysics(false);
-	
+
+		//Enemies/comets
+		for (int i = 0; i < enemyCount; i++)
+		{
+			sprites.push_back(s);
+			sprites.back().Create(0, static_cast<int>(GetRandRange(20.0f, 160.0f)), 2, 2, MeteorCOLOR);
+			sprites.back().SetName("meteor" + to_string(i));
+			sprites.back().SetWrap(true);
+			sprites.back().SetLayer(LAYER::layer_NEAR);
+			sprites.back().SetHasAnimation(true);
+			sprites.back().SetAnimationX(GetRandRange(-10.0f, 10.0f) * 10.0f);
+			sprites.back().setPhysics(false);
+			sprites.back().SetCollide(CollideType::Lose);
+			sprites.back().SetGravityOn(false);
+		}
 
 		//Near Ground
 		sprites.push_back(s);

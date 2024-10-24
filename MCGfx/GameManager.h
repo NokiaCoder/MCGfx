@@ -30,6 +30,8 @@ private:
 	float sideThrust = 1.0f;
 	int losingScore = -300;
 	bool gameLost = false;
+	
+
 
 public:
 
@@ -144,6 +146,7 @@ public:
 				//Player wins!
 				if (ps->GetCollide() == CollideType::Win)
 				{
+					g_LevelOn++;
 					g_CurrentScore += 100;
 					world.SetSpriteVisible("wintext", true);
 				}
