@@ -59,7 +59,7 @@ public:
 	}
 	int GetParticleSystemIndex(const string& name)
 	{
-		for (int i = 0; i < particles.size(); i++)
+		for (int i = 0; i < static_cast<int>(particles.size()); i++)
 		{
 			if (particles[i].GetName() == name)
 			{
@@ -479,7 +479,7 @@ public:
 		sprites.push_back(s);
 		sprites.back().Create(0, g_pixelHeight/3, g_pixelWidth, g_pixelHeight, FIRECOLOR);
 		sprites.back().SetName("wintext");
-		sprites.back().SetSpriteText("+100 Points\nYOU WIN!!!!\nHit SPACE to play again.");
+		sprites.back().SetSpriteText("YOU WIN!!!!\n\nHit SPACE\nto play again.");
 		sprites.back().SetTextAlign(TEXT_ALIGN::CENTER);
 		sprites.back().SetIsTextSprite(true);
 		sprites.back().SetVisible(false);
@@ -491,7 +491,7 @@ public:
 		sprites.push_back(s);
 		sprites.back().Create(0, g_pixelHeight / 3, g_pixelWidth, g_pixelHeight, FIRECOLOR);
 		sprites.back().SetName("losetext");
-		sprites.back().SetSpriteText("YOU CRASHED!!\nHit SPACE to play again.");
+		sprites.back().SetSpriteText("YOU CRASHED!!\n\nHit SPACE\nto play again.");
 		sprites.back().SetTextAlign(TEXT_ALIGN::CENTER);
 		sprites.back().SetIsTextSprite(true);
 		sprites.back().SetVisible(false);
