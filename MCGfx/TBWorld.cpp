@@ -101,9 +101,9 @@ public:
 		RGBTRIPLE MidColor = DarkenColor({ 105, 100, 75 }, 25);
 		RGBTRIPLE FarColor = DarkenColor({ 105, 100, 75 }, 10);
 		RGBTRIPLE SkyBoxColor = DarkenColor({ 105, 100, 75 }, 100);
-		RGBTRIPLE FIRECOLOR = { 0, 0, 255 };
-		RGBTRIPLE LANDERCOLOR = { 100, 200, 200 };
-		RGBTRIPLE TargetCOLOR = { 0, 255, 0 };
+		RGBTRIPLE FIRECOLOR = { 10, 10, 255 };
+		RGBTRIPLE LANDERCOLOR = { 100, 201, 200 };
+		RGBTRIPLE TargetCOLOR = { 1, 255, 3 };
 		RGBTRIPLE MeteorCOLOR = { 255, 200, 200 };
 		RGBTRIPLE PowerUpCOLOR = { 255,255, 0 };
 
