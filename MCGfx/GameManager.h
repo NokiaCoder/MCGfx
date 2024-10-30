@@ -26,8 +26,8 @@ private:
 	bool upKeyDown = false;
 	bool restart = false;
 	bool startShown = false;
-	float mainThrust = -1.0f;
-	float sideThrust = 1.0f;
+	float mainThrust = -2.0f;
+	float sideThrust = 2.0f;
 	int losingScore = -400;
 	bool gameLost = false;
 	
@@ -49,6 +49,7 @@ public:
 			return;
 		}
 		ShowCursor(FALSE);
+		g_fuel = 1000;
 		world.Load();
 		StartTimer();
 	}
@@ -117,22 +118,39 @@ public:
 
 	void HandleKey(int key, bool keyDown)
 	{
+		//Restart requested
 		if (key == VK_SPACE && !keyDown) //restart
 		{
 			Restart();
+			return;
 		}
-		else if (key == 'W') //Thrust
+		
+		//out of fuel
+		if (g_fuel <= 0)
+		{
+			world.SetSpriteVisible("thrust", false);
+			world.SetSpriteVisible("thrust2", false);
+			world.SetSpriteVisible("thrust3", false);
+			return;
+		}
+		//handle key
+		if (key == 'W') //Thrust
 		{
 			thrustKeyDown = keyDown;
+			g_fuel -= keyDown ? 1 : 0;
 		}
 		else if (key == 'A') //Left
 		{
 			leftKeyDown = keyDown;
+			g_fuel -= keyDown ? 1 : 0;
 		}
 		else if (key == 'D') //Right
 		{
 			rightKeyDown = keyDown;
+			g_fuel -= keyDown ? 1 : 0;
 		}
+
+		g_fuel = max(0, g_fuel);
 	}
 
 	void Process()
@@ -141,7 +159,7 @@ public:
 		{
 			CollisionInfo info = Collisions.front();
 			TBSprite* ps = world.GetSprite(info.b);
-
+		
 			if (ps != nullptr)
 			{
 				//Player wins!
@@ -167,7 +185,7 @@ public:
 				{
 					ps->SetVisible(false);
 					ps->SetCollide(CollideType::None);
-					
+					g_fuel += powerUpFuel;
 				}
 
 				TBSprite* pScore = world.GetSprite("scoretext");
@@ -202,40 +220,45 @@ public:
 
 		//Test for collision
 		world.TestCollision();
-
+		float thrust = 0;
+		float thrustLeft = 0;
+		float thrustRight = 0;
 
 		// sets amount of thrust for fire
-		//world.SetSpriteVisible("fire", thrustKeyDown);
-		world.SetParticleSystemActive("thrust", thrustKeyDown);
-		float thrust = (mainThrust * (float)elapsedTimeSec);
-		if (!thrustKeyDown)
+		if (g_fuel <= 0)
 		{
-			thrust = 0;
+			world.SetSpriteVisible("thrust", false);
+			world.SetSpriteVisible("thrust2", false);
+			world.SetSpriteVisible("thrust3", false);
 		}
-		///failed so far. trying to push lander left faster while on
-		//world.SetSpriteVisible("right", rightKeyDown);
-		world.SetParticleSystemActive("thrust2", rightKeyDown);
-		float thrustLeft = (-sideThrust * (float)elapsedTimeSec);
-		if (!rightKeyDown)
+		else
 		{
-			thrustLeft = 0;
-		}
-
-		//world.SetSpriteVisible("left", leftKeyDown);
-		world.SetParticleSystemActive("thrust3", leftKeyDown);
-		float thrustRight = (sideThrust * (float)elapsedTimeSec);
-		if (!leftKeyDown)
-		{
-			thrustRight = 0;
+			world.SetParticleSystemActive("thrust", thrustKeyDown);
+			thrust = (mainThrust * (float)elapsedTimeSec);
+			if (!thrustKeyDown)
+			{
+				thrust = 0;
+			}
+			world.SetParticleSystemActive("thrust2", rightKeyDown);
+			thrustLeft = (-sideThrust * (float)elapsedTimeSec);
+			if (!rightKeyDown)
+			{
+				thrustLeft = 0;
+			}
+			world.SetParticleSystemActive("thrust3", leftKeyDown);
+			thrustRight = (sideThrust * (float)elapsedTimeSec);
+			if (!leftKeyDown)
+			{
+				thrustRight = 0;
+			}
 		}
 
 		// lander forces 
 		world.SetSpriteForce("lander", thrust, false);
 		world.SetSpriteForce("lander", thrustRight, true);
 		world.SetSpriteForce("lander", thrustLeft, true);
-		world.SetSpriteForce("lander", thrust, false);
-		world.SetSpriteForce("lander", thrustRight, true);
-		world.SetSpriteForce("lander", thrustLeft, true);
+
+		//process and draw world
 		world.Process(elapsedTimeSec);
 		world.Draw(pGfx);
 		pGfx->Present(hwnd);

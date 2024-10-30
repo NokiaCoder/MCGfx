@@ -16,6 +16,8 @@ enum class LAYER
     layer_NONE,
 };
 
+
+
 struct CollisionInfo
 {
     string a;
@@ -43,6 +45,8 @@ static wstring g_GameTitle = L"TanLander";
 static  int g_pixelWidth = 288;
 static int g_pixelHeight = 224;
 static int g_LevelOn = 1;
+static	int g_fuel;
+static int powerUpFuel = 50;
 
 static float g_fPI = 3.14159265358979323846264338327950f;
 static double g_PI = 3.14159265358979323846264338327950;

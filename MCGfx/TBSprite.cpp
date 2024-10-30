@@ -416,14 +416,25 @@ public:
 			{
 				if (GetIsTextSprite())
 				{
+					string text;
 					int pos = (int)spriteText.find("<score>");
 					if (pos != string::npos)
 					{
-						spriteText = spriteText.substr(0, pos);
-						spriteText += to_string(g_CurrentScore);
+						text = spriteText.substr(0, pos);
+						text += to_string(g_CurrentScore);
 					}
+					else
+					{
+						int pos = (int)spriteText.find("<fuel>");
+						if (pos != string::npos)
+						{
+							text = spriteText.substr(0, pos);
+							text += to_string(g_fuel);
+						}
+					}
+					//Now write text
 					RECT rect = { (int)GetX(), (int)GetY(), (int)GetX() + w, (int)GetY() + h };
-					pGFX->WriteText(rect, spriteText, GetTextAlign());
+					pGFX->WriteText(rect, text, GetTextAlign());
 					return;
 				}
 				if (pParent != nullptr)

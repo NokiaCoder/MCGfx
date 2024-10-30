@@ -523,6 +523,17 @@ public:
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
 
+		sprites.push_back(s);
+		sprites.back().Create(0, 5, g_pixelWidth - 5, g_pixelHeight, FIRECOLOR);
+		sprites.back().SetTextAlign(TEXT_ALIGN::LEFT);
+		sprites.back().SetName("fueltext");
+		sprites.back().SetSpriteText("FUEL\n<fuel>");
+		sprites.back().SetIsTextSprite(true);
+		sprites.back().SetVisible(true);
+		sprites.back().SetLayer(LAYER::layer_FRONT);
+		sprites.back().SetHasAnimation(false);
+		sprites.back().setPhysics(false);
+
 		//add particle systems
 		ParticleSystem ps;
 		particles.push_back(ps);
