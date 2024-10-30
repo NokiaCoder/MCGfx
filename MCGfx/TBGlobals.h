@@ -39,7 +39,6 @@ struct CollisionInfo
     }
 };
 
-
 static wstring g_GameTitle = L"TanLander";
 
 static  int g_pixelWidth = 288;

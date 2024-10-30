@@ -416,7 +416,7 @@ public:
 			{
 				if (GetIsTextSprite())
 				{
-					string text;
+					string text = spriteText;
 					int pos = (int)spriteText.find("<score>");
 					if (pos != string::npos)
 					{

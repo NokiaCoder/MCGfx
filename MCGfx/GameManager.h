@@ -6,6 +6,9 @@
 #include "TBGlobals.h"
 #include <thread>
 #include <deque>
+#include <ostream>
+#include <iostream>
+#include <fstream>
 using namespace std;
 
 
@@ -31,7 +34,25 @@ private:
 	int losingScore = -400;
 	bool gameLost = false;
 	
+	void LoadGame(const string& fileName)
+	{
 
+	}
+
+	void MakeGameFile(const string& fileName)
+	{
+		ofstream outfile(fileName);
+
+		if (outfile)
+		{
+			outfile << "Hello World" << "\n";
+			//TODO
+			//Write more
+
+			//close file
+			outfile.close();
+		}
+	}
 
 public:
 
@@ -53,10 +74,11 @@ public:
 		world.Load();
 		StartTimer();
 	}
+
 	void ShowStartScreen()
 	{
 		TBSprite start;
-		start.Create(0, g_pixelHeight/3,g_pixelWidth, g_pixelHeight, { 255, 255, 255 });
+		start.Create(0, g_pixelHeight / 3 ,g_pixelWidth, g_pixelHeight, { 255, 255, 255 });
 		start.SetName("startText");
 		start.SetSpriteText("TANLANDER\nwritten by\nTanner Boudreau\n2024");
 		start.SetTextAlign(TEXT_ALIGN::CENTER);
@@ -67,8 +89,10 @@ public:
 		start.setPhysics(false);
 		start.Process(0.0f);
 		start.Draw(pGfx);
+
 	}
 
+	//returns true if start screen is finished
 	bool HandleStartScreen()
 	{
 		if (!startShown)
