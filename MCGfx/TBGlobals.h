@@ -39,7 +39,8 @@ struct CollisionInfo
     }
 };
 
-static wstring g_GameTitle = L"TanLander";
+static string g_GameTitle = "Game Title";
+
 
 static  int g_pixelWidth = 288;
 static int g_pixelHeight = 224;
@@ -210,4 +211,11 @@ static bool TestIntersection(float ax, float ay, float aw, float ah, float bx, f
         return false;
     }
     return true;
+}
+
+static string GetCWD()
+{
+    char buffer[2048];
+    GetCurrentDirectoryA(2048, buffer);
+    return string(buffer);
 }

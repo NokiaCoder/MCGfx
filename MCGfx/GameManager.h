@@ -9,6 +9,8 @@
 #include <ostream>
 #include <iostream>
 #include <fstream>
+#include <sstream>
+#include <algorithm>
 using namespace std;
 
 
@@ -33,9 +35,89 @@ private:
 	float sideThrust = 2.0f;
 	int losingScore = -400;
 	bool gameLost = false;
+	string startupScreenText = "Startup Screen Text";
 	
+	
+	int getNextLine(const std::string & content, std::string & line, int startIndex)
+	{
+		//Check if we're already past the end of the string
+		if (startIndex >= content.size())
+		{
+			line = ""; // Set line to empty if there's no more content
+			return -1; // Return -1 to indicate no more lines
+		}
+
+		// Find the end of the current line
+		size_t endIdx = content.find('\n', startIndex);
+
+		// If there's no newline, read to the end of the string
+		if (endIdx == std::string::npos)
+		{
+			endIdx = content.size();
+		}
+
+		// Extract the line
+		line = content.substr(startIndex, endIdx - startIndex);
+
+		// Return the starting index for the next line
+		return (int)endIdx + 1; // Move past the newline character
+	}
+	
+	void setFileValue(const string& header, const string& value)
+	{
+		if (header == "TITLE")
+		{
+			g_GameTitle = value;
+		}
+		else if(header == "STARTSCREENTEXT")
+		{
+			startupScreenText = value;
+			//Replace every ^ with \n
+			std::replace(startupScreenText.begin(), startupScreenText.end(), '^', '\n');
+		}
+	}
+
 	void LoadGame(const string& fileName)
 	{
+		string contents;
+		ifstream file(fileName);
+		if (file)
+		{
+			std::stringstream buffer;
+			buffer << file.rdbuf();
+			contents = buffer.str();
+			file.close();
+		}
+
+
+		vector<string> lines;
+		int index = 0;
+		while (index >= 0)
+		{
+			string line = "";
+			index = getNextLine(contents, line, index);
+			lines.push_back(line);
+		}
+
+		string header = "";
+		for (int i = 0; i < (int)lines.size(); i++)
+		{
+			if (lines[i].length())
+			{
+				if (lines[i][0] == '$')
+				{
+					continue;
+				}
+				if (lines[i][0] == '#')
+				{
+					header = lines[i].substr(1);
+					continue;
+				}
+				//we know we have a value
+				setFileValue(header, lines[i]);
+				header = "";
+			}
+		}
 
 	}
 
@@ -45,9 +127,15 @@ private:
 
 		if (outfile)
 		{
-			outfile << "Hello World" << "\n";
-			//TODO
-			//Write more
+			outfile << "$TBG game file" << endl;
+			//Write game title
+			outfile << "#TITLE" << endl;
+			outfile << "TANLANDER" << endl;
+
+			//write startup screen text
+			outfile << "#STARTSCREENTEXT" << endl;
+			outfile << "TANLANDER^written by^Tanner Boudreau^2024" << endl;
+			
 
 			//close file
 			outfile.close();
@@ -65,6 +153,8 @@ public:
 
 	void Restart()
 	{
+		//MakeGameFile(GetCWD() + "\\TanLander.tbg"); 
+		LoadGame(GetCWD() + "\\TanLander.tbg");
 		if (gameLost == true)
 		{
 			return;
@@ -80,7 +170,7 @@ public:
 		TBSprite start;
 		start.Create(0, g_pixelHeight / 3 ,g_pixelWidth, g_pixelHeight, { 255, 255, 255 });
 		start.SetName("startText");
-		start.SetSpriteText("TANLANDER\nwritten by\nTanner Boudreau\n2024");
+		start.SetSpriteText(startupScreenText);
 		start.SetTextAlign(TEXT_ALIGN::CENTER);
 		start.SetIsTextSprite(true);
 		start.SetVisible(true);
