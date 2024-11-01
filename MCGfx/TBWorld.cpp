@@ -101,9 +101,9 @@ public:
 		RGBTRIPLE MidColor = DarkenColor({ 105, 100, 75 }, 25);
 		RGBTRIPLE FarColor = DarkenColor({ 105, 100, 75 }, 10);
 		RGBTRIPLE SkyBoxColor = DarkenColor({ 105, 100, 75 }, 100);
-		RGBTRIPLE FIRECOLOR = { 0, 0, 255 };
-		RGBTRIPLE LANDERCOLOR = { 100, 200, 200 };
-		RGBTRIPLE TargetCOLOR = { 0, 255, 0 };
+		RGBTRIPLE FIRECOLOR = { 10, 10, 255 };
+		RGBTRIPLE LANDERCOLOR = { 100, 201, 200 };
+		RGBTRIPLE TargetCOLOR = { 1, 255, 3 };
 		RGBTRIPLE MeteorCOLOR = { 255, 200, 200 };
 		RGBTRIPLE PowerUpCOLOR = { 255,255, 0 };
 
@@ -517,6 +517,17 @@ public:
 		sprites.back().SetTextAlign(TEXT_ALIGN::RIGHT);
 		sprites.back().SetName("scoretext");
 		sprites.back().SetSpriteText("SCORE\n<score>");
+		sprites.back().SetIsTextSprite(true);
+		sprites.back().SetVisible(true);
+		sprites.back().SetLayer(LAYER::layer_FRONT);
+		sprites.back().SetHasAnimation(false);
+		sprites.back().setPhysics(false);
+
+		sprites.push_back(s);
+		sprites.back().Create(5, 5, g_pixelWidth - 5, g_pixelHeight, FIRECOLOR);
+		sprites.back().SetTextAlign(TEXT_ALIGN::LEFT);
+		sprites.back().SetName("fueltext");
+		sprites.back().SetSpriteText("FUEL\n<fuel>");
 		sprites.back().SetIsTextSprite(true);
 		sprites.back().SetVisible(true);
 		sprites.back().SetLayer(LAYER::layer_FRONT);

@@ -171,8 +171,8 @@ LRESULT CALLBACK WindowProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ WPARAM wParam, 
             lastMousePos.x = x;
             lastMousePos.y = y;
             game.Update(lMouseButtonDown, rMouseButtonDown, x, y);
-            wstring txt = g_GameTitle + L"      mouse: " + to_wstring(x) + L", " + to_wstring(y);
-            SetWindowTextW(hwnd, txt.c_str());
+            string txt = g_GameTitle + "      mouse: " + to_string(x) + ", " + to_string(y);
+            SetWindowTextA(hwnd, txt.c_str());
         }
 		return 0;
     }

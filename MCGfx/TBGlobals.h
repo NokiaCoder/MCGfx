@@ -16,6 +16,8 @@ enum class LAYER
     layer_NONE,
 };
 
+
+
 struct CollisionInfo
 {
     string a;
@@ -37,12 +39,14 @@ struct CollisionInfo
     }
 };
 
+static string g_GameTitle = "Game Title";
 
-static wstring g_GameTitle = L"TanLander";
 
 static  int g_pixelWidth = 288;
 static int g_pixelHeight = 224;
 static int g_LevelOn = 1;
+static	int g_fuel;
+static int powerUpFuel = 50;
 
 static float g_fPI = 3.14159265358979323846264338327950f;
 static double g_PI = 3.14159265358979323846264338327950;
@@ -207,4 +211,11 @@ static bool TestIntersection(float ax, float ay, float aw, float ah, float bx, f
         return false;
     }
     return true;
+}
+
+static string GetCWD()
+{
+    char buffer[2048];
+    GetCurrentDirectoryA(2048, buffer);
+    return string(buffer);
 }

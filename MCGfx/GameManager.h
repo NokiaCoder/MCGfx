@@ -6,6 +6,11 @@
 #include "TBGlobals.h"
 #include <thread>
 #include <deque>
+#include <ostream>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <algorithm>
 using namespace std;
 
 
@@ -26,12 +31,116 @@ private:
 	bool upKeyDown = false;
 	bool restart = false;
 	bool startShown = false;
-	float mainThrust = -1.0f;
-	float sideThrust = 1.0f;
+	float mainThrust = -2.0f;
+	float sideThrust = 2.0f;
 	int losingScore = -400;
 	bool gameLost = false;
+	string startupScreenText = "Startup Screen Text";
 	
+	
+	int getNextLine(const std::string & content, std::string & line, int startIndex)
+	{
+		//Check if we're already past the end of the string
+		if (startIndex >= content.size())
+		{
+			line = ""; // Set line to empty if there's no more content
+			return -1; // Return -1 to indicate no more lines
+		}
 
+		// Find the end of the current line
+		size_t endIdx = content.find('\n', startIndex);
+
+		// If there's no newline, read to the end of the string
+		if (endIdx == std::string::npos)
+		{
+			endIdx = content.size();
+		}
+
+		// Extract the line
+		line = content.substr(startIndex, endIdx - startIndex);
+
+		// Return the starting index for the next line
+		return (int)endIdx + 1; // Move past the newline character
+	}
+	
+	void setFileValue(const string& header, const string& value)
+	{
+		if (header == "TITLE")
+		{
+			g_GameTitle = value;
+		}
+		else if(header == "STARTSCREENTEXT")
+		{
+			startupScreenText = value;
+			//Replace every ^ with \n
+			std::replace(startupScreenText.begin(), startupScreenText.end(), '^', '\n');
+		}
+	}
+
+	void LoadGame(const string& fileName)
+	{
+		string contents;
+		ifstream file(fileName);
+		if (file)
+		{
+			std::stringstream buffer;
+			buffer << file.rdbuf();
+			contents = buffer.str();
+			file.close();
+		}
+
+
+		vector<string> lines;
+		int index = 0;
+		while (index >= 0)
+		{
+			string line = "";
+			index = getNextLine(contents, line, index);
+			lines.push_back(line);
+		}
+
+		string header = "";
+		for (int i = 0; i < (int)lines.size(); i++)
+		{
+			if (lines[i].length())
+			{
+				if (lines[i][0] == '$')
+				{
+					continue;
+				}
+				if (lines[i][0] == '#')
+				{
+					header = lines[i].substr(1);
+					continue;
+				}
+				//we know we have a value
+				setFileValue(header, lines[i]);
+				header = "";
+			}
+		}
+
+	}
+
+	void MakeGameFile(const string& fileName)
+	{
+		ofstream outfile(fileName);
+
+		if (outfile)
+		{
+			outfile << "$TBG game file" << endl;
+			//Write game title
+			outfile << "#TITLE" << endl;
+			outfile << "TANLANDER" << endl;
+
+			//write startup screen text
+			outfile << "#STARTSCREENTEXT" << endl;
+			outfile << "TANLANDER^written by^Tanner Boudreau^2024" << endl;
+			
+
+			//close file
+			outfile.close();
+		}
+	}
 
 public:
 
@@ -44,20 +153,24 @@ public:
 
 	void Restart()
 	{
+		//MakeGameFile(GetCWD() + "\\TanLander.tbg"); 
+		LoadGame(GetCWD() + "\\TanLander.tbg");
 		if (gameLost == true)
 		{
 			return;
 		}
 		ShowCursor(FALSE);
+		g_fuel = 1000;
 		world.Load();
 		StartTimer();
 	}
+
 	void ShowStartScreen()
 	{
 		TBSprite start;
-		start.Create(0, g_pixelHeight/3,g_pixelWidth, g_pixelHeight, { 255, 255, 255 });
+		start.Create(0, g_pixelHeight / 3 ,g_pixelWidth, g_pixelHeight, { 255, 255, 255 });
 		start.SetName("startText");
-		start.SetSpriteText("TANLANDER\nwritten by\nTanner Boudreau\n2024");
+		start.SetSpriteText(startupScreenText);
 		start.SetTextAlign(TEXT_ALIGN::CENTER);
 		start.SetIsTextSprite(true);
 		start.SetVisible(true);
@@ -66,8 +179,10 @@ public:
 		start.setPhysics(false);
 		start.Process(0.0f);
 		start.Draw(pGfx);
+
 	}
 
+	//returns true if start screen is finished
 	bool HandleStartScreen()
 	{
 		if (!startShown)
@@ -117,22 +232,39 @@ public:
 
 	void HandleKey(int key, bool keyDown)
 	{
+		//Restart requested
 		if (key == VK_SPACE && !keyDown) //restart
 		{
 			Restart();
+			return;
 		}
-		else if (key == 'W') //Thrust
+		
+		//out of fuel
+		if (g_fuel <= 0)
+		{
+			world.SetSpriteVisible("thrust", false);
+			world.SetSpriteVisible("thrust2", false);
+			world.SetSpriteVisible("thrust3", false);
+			return;
+		}
+		//handle key
+		if (key == 'W') //Thrust
 		{
 			thrustKeyDown = keyDown;
+			g_fuel -= keyDown ? 1 : 0;
 		}
 		else if (key == 'A') //Left
 		{
 			leftKeyDown = keyDown;
+			g_fuel -= keyDown ? 1 : 0;
 		}
 		else if (key == 'D') //Right
 		{
 			rightKeyDown = keyDown;
+			g_fuel -= keyDown ? 1 : 0;
 		}
+
+		g_fuel = max(0, g_fuel);
 	}
 
 	void Process()
@@ -141,7 +273,7 @@ public:
 		{
 			CollisionInfo info = Collisions.front();
 			TBSprite* ps = world.GetSprite(info.b);
-
+		
 			if (ps != nullptr)
 			{
 				//Player wins!
@@ -167,7 +299,7 @@ public:
 				{
 					ps->SetVisible(false);
 					ps->SetCollide(CollideType::None);
-					
+					g_fuel += powerUpFuel;
 				}
 
 				TBSprite* pScore = world.GetSprite("scoretext");
@@ -202,40 +334,45 @@ public:
 
 		//Test for collision
 		world.TestCollision();
-
+		float thrust = 0;
+		float thrustLeft = 0;
+		float thrustRight = 0;
 
 		// sets amount of thrust for fire
-		//world.SetSpriteVisible("fire", thrustKeyDown);
-		world.SetParticleSystemActive("thrust", thrustKeyDown);
-		float thrust = (mainThrust * (float)elapsedTimeSec);
-		if (!thrustKeyDown)
+		if (g_fuel <= 0)
 		{
-			thrust = 0;
+			world.SetSpriteVisible("thrust", false);
+			world.SetSpriteVisible("thrust2", false);
+			world.SetSpriteVisible("thrust3", false);
 		}
-		///failed so far. trying to push lander left faster while on
-		//world.SetSpriteVisible("right", rightKeyDown);
-		world.SetParticleSystemActive("thrust2", rightKeyDown);
-		float thrustLeft = (-sideThrust * (float)elapsedTimeSec);
-		if (!rightKeyDown)
+		else
 		{
-			thrustLeft = 0;
-		}
-
-		//world.SetSpriteVisible("left", leftKeyDown);
-		world.SetParticleSystemActive("thrust3", leftKeyDown);
-		float thrustRight = (sideThrust * (float)elapsedTimeSec);
-		if (!leftKeyDown)
-		{
-			thrustRight = 0;
+			world.SetParticleSystemActive("thrust", thrustKeyDown);
+			thrust = (mainThrust * (float)elapsedTimeSec);
+			if (!thrustKeyDown)
+			{
+				thrust = 0;
+			}
+			world.SetParticleSystemActive("thrust2", rightKeyDown);
+			thrustLeft = (-sideThrust * (float)elapsedTimeSec);
+			if (!rightKeyDown)
+			{
+				thrustLeft = 0;
+			}
+			world.SetParticleSystemActive("thrust3", leftKeyDown);
+			thrustRight = (sideThrust * (float)elapsedTimeSec);
+			if (!leftKeyDown)
+			{
+				thrustRight = 0;
+			}
 		}
 
 		// lander forces 
 		world.SetSpriteForce("lander", thrust, false);
 		world.SetSpriteForce("lander", thrustRight, true);
 		world.SetSpriteForce("lander", thrustLeft, true);
-		world.SetSpriteForce("lander", thrust, false);
-		world.SetSpriteForce("lander", thrustRight, true);
-		world.SetSpriteForce("lander", thrustLeft, true);
+
+		//process and draw world
 		world.Process(elapsedTimeSec);
 		world.Draw(pGfx);
 		pGfx->Present(hwnd);
