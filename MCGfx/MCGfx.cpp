@@ -17,6 +17,7 @@ POINT lastMouseDown;
 POINT lastMousePos;
 int windowWidth = 800;
 int windowHeight = 600;
+HWND _hWnd = nullptr;
 wstring windowTitle = L"";
 
 
@@ -72,6 +73,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
         return 0;
     }
 
+    _hWnd = hwnd;
+
     ShowWindow(hwnd, nShowCmd);
 
 
@@ -101,7 +104,7 @@ LRESULT CALLBACK WindowProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ WPARAM wParam, 
     switch (uMsg) 
     {
     case WM_CREATE:
-        graphics.Initialize(g_pixelWidth,g_pixelHeight);
+        graphics.Initialize(hwnd, g_pixelWidth,g_pixelHeight);
         graphics.Clear();
         game.SetPointer(&graphics);
         game.Restart();

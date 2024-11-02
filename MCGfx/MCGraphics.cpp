@@ -53,6 +53,7 @@ private:
     //info for blit
     BITMAPINFO bitmapInfo;
 
+	HWND hwnd = nullptr;
 	HFONT hFontOCR = 0; //for rendering text
 
     //for rendering text
@@ -87,8 +88,9 @@ public:
 	}   
 
     //Public Member Functions
-    void Initialize(int widthPixels, int heightPixels)
+    void Initialize(HWND hwnd, int widthPixels, int heightPixels)
 	{
+		this->hwnd = hwnd;
 		width = widthPixels;
 		height = heightPixels;
 
@@ -181,6 +183,10 @@ public:
 	{
 		clearColor = color;
 	}
+    HWND GetHWND()
+    {
+        return this->hwnd;
+    }
     RGBTRIPLE GetBackgroundColor()
     {
         return clearColor;

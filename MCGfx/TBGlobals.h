@@ -219,3 +219,8 @@ static string GetCWD()
     GetCurrentDirectoryA(2048, buffer);
     return string(buffer);
 }
+
+static string GetContentFolder()
+{
+    return GetCWD() + "\\Content";
+}

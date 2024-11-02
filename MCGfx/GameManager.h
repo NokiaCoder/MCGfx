@@ -4,6 +4,7 @@
 #include "MCGraphics.cpp"
 #include "TBWorld.cpp"
 #include "TBGlobals.h"
+#include "MCSound.h"
 #include <thread>
 #include <deque>
 #include <ostream>
@@ -35,6 +36,12 @@ private:
 	float sideThrust = 2.0f;
 	int losingScore = -400;
 	bool gameLost = false;
+	AudioPlayer audioPlayer;
+	int fanfareSndId = -1;
+	int explosionSndId = -1;
+	int powerupSndId = -1;
+	int thrustSndId = -1;
+	bool thrustRunning = false;
 	string startupScreenText = "Startup Screen Text";
 	
 	
@@ -151,6 +158,27 @@ public:
 		world.SetCollisionsPtr(&Collisions);
 	}
 
+	void SetupSound()
+	{
+		if (!audioPlayer.IsActive())
+		{
+			audioPlayer.Initialize(pGfx->GetHWND());
+		}
+
+		string path;
+		path = GetContentFolder() + "\\fanfare.wav";
+		fanfareSndId = audioPlayer.Preload(path);
+
+		path = GetContentFolder() + "\\explosion.wav";
+		explosionSndId = audioPlayer.Preload(path);
+
+		path = GetContentFolder() + "\\powerup.wav";
+		powerupSndId = audioPlayer.Preload(path);
+
+		path = GetContentFolder() + "\\thrust.wav";
+		thrustSndId = audioPlayer.Preload(path);
+	}
+
 	void Restart()
 	{
 		//MakeGameFile(GetCWD() + "\\TanLander.tbg"); 
@@ -162,7 +190,12 @@ public:
 		ShowCursor(FALSE);
 		g_fuel = 1000;
 		world.Load();
+		SetupSound();
 		StartTimer();
+		if (!startShown)
+		{
+			audioPlayer.Play(fanfareSndId, false);
+		}
 	}
 
 	void ShowStartScreen()
@@ -294,12 +327,14 @@ public:
 					world.SetParticlesParent("explosion", "lander");
 					world.SetParticleSystemActive("explosion", true);
 					world.SetSpriteVisible("lander", false);
+					audioPlayer.Play(explosionSndId, false);
 				}
 				else if (ps->GetCollide() == CollideType::PowerUp)
 				{
 					ps->SetVisible(false);
 					ps->SetCollide(CollideType::None);
 					g_fuel += powerUpFuel;
+					audioPlayer.Play(powerupSndId);
 				}
 
 				TBSprite* pScore = world.GetSprite("scoretext");
@@ -371,6 +406,20 @@ public:
 		world.SetSpriteForce("lander", thrust, false);
 		world.SetSpriteForce("lander", thrustRight, true);
 		world.SetSpriteForce("lander", thrustLeft, true);
+
+		if (thrustKeyDown || rightKeyDown || leftKeyDown)
+		{
+			if (!thrustRunning)
+			{
+				thrustRunning = true;
+				audioPlayer.Play(thrustSndId, true);
+			}
+		}
+		else if (thrustRunning)
+		{
+			thrustRunning = false;
+			audioPlayer.Stop(thrustSndId);
+		}
 
 		//process and draw world
 		world.Process(elapsedTimeSec);
