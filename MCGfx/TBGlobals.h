@@ -162,6 +162,7 @@ static int GetRandomV()
 
 
 static int g_CurrentScore = 0;
+static int g_Lives = 8;
 
 //Game Timer
 static LARGE_INTEGER    g_frequency;

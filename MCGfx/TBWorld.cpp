@@ -524,6 +524,17 @@ public:
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
+		sprites.back().Create(0, 5, g_pixelWidth - 5, g_pixelHeight / 2 + 10, FIRECOLOR);
+		sprites.back().SetTextAlign(TEXT_ALIGN::RIGHT);
+		sprites.back().SetName("livestext");
+		sprites.back().SetSpriteText("Lives\n<lives>");
+		sprites.back().SetIsTextSprite(true);
+		sprites.back().SetVisible(true);
+		sprites.back().SetLayer(LAYER::layer_FRONT);
+		sprites.back().SetHasAnimation(false);
+		sprites.back().setPhysics(false);
+
+		sprites.push_back(s);
 		sprites.back().Create(5, 5, g_pixelWidth - 5, g_pixelHeight, FIRECOLOR);
 		sprites.back().SetTextAlign(TEXT_ALIGN::LEFT);
 		sprites.back().SetName("fueltext");

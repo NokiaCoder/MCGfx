@@ -319,6 +319,7 @@ public:
 				//Player loses :(
 				else if (ps->GetCollide() == CollideType::Lose)
 				{
+					g_Lives -= 1;
 					g_CurrentScore -= 100;
 					if (g_CurrentScore > losingScore)
 					{
@@ -343,13 +344,18 @@ public:
 					//SCORE\n<score>
 					world.SetSpriteText("scoretext", "SCORE\n" + to_string(g_CurrentScore));
 				}
+				TBSprite* plives = world.GetSprite("livestext");
+				if (plives != nullptr)
+				{
+					world.SetSpriteText("livestext", "LIVES\n" + to_string(g_Lives));
+				}
 			}
 
 			Collisions.pop_front();
 		}
 		
 		//test for losing game condition
-		if (g_CurrentScore <= losingScore)
+		if (g_CurrentScore <= losingScore || g_Lives <= 0)
 		{
 			world.SetSpriteVisible("losegametext", true);
 			gameLost = true;

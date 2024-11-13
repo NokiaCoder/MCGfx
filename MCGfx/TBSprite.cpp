@@ -432,6 +432,16 @@ public:
 							text += to_string(g_fuel);
 						}
 					}
+					else
+					{
+						int pos = (int)spriteText.find("<lives>");
+						if (pos != string::npos)
+						{
+							text = spriteText.substr(0, pos);
+							text += to_string(g_lives);
+						}
+					}
+
 					//Now write text
 					RECT rect = { (int)GetX(), (int)GetY(), (int)GetX() + w, (int)GetY() + h };
 					pGFX->WriteText(rect, text, GetTextAlign());
