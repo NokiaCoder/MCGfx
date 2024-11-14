@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "MCGraphics.cpp"
+#include "TBCamera.h"
 using namespace std;
 
 //Enum class Layers near to far
@@ -40,6 +41,8 @@ struct CollisionInfo
 };
 
 static string g_GameTitle = "Game Title";
+
+static TBCamera g_Camera;
 
 
 static  int g_pixelWidth = 288;

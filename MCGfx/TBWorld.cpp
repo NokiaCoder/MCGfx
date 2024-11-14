@@ -489,6 +489,7 @@ public:
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
 		sprites.back().SetLifeTime(50.0f);
+		sprites.back().SetScreen(true);
 
 		sprites.push_back(s);
 		sprites.back().Create(0, g_pixelHeight / 3, g_pixelWidth, g_pixelHeight, FIRECOLOR);
@@ -501,6 +502,7 @@ public:
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
 		sprites.back().SetLifeTime(50.0f);
+		sprites.back().SetScreen(true);
 
 		sprites.push_back(s);
 		sprites.back().Create(0, g_pixelHeight / 3, g_pixelWidth, g_pixelHeight, FIRECOLOR);
@@ -513,6 +515,7 @@ public:
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
 		sprites.back().SetLifeTime(50.0f);
+		sprites.back().SetScreen(true);
 
 		sprites.push_back(s);
 		sprites.back().Create(0, 5, g_pixelWidth-5, g_pixelHeight, FIRECOLOR);
@@ -524,6 +527,7 @@ public:
 		sprites.back().SetLayer(LAYER::layer_FRONT);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
+		sprites.back().SetScreen(true);
 
 		sprites.push_back(s);
 		sprites.back().Create(0, 20 , g_pixelWidth - 5, g_pixelHeight + 10, FIRECOLOR);
@@ -535,6 +539,7 @@ public:
 		sprites.back().SetLayer(LAYER::layer_FRONT);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
+		sprites.back().SetScreen(true);
 
 		sprites.push_back(s);
 		sprites.back().Create(5, 5, g_pixelWidth - 5, g_pixelHeight, FIRECOLOR);
@@ -546,6 +551,7 @@ public:
 		sprites.back().SetLayer(LAYER::layer_FRONT);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
+		sprites.back().SetScreen(true);
 
 		//add particle systems
 		ParticleSystem ps;

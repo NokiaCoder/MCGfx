@@ -46,6 +46,7 @@ private:
 	bool hasAnimation = false;
 	CollideType collideType = CollideType::None;
 	bool isTextSprite = false;
+	bool isScreen = false;
 	TEXT_ALIGN textAlign = TEXT_ALIGN::LEFT;
 	string spriteText = "";
 	bool hitTarget = false;
@@ -58,6 +59,18 @@ private:
 
 public:
 	//ACCESSORS
+
+	//Screen
+	void SetScreen(bool s)
+	{
+		isScreen = s;
+	}
+	bool GetScreen()
+	{
+		return isScreen;
+	}
+
+	//collide
 	void ShowOnCollide()
 	{
 		if (pShowOnCollide != nullptr)
@@ -69,7 +82,7 @@ public:
 	{
 		pShowOnCollide = pS;
 	}
-	
+
 	//lifetime setter/getter
 	float GetLifeTime()
 	{
@@ -79,7 +92,7 @@ public:
 	{
 		lifeTime = lT;
 	}
-	
+
 	//text sprite
 	bool GetIsTextSprite()
 	{
@@ -128,7 +141,7 @@ public:
 	{
 		hitTarget = hTarget;
 	}
-	
+
 	//Collision Accessors
 	CollideType GetCollide()
 	{
@@ -168,19 +181,29 @@ public:
 
 	float GetX()
 	{
+		float worldX = x;
 		if (pParent != nullptr)
 		{
-			return x + pParent->GetX();
+			worldX = x + pParent->GetX();
 		}
-		return x;
+		if (!isScreen)
+		{
+			return g_Camera.TransformX(worldX);
+		}
+		return worldX;
 	}
 	float GetY()
 	{
+		float worldY = y;
 		if (pParent != nullptr)
 		{
-			return y + pParent->GetY();
+			worldY = y + pParent->GetY();
 		}
-		return y;
+		if (!isScreen)
+		{
+			return g_Camera.TransformY(worldY);
+		}
+		return worldY;
 	}
 
 	void SetVx(float v)
@@ -251,42 +274,42 @@ public:
 	}
 
 	void SetLayer(LAYER l)
-		{
-			layer = l;
-		}
+	{
+		layer = l;
+	}
 	LAYER GetLayer()
-		{
-			return layer;
-		}
+	{
+		return layer;
+	}
 
 	void SetStayAboveGround(bool sa) //ground accessor
-		{
-			stayAboveGround = sa;
-		}
+	{
+		stayAboveGround = sa;
+	}
 
 	void SetWrap(bool wrapOn) //Wrap accessor
-		{
-			wrap = wrapOn;
-		} 
+	{
+		wrap = wrapOn;
+	}
 
 	//constructors / destructors
 	TBSprite()
-		{
-			name = "";
-			x = 0.0f;
-			y = 0.0f;
-			w = 0;
-			h = 0;
+	{
+		name = "";
+		x = 0.0f;
+		y = 0.0f;
+		w = 0;
+		h = 0;
 
-			color = { 255, 255, 255 };
-		}
+		color = { 255, 255, 255 };
+	}
 
 	TBSprite(const TBSprite& copy)
 	{
 		x = copy.x;
-		y = copy.y; 
-		w = copy.w; 
-		h = copy.h; 
+		y = copy.y;
+		w = copy.w;
+		h = copy.h;
 		color = copy.color;
 		name = copy.name;
 		hasPhysics = copy.hasPhysics;
@@ -294,7 +317,7 @@ public:
 		vy = copy.vy;
 		fx = copy.fx;
 		fy = copy.fy;
-		ground = copy.ground; 
+		ground = copy.ground;
 		stayAboveGround = copy.stayAboveGround;
 		gravityActive = copy.gravityActive;
 		pParent = copy.pParent;
@@ -311,15 +334,16 @@ public:
 		lifeTime = copy.lifeTime;
 		age = copy.age;
 		layer = copy.layer;
+		isScreen = copy.isScreen;
 	}
 
 	TBSprite(int left, int top, int width, int height, const RGBTRIPLE& rgbtriple)
-		{
-			Create(left, top, width, height, rgbtriple);
-		}
+	{
+		Create(left, top, width, height, rgbtriple);
+	}
 	~TBSprite()
-		{
-		}
+	{
+	}
 
 	//public functions
 	void Create(int left, int top, int width, int height, const RGBTRIPLE& rgbtriple)
@@ -361,100 +385,97 @@ public:
 		return "";
 	}
 	void Process(double elapsedTimeSec)
+	{
+		age += (float)elapsedTimeSec;
+		if (lifeTime >= 0.0f && age >= lifeTime)
 		{
-			age += (float)elapsedTimeSec;
-			if (lifeTime >= 0.0f && age >= lifeTime)
-			{
-				SetVisible(false);
-			}
-			if (hasPhysics == true)
-			{
-				if (name == "lander")
-				{
-					int u = 0;
-				}
-				//check y against ground
-				if (y >= ground && this->stayAboveGround)
-				{
-					y = ground;
-					vx = 0.0f;
-					vy = 0.0f;
-					x += vx;
-					this->fx = this->fy = 0.0f;
-					return;
-				}
-
-				// setup forces
-				float fx = (this->fx * (float)elapsedTimeSec);
-				float fy = (this->fy * (float)elapsedTimeSec);
-
-				if (gravityActive)
-				{
-					fy += (g * (float)elapsedTimeSec);
-				}
-
-				//calculate velocities
-				vx += fx;
-				vy += fy;
-
-				//calculate positions
-				x += vx;
-				y += vy;
-
-				//zero out forces
-				this->fx = this->fy = 0.0f;
-			}
-			if (hasAnimation == true)
-			{
-				x += (animationX * (float)elapsedTimeSec);
-				y += (animationY * (float)elapsedTimeSec);
-			}
+			SetVisible(false);
 		}
-	void Draw(MCGraphics* pGFX)
+		if (hasPhysics == true)
 		{
-			if (visible)
+			if (name == "lander")
 			{
-				if (GetIsTextSprite())
-				{
-					string text = spriteText;
+				int u = 0;
+			}
+			//check y against ground
+			if (y >= ground && this->stayAboveGround)
+			{
+				y = ground;
+				vx = 0.0f;
+				vy = 0.0f;
+				x += vx;
+				this->fx = this->fy = 0.0f;
+				return;
+			}
 
-					//Now write text
-					RECT rect = { (int)GetX(), (int)GetY(), (int)GetX() + w, (int)GetY() + h };
-					pGFX->WriteText(rect, text, GetTextAlign());
-					return;
-				}
-				if (pParent != nullptr)
+			// setup forces
+			float fx = (this->fx * (float)elapsedTimeSec);
+			float fy = (this->fy * (float)elapsedTimeSec);
+
+			if (gravityActive)
+			{
+				fy += (g * (float)elapsedTimeSec);
+			}
+
+			//calculate velocities
+			vx += fx;
+			vy += fy;
+
+			//calculate positions
+			x += vx;
+			y += vy;
+
+			//zero out forces
+			this->fx = this->fy = 0.0f;
+		}
+		if (hasAnimation == true)
+		{
+			x += (animationX * (float)elapsedTimeSec);
+			y += (animationY * (float)elapsedTimeSec);
+		}
+	}
+	void Draw(MCGraphics* pGFX)
+	{
+		if (visible)
+		{
+			if (GetIsTextSprite())
+			{
+				string text = spriteText;
+
+				//Now write text
+				RECT rect = { (int)GetX(), (int)GetY(), (int)GetX() + w, (int)GetY() + h };
+				pGFX->WriteText(rect, text, GetTextAlign());
+				return;
+			}
+
+			//Not a sprite text
+			pGFX->FillRectangle((int)GetX(), (int)GetY(), (int)GetX() + w, (int)GetY() + h, color);
+
+
+
+			if (wrap)
+			{
+				if (x >= g_pixelWidth) //sprite is past right of window
 				{
-					pGFX->FillRectangle((int)GetX(), (int)GetY(), (int)GetX() + w, (int)GetY() + h, color);
+					x -= (float)g_pixelWidth;
 				}
-				else
+				else if (x < (float)-w) //sprite is to the left of window
+				{
+					x += (float)g_pixelWidth;
+				}
+				else if (g_pixelWidth - x < w)
 				{
 					pGFX->FillRectangle((int)x, (int)y, (int)x + w, (int)y + h, color);
+					int wrapX = (int)(x - (float)g_pixelWidth);
+					pGFX->FillRectangle(wrapX, (int)y, wrapX + w, (int)y + h, color);
 				}
-
-				if (wrap)
+				else if (x > -w && x < 0)
 				{
-					if (x >= g_pixelWidth) //sprite is past right of window
-					{
-						x -= (float)g_pixelWidth;
-					}
-					else if (x < (float)-w) //sprite is to the left of window
-					{
-						x += (float)g_pixelWidth;
-					}
-					else if (g_pixelWidth -x < w)
-					{
-						pGFX->FillRectangle((int)x, (int)y, (int)x + w, (int)y + h, color);
-						int wrapX = (int)(x - (float)g_pixelWidth);
-						pGFX->FillRectangle(wrapX, (int)y, wrapX + w, (int)y + h, color);
-					}
-					else if (x > -w && x < 0)
-					{
-						pGFX->FillRectangle((int)x, (int)y, (int)x + w, (int)y + h, color);
-						int wrapX = (int)(x + (float)g_pixelWidth);
-						pGFX->FillRectangle(wrapX, (int)y, wrapX + w, (int)y + h, color);
-					}
+					pGFX->FillRectangle((int)x, (int)y, (int)x + w, (int)y + h, color);
+					int wrapX = (int)(x + (float)g_pixelWidth);
+					pGFX->FillRectangle(wrapX, (int)y, wrapX + w, (int)y + h, color);
 				}
 			}
 		}
+	}
 };

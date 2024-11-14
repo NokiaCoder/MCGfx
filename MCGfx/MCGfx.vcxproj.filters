@@ -39,6 +39,15 @@
     <ClInclude Include="TBEnums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MCGfx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MCSound.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TBCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MCGfx.cpp">
@@ -65,6 +74,12 @@
     <ClCompile Include="TBEnums.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MCSound.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MCGfx.rc">
@@ -78,5 +93,19 @@
     <Image Include="MCGfx.ico">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Content\explosion.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="Content\fanfare.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="Content\powerup.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="Content\thrust.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
   </ItemGroup>
 </Project>
