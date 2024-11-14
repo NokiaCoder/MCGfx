@@ -42,7 +42,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
     //Center the window on the screen
     RECT rect = { 0, 0, windowWidth, windowHeight };
-    AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE);
+    AdjustWindowRect(&rect, WS_POPUP, FALSE);
     int windowWidth = rect.right - rect.left;
     int windowHeight = rect.bottom - rect.top;
 
@@ -58,7 +58,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
         0,                          // Optional window styles
         CLASS_NAME,                 // Window class
         windowTitle.c_str(),         // Window text
-        WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU,  // Non-resizable window style
+        WS_POPUP,  // Non-resizable window style
         x, y,                       // Position (centered)
         windowWidth,                // Width
         windowHeight,               // Height
@@ -121,6 +121,10 @@ LRESULT CALLBACK WindowProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ WPARAM wParam, 
 
         case WM_KEYUP:
             game.HandleKey((int)wParam, false);
+            if ((int)wParam == VK_ESCAPE)
+            {
+                DestroyWindow(hwnd);
+            }
         return 0;
 
         case WM_KEYDOWN:

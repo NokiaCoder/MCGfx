@@ -97,7 +97,8 @@ public:
 		int enemyCount = 2 * g_LevelOn;
 
 		//mountain/fire/lander color
-		RGBTRIPLE NearColor = { 105, 100, 75 };
+		RGBTRIPLE NearColor = { 75, 75, 45 };
+		RGBTRIPLE NearGroundColor = { 105, 100, 75 };
 		RGBTRIPLE MidColor = DarkenColor({ 105, 100, 75 }, 25);
 		RGBTRIPLE FarColor = DarkenColor({ 105, 100, 75 }, 10);
 		RGBTRIPLE SkyBoxColor = DarkenColor({ 105, 100, 75 }, 100);
@@ -121,6 +122,7 @@ public:
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_NEAR);
 		sprites.back().SetHasAnimation(false);
+		sprites.back().SetCollide(CollideType::Lose);
 		sprites.back().setPhysics(false);
 	
 
@@ -415,7 +417,7 @@ public:
 
 		//Near Ground
 		sprites.push_back(s);
-		sprites.back().Create(0, g_pixelHeight - 30, g_pixelWidth + 30, 50, NearColor); //for each change color with 3 last values in {}. { blue, green, red}
+		sprites.back().Create(0, g_pixelHeight - 30, g_pixelWidth + 30, 50, NearGroundColor); //for each change color with 3 last values in {}. { blue, green, red}
 		sprites.back().SetName("ground");
 		sprites.back().SetLayer(LAYER::layer_NEAR);
 		sprites.back().SetHasAnimation(false);
@@ -516,7 +518,7 @@ public:
 		sprites.back().Create(0, 5, g_pixelWidth-5, g_pixelHeight, FIRECOLOR);
 		sprites.back().SetTextAlign(TEXT_ALIGN::RIGHT);
 		sprites.back().SetName("scoretext");
-		sprites.back().SetSpriteText("SCORE\n<score>");
+		sprites.back().SetSpriteText("");
 		sprites.back().SetIsTextSprite(true);
 		sprites.back().SetVisible(true);
 		sprites.back().SetLayer(LAYER::layer_FRONT);
@@ -524,10 +526,10 @@ public:
 		sprites.back().setPhysics(false);
 
 		sprites.push_back(s);
-		sprites.back().Create(0, 5, g_pixelWidth - 5, g_pixelHeight / 2 + 10, FIRECOLOR);
+		sprites.back().Create(0, 20 , g_pixelWidth - 5, g_pixelHeight + 10, FIRECOLOR);
 		sprites.back().SetTextAlign(TEXT_ALIGN::RIGHT);
 		sprites.back().SetName("livestext");
-		sprites.back().SetSpriteText("Lives\n<lives>");
+		sprites.back().SetSpriteText("");
 		sprites.back().SetIsTextSprite(true);
 		sprites.back().SetVisible(true);
 		sprites.back().SetLayer(LAYER::layer_FRONT);
@@ -538,7 +540,7 @@ public:
 		sprites.back().Create(5, 5, g_pixelWidth - 5, g_pixelHeight, FIRECOLOR);
 		sprites.back().SetTextAlign(TEXT_ALIGN::LEFT);
 		sprites.back().SetName("fueltext");
-		sprites.back().SetSpriteText("FUEL\n<fuel>");
+		sprites.back().SetSpriteText("");
 		sprites.back().SetIsTextSprite(true);
 		sprites.back().SetVisible(true);
 		sprites.back().SetLayer(LAYER::layer_FRONT);

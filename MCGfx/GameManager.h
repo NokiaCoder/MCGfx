@@ -215,12 +215,19 @@ public:
 
 	}
 
+	void UpdateHUD()
+	{
+		world.SetSpriteText("livestext", to_string(g_Lives) + " LS");
+		world.SetSpriteText("scoretext", to_string(g_CurrentScore) + " SC");
+		world.SetSpriteText("fueltext", "FL " + to_string(g_fuel));
+	}
+
 	//returns true if start screen is finished
 	bool HandleStartScreen()
 	{
 		if (!startShown)
 		{
-			if (GetElapsedSeconds() <= 3.0f)
+			if (GetElapsedSeconds() <= 4.0f)
 			{
 				ShowStartScreen();
 				return false;
@@ -298,6 +305,7 @@ public:
 		}
 
 		g_fuel = max(0, g_fuel);
+		
 	}
 
 	void Process()
@@ -314,6 +322,10 @@ public:
 				{
 					g_LevelOn++;
 					g_CurrentScore += 100;
+					if (g_CurrentScore % 100 == 0)
+					{
+						g_Lives++;
+					}
 					world.SetSpriteVisible("wintext", true);
 				}
 				//Player loses :(
@@ -321,7 +333,7 @@ public:
 				{
 					g_Lives -= 1;
 					g_CurrentScore -= 100;
-					if (g_CurrentScore > losingScore)
+					if (g_CurrentScore > losingScore && g_Lives > 0)
 					{
 						world.SetSpriteVisible("losetext", true);
 					}
@@ -338,21 +350,13 @@ public:
 					audioPlayer.Play(powerupSndId);
 				}
 
-				TBSprite* pScore = world.GetSprite("scoretext");
-				if (pScore != nullptr)
-				{
-					//SCORE\n<score>
-					world.SetSpriteText("scoretext", "SCORE\n" + to_string(g_CurrentScore));
-				}
-				TBSprite* plives = world.GetSprite("livestext");
-				if (plives != nullptr)
-				{
-					world.SetSpriteText("livestext", "LIVES\n" + to_string(g_Lives));
-				}
+
 			}
 
 			Collisions.pop_front();
 		}
+
+		UpdateHUD();
 		
 		//test for losing game condition
 		if (g_CurrentScore <= losingScore || g_Lives <= 0)

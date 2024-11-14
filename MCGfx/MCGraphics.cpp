@@ -99,7 +99,7 @@ public:
         isActive = true;
 
         hFontSans = CreateFont(
-            8,                        // Height (in points)
+            16,                        // Height (in points)
             0,                         // Width (0 means calculate automatically)
             0,                         // Escapement angle
             0,                         // Orientation angle
@@ -132,7 +132,7 @@ public:
         //);
 
         hFontOCR = CreateFont(
-            12,                      // Height of font
+            10,                      // Height of font
             0,                       // Default width
             0,                       // Escapement angle
             0,                       // Orientation angle
