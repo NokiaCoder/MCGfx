@@ -5,6 +5,7 @@
 #include <vector>
 #include "MCGraphics.cpp"
 #include "TBGlobals.h"
+#include "TBNotifyMgr.h"
 
 using namespace std;
 
@@ -47,6 +48,7 @@ private:
 	CollideType collideType = CollideType::None;
 	bool isTextSprite = false;
 	bool isScreen = false;
+	bool explodeOnCollideLose = false;
 	TEXT_ALIGN textAlign = TEXT_ALIGN::LEFT;
 	string spriteText = "";
 	bool hitTarget = false;
@@ -68,6 +70,16 @@ public:
 	bool GetScreen()
 	{
 		return isScreen;
+	}
+
+	//Explode om loss collide
+	void SetExplodeOnCollide(bool eocl)
+	{
+		explodeOnCollideLose = eocl;
+	}
+	bool GetExplodeOnCollide()
+	{
+		return explodeOnCollideLose;
 	}
 
 	//collide
@@ -369,6 +381,7 @@ public:
 						if (TestIntersection(x, y, (float)w, (float)h, sprites[i].x, sprites[i].y, (float)sprites[i].w, (float)sprites[i].h))
 						{
 							//A collision has happened!
+							g_Notify.Notify({ NOTIFYTYPE::OnCollide, OBJECTTYPE::SPR, this->name });
 							if (sprites[i].GetCollide() == CollideType::Lose || sprites[i].GetCollide() == CollideType::Win)
 							{
 								setPhysics(false);

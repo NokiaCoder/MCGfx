@@ -5,6 +5,7 @@
 #include "TBWorld.cpp"
 #include "TBGlobals.h"
 #include "MCSound.h"
+#include "TBSprite.cpp"
 #include <thread>
 #include <deque>
 #include <ostream>
@@ -12,7 +13,10 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+
+
 using namespace std;
+
 
 
 class GameManager
@@ -44,6 +48,7 @@ private:
 	bool thrustRunning = false;
 	string startupScreenText = "Startup Screen Text";
 	
+	TBSprite ts;
 	
 	int getNextLine(const std::string & content, std::string & line, int startIndex)
 	{
@@ -149,6 +154,8 @@ private:
 		}
 	}
 
+	string name;
+
 public:
 
 	deque<CollisionInfo> Collisions; 
@@ -185,6 +192,7 @@ public:
 		LoadGame(GetCWD() + "\\TanLander.tbg");
 		if (gameLost == true)
 		{
+ 			g_Notify.Notify({ NOTIFYTYPE::OnGmEnd, OBJECTTYPE::GAMEMGR, this->name });
 			return;
 		}
 		ShowCursor(FALSE);
@@ -337,10 +345,13 @@ public:
 					{
 						world.SetSpriteVisible("losetext", true);
 					}
-					world.SetParticlesParent("explosion", "lander");
-					world.SetParticleSystemActive("explosion", true);
-					world.SetSpriteVisible("lander", false);
-					audioPlayer.Play(explosionSndId, false);
+					if (true)
+					{
+						world.SetParticlesParent("explosion", "lander");
+						world.SetParticleSystemActive("explosion", true);
+						world.SetSpriteVisible("lander", false);
+						audioPlayer.Play(explosionSndId, false);
+					}
 				}
 				else if (ps->GetCollide() == CollideType::PowerUp)
 				{

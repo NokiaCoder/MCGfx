@@ -6,6 +6,7 @@
 #include "MCGraphics.cpp"
 #include "TBGlobals.h"
 #include "TBSprite.cpp"
+#include "TBNotifyMgr.h"
 
 class Particle
 {
@@ -20,7 +21,7 @@ private:
 	RGBQUAD color = RGBQ(0, 0, 0, 0);
 	double lifetimeSec = 0.0;
 	double age = 0.0;
-	
+	string name;
 
 
 public:
@@ -66,6 +67,7 @@ public:
 			else
 			{
 				alive = false;
+				g_Notify.Notify({ NOTIFYTYPE::OnEnd, OBJECTTYPE::PS, this->name});
 			}
 		}
 	}

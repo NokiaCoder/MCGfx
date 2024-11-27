@@ -19,6 +19,8 @@ private:
 	vector<ParticleSystem> particles;
 	deque<CollisionInfo>* pCollisions = nullptr;
 
+	string name;
+
 public:
 	// constructor / destructor
 	TBWorld()
@@ -28,6 +30,8 @@ public:
 	~TBWorld()
 	{
 	}
+
+
 
 	int GetSpriteIndex(const string& name)
 	{
@@ -447,6 +451,7 @@ public:
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(true);
 		sprites.back().SetCollide(CollideType::Win);
+		sprites.back().SetExplodeOnCollide(true);
 
 		sprites.push_back(s);
 		sprites.back().Create(1, -4, 2, 3, LANDERCOLOR);
@@ -671,6 +676,7 @@ public:
 			}
 			else if (pParent != nullptr && !pParent->GetVisible())
 			{
+				g_Notify.Notify({ NOTIFYTYPE::OnStart, OBJECTTYPE::PS, this->name});
 				particles[index].SetActive(false);
 			}
 		}
@@ -703,6 +709,7 @@ public:
 			CollisionInfo info(a, b, true);
 			pCollisions->push_back(info);
 		}
+		
 	}
 	void TestCollision()
 	{

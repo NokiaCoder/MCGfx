@@ -167,6 +167,7 @@
     <ClInclude Include="TBCamera.h" />
     <ClInclude Include="TBEnums.h" />
     <ClInclude Include="TBGlobals.h" />
+    <ClInclude Include="TBNotifyMgr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameManager.cpp" />
@@ -177,6 +178,7 @@
     <ClCompile Include="TBCamera.cpp" />
     <ClCompile Include="TBEnums.cpp" />
     <ClCompile Include="TBGlobals.cpp" />
+    <ClCompile Include="TBNotifyMgr.cpp" />
     <ClCompile Include="TBSprite.cpp" />
     <ClCompile Include="TBWorld.cpp" />
   </ItemGroup>
