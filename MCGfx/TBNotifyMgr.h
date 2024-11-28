@@ -2,6 +2,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <deque>
+
+
 
 using namespace std;
 
@@ -62,11 +65,34 @@ public:
 class TBNotifyMgr
 {
 public:
+	std::deque<Notification> qGM;
+	std::deque<Notification> qWorld;
+	std::deque<Notification> qSprite;
+	std::deque<Notification> qPS;
+
+public:
 	TBNotifyMgr() = default;
 
 	void Notify(const Notification& message)
 	{
-		
+		switch (message.NotifyType)
+		{
+			case OnCollide:
+			{
+			
+			}
+			break;
+			case OnExplode:
+			{
+				qGM.push_back(message);
+			}
+			break;
+			default:
+			{
+
+			}
+			break;
+		}
 	}
 };
 

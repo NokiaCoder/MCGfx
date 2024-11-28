@@ -6,6 +6,7 @@
 #include "TBGlobals.h"
 #include "MCSound.h"
 #include "TBSprite.cpp"
+#include "TBNotifyMgr.h"
 #include <thread>
 #include <deque>
 #include <ostream>
@@ -316,8 +317,28 @@ public:
 		
 	}
 
+
 	void Process()
 	{
+		while (!g_Notify.qGM.empty())
+		{
+			Notification n = g_Notify.qGM.front();
+			g_Notify.qGM.pop_front();
+			switch (n.NotifyType)
+			{
+			case NOTIFYTYPE::OnExplode:
+				{
+					TBSprite* pSprite = world.GetSprite(n.Name);
+					world.SetParticlesParent("explosion", pSprite->GetName());
+					world.SetParticleSystemActive("explosion", true);
+					world.SetSpriteVisible(pSprite->GetName(), false);
+					//TODO
+					//audioPlayer.Play(explosionSndId, false);
+				}
+				break;
+			}
+		}
+
 		while (Collisions.size() > 0)
 		{
 			CollisionInfo info = Collisions.front();
@@ -345,13 +366,13 @@ public:
 					{
 						world.SetSpriteVisible("losetext", true);
 					}
-					if (true)
-					{
-						world.SetParticlesParent("explosion", "lander");
-						world.SetParticleSystemActive("explosion", true);
-						world.SetSpriteVisible("lander", false);
-						audioPlayer.Play(explosionSndId, false);
-					}
+					//if ()
+					//{
+					//	world.SetParticlesParent("explosion", "lander");
+					//	world.SetParticleSystemActive("explosion", true);
+					//	world.SetSpriteVisible("lander", false);
+					//	audioPlayer.Play(explosionSndId, false);
+					//}
 				}
 				else if (ps->GetCollide() == CollideType::PowerUp)
 				{
