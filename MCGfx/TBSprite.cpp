@@ -391,6 +391,7 @@ public:
 								setPhysics(false);
 								x = floor(x);
 								y = floor(y);
+								g_Notify.Notify({ NOTIFYTYPE::OnWin, OBJECTTYPE::SPR, this->name });
 							}
 
 							return sprites[i].name;

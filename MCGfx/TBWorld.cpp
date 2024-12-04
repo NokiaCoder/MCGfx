@@ -498,6 +498,19 @@ public:
 
 		sprites.push_back(s);
 		sprites.back().Create(0, g_pixelHeight / 3, g_pixelWidth, g_pixelHeight, FIRECOLOR);
+		sprites.back().SetName("wingametext");
+		sprites.back().SetSpriteText("YOU WIN!!!!");
+		sprites.back().SetTextAlign(TEXT_ALIGN::CENTER);
+		sprites.back().SetIsTextSprite(true);
+		sprites.back().SetVisible(false);
+		sprites.back().SetLayer(LAYER::layer_FRONT);
+		sprites.back().SetHasAnimation(false);
+		sprites.back().setPhysics(false);
+		sprites.back().SetLifeTime(50.0f);
+		sprites.back().SetScreen(true);
+
+		sprites.push_back(s);
+		sprites.back().Create(0, g_pixelHeight / 3, g_pixelWidth, g_pixelHeight, FIRECOLOR);
 		sprites.back().SetName("losetext");
 		sprites.back().SetSpriteText("YOU CRASHED!!\n\nHit SPACE\nto play again.");
 		sprites.back().SetTextAlign(TEXT_ALIGN::CENTER);

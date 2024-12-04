@@ -79,10 +79,20 @@ public:
 		{
 			case OnCollide:
 			{
-			
+				qGM.push_back(message);
 			}
 			break;
 			case OnExplode:
+			{
+				qGM.push_back(message);
+			}
+			break;
+			case OnGmWin:
+			{
+				qGM.push_back(message);
+			}
+			break;
+			case OnWin:
 			{
 				qGM.push_back(message);
 			}

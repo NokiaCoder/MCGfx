@@ -345,12 +345,29 @@ public:
 					world.SetParticlesParent("explosion", pSprite->GetName());
 					world.SetParticleSystemActive("explosion", true);
 					world.SetSpriteVisible(pSprite->GetName(), false);
-					//TODO
 					audioPlayer.Play(explosionSndId, false);
-
-					//audioPlayer.Stop(explosionSndId);
 					break;
 				}
+				case NOTIFYTYPE::OnWin:
+				{
+					TBSprite* pSprite = world.GetSprite(n.Name);
+					
+					g_LevelOn++;
+					g_CurrentScore += 100;
+					if (g_CurrentScore % 100 == 0)
+					{
+						g_Lives++;
+					}
+					world.SetSpriteVisible("wintext", true);
+					world.SetSpriteVisible("wingametext", false);
+				}
+				break;
+				case NOTIFYTYPE::OnGmWin:
+				{
+					world.SetSpriteVisible("wintext", false);
+					world.SetSpriteVisible("wingametext", true);
+				}
+				break;
 			}
 		}
 
@@ -362,7 +379,7 @@ public:
 			if (ps != nullptr)
 			{
 				//Player wins!
-				if (ps->GetCollide() == CollideType::Win)
+				/*if (ps->GetCollide() == CollideType::Win)
 				{
 					g_LevelOn++;
 					g_CurrentScore += 100;
@@ -371,25 +388,8 @@ public:
 						g_Lives++;
 					}
 					world.SetSpriteVisible("wintext", true);
-				}
-				//Player loses :(
-				else if (ps->GetCollide() == CollideType::Lose)
-				{
-					/*g_Lives -= 1;
-					g_CurrentScore -= 100;
-					if (g_CurrentScore > losingScore && g_Lives > 0)
-					{
-						world.SetSpriteVisible("losetext", true);
-					}*/
-					//if ()
-					//{
-					//	world.SetParticlesParent("explosion", "lander");
-					//	world.SetParticleSystemActive("explosion", true);
-					//	world.SetSpriteVisible("lander", false);
-					//	audioPlayer.Play(explosionSndId, false);
-					//}
-				}
-				else if (ps->GetCollide() == CollideType::PowerUp)
+				}*/
+				if (ps->GetCollide() == CollideType::PowerUp)
 				{
 					ps->SetVisible(false);
 					ps->SetCollide(CollideType::None);
