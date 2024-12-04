@@ -664,6 +664,23 @@ public:
 			}
 		}
 	}
+	void SetSpritePhysics(string name, bool on)
+	{
+		for (int i = 0; i < (int)sprites.size(); i++)
+		{
+			if (sprites[i].GetName() == name)
+			{
+				sprites[i].setPhysics(on);
+			}
+			if (sprites[i].GetParent() != nullptr)
+			{
+				if (sprites[i].GetParent()->GetName() == name)
+				{
+					sprites[i].setPhysics(on);
+				}
+			}
+		}
+	}
 	void SetParticleSystemActive(string name, bool on)
 	{
 		int index = GetParticleSystemIndex(name);

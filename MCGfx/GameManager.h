@@ -341,13 +341,14 @@ public:
 					}
 
 					TBSprite* pSprite = world.GetSprite(n.Name);
+					world.SetSpritePhysics(pSprite->GetName(), false);
 					world.SetParticlesParent("explosion", pSprite->GetName());
 					world.SetParticleSystemActive("explosion", true);
 					world.SetSpriteVisible(pSprite->GetName(), false);
 					//TODO
-					//audioPlayer.Play(explosionSndId, false);
+					audioPlayer.Play(explosionSndId, false);
 
-					audioPlayer.Stop(explosionSndId);
+					//audioPlayer.Stop(explosionSndId);
 					break;
 				}
 			}
