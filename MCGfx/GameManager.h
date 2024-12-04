@@ -326,16 +326,30 @@ public:
 			g_Notify.qGM.pop_front();
 			switch (n.NotifyType)
 			{
-			case NOTIFYTYPE::OnExplode:
+				case NOTIFYTYPE::OnExplode:
 				{
+					g_Lives -= 1;
+					g_CurrentScore -= 100;
+					if (g_CurrentScore > losingScore && g_Lives > 0)
+					{
+						world.SetSpriteVisible("losetext", true);
+					}
+					else //test for losing game condition
+					{
+						world.SetSpriteVisible("losegametext", true);
+						gameLost = true;
+					}
+
 					TBSprite* pSprite = world.GetSprite(n.Name);
 					world.SetParticlesParent("explosion", pSprite->GetName());
 					world.SetParticleSystemActive("explosion", true);
 					world.SetSpriteVisible(pSprite->GetName(), false);
 					//TODO
 					//audioPlayer.Play(explosionSndId, false);
+
+					audioPlayer.Stop(explosionSndId);
+					break;
 				}
-				break;
 			}
 		}
 
@@ -360,12 +374,12 @@ public:
 				//Player loses :(
 				else if (ps->GetCollide() == CollideType::Lose)
 				{
-					g_Lives -= 1;
+					/*g_Lives -= 1;
 					g_CurrentScore -= 100;
 					if (g_CurrentScore > losingScore && g_Lives > 0)
 					{
 						world.SetSpriteVisible("losetext", true);
-					}
+					}*/
 					//if ()
 					//{
 					//	world.SetParticlesParent("explosion", "lander");
@@ -381,21 +395,11 @@ public:
 					g_fuel += powerUpFuel;
 					audioPlayer.Play(powerupSndId);
 				}
-
-
 			}
 
 			Collisions.pop_front();
 		}
-
-		UpdateHUD();
-		
-		//test for losing game condition
-		if (g_CurrentScore <= losingScore || g_Lives <= 0)
-		{
-			world.SetSpriteVisible("losegametext", true);
-			gameLost = true;
-		}
+		UpdateHUD();		
 	}
 
 	void Render(HWND hwnd)

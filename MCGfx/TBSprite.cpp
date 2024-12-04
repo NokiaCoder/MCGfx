@@ -370,13 +370,13 @@ public:
 	}
 	string TestCollision(vector<TBSprite>& sprites)
 	{
-		if (GetCollide() != CollideType::None && getPhysics())
+		if (GetVisible() && GetCollide() != CollideType::None && getPhysics())
 		{
 			for (int i = 0; i < (int)sprites.size(); i++)
 			{
-				if (name != sprites[i].name)
+				if (name != sprites[i].name) //Test that the test sprite is not the same as this sprite
 				{
-					if (sprites[i].GetCollide() != CollideType::None)
+					if (sprites[i].GetVisible() && sprites[i].GetCollide() != CollideType::None)
 					{
 						if (TestIntersection(x, y, (float)w, (float)h, sprites[i].x, sprites[i].y, (float)sprites[i].w, (float)sprites[i].h))
 						{
