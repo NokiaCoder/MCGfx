@@ -149,6 +149,13 @@ private:
 			outfile << "#STARTSCREENTEXT" << endl;
 			outfile << "TANLANDER^written by^Tanner Boudreau^2024" << endl;
 			
+			//Save Out Content
+			outfile << "\n#SPRITES\n";
+			for (int i = 0; i < world.GetSpriteCount(); i++)
+			{
+				string str = world.GetSpriteAtIndex(i)->Serialize();
+				outfile << str << endl;
+			}
 
 			//close file
 			outfile.close();
@@ -199,6 +206,7 @@ public:
 		ShowCursor(FALSE);
 		g_fuel = 1000;
 		world.Load();
+		MakeGameFile(GetCWD() + "\\TanLander.tbg");
 		SetupSound();
 		StartTimer();
 		if (!startShown)

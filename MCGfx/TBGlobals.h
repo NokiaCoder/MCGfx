@@ -18,6 +18,47 @@ enum class LAYER
     layer_NONE,
 };
 
+static string Layer2Str(LAYER l)
+{
+    switch (l)
+    {
+    case LAYER::layer_BACK:
+        return "layer_BACK";
+    case LAYER::layer_FAR:
+        return "layer_FAR";
+    case LAYER::Layer_MID:
+        return "layer_MID";
+    case LAYER::layer_NEAR:
+        return "layer_NEAR";
+    case LAYER::layer_FRONT:
+        return "layer_FRONT";
+    }
+    return "layer_NONE";
+}
+static LAYER Str2Layer(string s)
+{
+    if (s == "layer_BACK")
+    {
+        return LAYER::layer_BACK;
+    }
+    if (s == "layer_FAR")
+    {
+        return LAYER::layer_FAR;
+    }
+    if (s == "Layer_MID")
+    {
+        return LAYER::Layer_MID;
+    }
+    if (s == "layer_NEAR")
+    {
+        return LAYER::layer_NEAR;
+    }
+    if (s == "layer_FRONT")
+    {
+        return LAYER::layer_FRONT;
+    }
+    return LAYER::layer_NONE;
+}
 
 
 struct CollisionInfo

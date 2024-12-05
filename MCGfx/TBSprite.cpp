@@ -22,6 +22,94 @@ enum class CollideType
 	PowerUp,
 };
 
+static string CollideType2Str(CollideType c)
+{
+	switch (c)
+	{
+	case CollideType::None:
+		return "None";
+	case CollideType::Win:
+		return "Win";
+	case CollideType::Lose:
+		return "Lose";
+	case CollideType::Explode:
+		return "Explode";
+	case CollideType::Restart:
+		return "Restart";
+	case CollideType::Push:
+		return "Push";
+	case CollideType::Random:
+		return "Random";
+	case CollideType::PowerUp:
+		return "PowerUp";
+	}
+	return "None";
+}
+static CollideType Str2CollideType(string s)
+{
+	if (s == "None")
+	{
+		return CollideType::None;
+	}
+	if (s == "Win")
+	{
+		return CollideType::Win;
+	}
+	if (s == "Lose")
+	{
+		return CollideType::Lose;
+	}
+	if (s == "Explode")
+	{
+		return CollideType::Explode;
+	}
+	if (s == "Restart")
+	{
+		return CollideType::Restart;
+	}
+	if (s == "Push")
+	{
+		return CollideType::Push;
+	}
+	if (s == "Random")
+	{
+		return CollideType::Random;
+	}
+	if (s == "PowerUp")
+	{
+		return CollideType::PowerUp;
+	}
+}
+
+static string TextAlign2Str(TEXT_ALIGN ta)
+{
+	switch (ta)
+	{
+	case TEXT_ALIGN::CENTER:
+		return "CENTER";
+	case TEXT_ALIGN::LEFT:
+		return "LEFT";
+	case TEXT_ALIGN::RIGHT:
+		return "RIGHT";
+	}
+	return "CENTER";
+}
+static TEXT_ALIGN Str2TextAlign(string s)
+{
+	if (s == "CENTER")
+	{
+		return TEXT_ALIGN::CENTER;
+	}
+	if (s == "LEFT")
+	{
+		return TEXT_ALIGN::LEFT;
+	}
+	if (s == "RIGHT")
+	{
+		return TEXT_ALIGN::RIGHT;
+	}
+}
+
 class TBSprite
 {
 private:
@@ -60,6 +148,70 @@ private:
 
 
 public:
+
+	string Serialize()
+	{
+		//CollideType collideType = CollideType::None;
+		//TEXT_ALIGN textAlign = TEXT_ALIGN::LEFT;
+		//LAYER layer = LAYER::layer_NONE;
+
+		string str = "\nSPRITE\n";
+		str += "x," + to_string(x) + "\n";
+		str += "y," + to_string(y) + "\n";
+		str += "w," + to_string(w) + "\n";
+		str += "h," + to_string(h) + "\n";
+
+		str += "color," + to_string(color.rgbtRed) + "|" + to_string(color.rgbtGreen) + "|" + to_string(color.rgbtBlue) + "\n";
+
+		str += "name," + name + "\n";
+
+		str += "hasPhysics," + string(hasPhysics ? "TRUE\n":"FALSE\n");
+
+		str += "vx," + to_string(vx) + "\n";
+		str += "vy," + to_string(vy) + "\n";
+		str += "fx," + to_string(fx) + "\n";
+		str += "fy," + to_string(fy) + "\n";
+
+		str += "ground," + to_string(ground) + "\n";
+
+		str += "stayAboveGround," + string(stayAboveGround ? "TRUE\n":"FALSE\n");
+		str += "gravityActive," + string(gravityActive ? "TRUE\n" : "FALSE\n");
+
+		str += "parentName," + string(pParent != nullptr ? pParent->GetName() + "\n" : "\n");
+		str += "showOnCollide," + string(pShowOnCollide != nullptr ? pShowOnCollide->GetName() + "\n" : "\n");
+
+		str += "visible," + string(visible ? "TRUE\n" : "FALSE\n");
+		str += "wrap," + string(wrap ? "TRUE\n" : "FALSE\n");
+		str += "hasAnimation," + string(hasAnimation ? "TRUE\n" : "FALSE\n");
+
+		str += "collideType," + CollideType2Str(collideType) + "\n";
+
+		str += "isTextSprite," + string(isTextSprite ? "TRUE\n" : "FALSE\n");
+		str += "isScreen," + string(isScreen ? "TRUE\n" : "FALSE\n");
+		str += "explodeOnCollideLose," + string(explodeOnCollideLose ? "TRUE\n" : "FALSE\n");
+
+		str += "textAlign," + TextAlign2Str(textAlign) + "\n";
+
+		str += "spriteText," + spriteText + "\n";
+
+		str += "hitTarget," + string(hitTarget ? "TRUE\n" : "FALSE\n");
+
+		str += "animationX," + to_string(animationX) + "\n";
+		str += "animationY," + to_string(animationY) + "\n";
+		str += "lifeTime," + to_string(lifeTime) + "\n";
+		str += "age," + to_string(age) + "\n";
+
+		str += "layer," + Layer2Str(layer) + "\n";
+
+
+		return str;
+	}
+
+	void Deserialize(const string& serial)
+	{
+
+	}
+
 	//ACCESSORS
 
 	//Screen

@@ -32,7 +32,18 @@ public:
 	}
 
 
-
+	int GetSpriteCount()
+	{
+		return (int)sprites.size();
+	}
+	TBSprite* GetSpriteAtIndex(int index)
+	{
+		if (index >= 0 && index < GetSpriteCount())
+		{
+			return &sprites[index];
+		}
+		return nullptr;
+	}
 	int GetSpriteIndex(const string& name)
 	{
 		for (int i = 0; i < sprites.size(); i++)
