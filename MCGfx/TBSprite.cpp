@@ -151,9 +151,6 @@ public:
 
 	string Serialize()
 	{
-		//CollideType collideType = CollideType::None;
-		//TEXT_ALIGN textAlign = TEXT_ALIGN::LEFT;
-		//LAYER layer = LAYER::layer_NONE;
 
 		string str = "\nSPRITE\n";
 		str += "x," + to_string(x) + "\n";

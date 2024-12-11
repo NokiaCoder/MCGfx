@@ -156,7 +156,13 @@ private:
 				string str = world.GetSpriteAtIndex(i)->Serialize();
 				outfile << str << endl;
 			}
-
+			outfile << "\nPARTICLES\n";
+			for (int i = 0; i < world.GetParticleSystemCount(); i++)
+			{
+				string str = world.GetParticleSystemAtIndex(i)->Serialize();
+				outfile << str << endl;
+			}
+			
 			//close file
 			outfile.close();
 		}

@@ -16,7 +16,7 @@ class TBWorld
 
 private:
 	vector<TBSprite> sprites;
-	vector<ParticleSystem> particles;
+	vector<ParticleSystem> particleSystems;
 	deque<CollisionInfo>* pCollisions = nullptr;
 
 	string name;
@@ -30,6 +30,8 @@ public:
 	~TBWorld()
 	{
 	}
+
+
 
 
 	int GetSpriteCount()
@@ -72,11 +74,15 @@ public:
 			pS->SetSpriteText(s);
 		}
 	}
+	int GetParticleSystemCount()
+	{
+		return (int)particleSystems.size();
+	}
 	int GetParticleSystemIndex(const string& name)
 	{
-		for (int i = 0; i < static_cast<int>(particles.size()); i++)
+		for (int i = 0; i < static_cast<int>(particleSystems.size()); i++)
 		{
-			if (particles[i].GetName() == name)
+			if (particleSystems[i].GetName() == name)
 			{
 				return i;
 			}
@@ -88,7 +94,15 @@ public:
 		int index = GetParticleSystemIndex(name);
 		if (index >= 0)
 		{
-			return &particles[index];
+			return &particleSystems[index];
+		}
+		return nullptr;
+	}
+	ParticleSystem* GetParticleSystemAtIndex(int index)
+	{
+		if (index >= 0 && index < GetParticleSystemCount())
+		{
+			return &particleSystems[index];
 		}
 		return nullptr;
 	}
@@ -102,7 +116,7 @@ public:
 	void Load()
 	{
 		sprites.clear();
-		particles.clear();
+		particleSystems.clear();
 
 		//pre allocate to avoid stale pointers
 		sprites.reserve(1000);
@@ -584,89 +598,89 @@ public:
 
 		//add particle systems
 		ParticleSystem ps;
-		particles.push_back(ps);
-		particles.back().Create(138, 141, "volcano");
-		particles.back().SetParticleColor({ 100,255,255 });
-		particles.back().SetSpawnRadius(0.0f, 0.0f);
-		particles.back().SetParams(240, 300, 15.0f);
-		particles.back().SetLifespan(3.0f);
-		particles.back().SetGravityOn(true);
-		particles.back().SetLayer(LAYER::Layer_MID);
-		particles.back().SetActive(true);
+		particleSystems.push_back(ps);
+		particleSystems.back().Create(138, 141, "volcano");
+		particleSystems.back().SetParticleColor({ 100,255,255 });
+		particleSystems.back().SetSpawnRadius(0.0f, 0.0f);
+		particleSystems.back().SetParams(240, 300, 15.0f);
+		particleSystems.back().SetLifespan(3.0f);
+		particleSystems.back().SetGravityOn(true);
+		particleSystems.back().SetLayer(LAYER::Layer_MID);
+		particleSystems.back().SetActive(true);
 
-		particles.push_back(ps);
-		particles.back().Create(138, 141, "volcano1");
-		particles.back().SetParticleColor({ 100,100,255 });
-		particles.back().SetSpawnRadius(0.0f, 0.0f);
-		particles.back().SetParams(240, 300, 15.0f);
-		particles.back().SetLifespan(3.0f);
-		particles.back().SetGravityOn(true);
-		particles.back().SetLayer(LAYER::Layer_MID);
-		particles.back().SetActive(true);
+		particleSystems.push_back(ps);
+		particleSystems.back().Create(138, 141, "volcano1");
+		particleSystems.back().SetParticleColor({ 100,100,255 });
+		particleSystems.back().SetSpawnRadius(0.0f, 0.0f);
+		particleSystems.back().SetParams(240, 300, 15.0f);
+		particleSystems.back().SetLifespan(3.0f);
+		particleSystems.back().SetGravityOn(true);
+		particleSystems.back().SetLayer(LAYER::Layer_MID);
+		particleSystems.back().SetActive(true);
 
-		particles.push_back(ps);
-		particles.back().Create(2, 5, "thrust");
-		particles.back().SetParticleColor({ 0,0,255 });
-		particles.back().SetSpawnRadius(0.0f, 0.0f);
-		particles.back().SetParams(80, 100, 20.0f);
-		particles.back().SetLifespan(0.2f);
-		particles.back().SetGravityOn(false);
-		particles.back().SetLayer(LAYER::layer_FRONT);
-		particles.back().SetEmitRate(10.0f);
+		particleSystems.push_back(ps);
+		particleSystems.back().Create(2, 5, "thrust");
+		particleSystems.back().SetParticleColor({ 0,0,255 });
+		particleSystems.back().SetSpawnRadius(0.0f, 0.0f);
+		particleSystems.back().SetParams(80, 100, 20.0f);
+		particleSystems.back().SetLifespan(0.2f);
+		particleSystems.back().SetGravityOn(false);
+		particleSystems.back().SetLayer(LAYER::layer_FRONT);
+		particleSystems.back().SetEmitRate(10.0f);
 
-		particles.push_back(ps);
-		particles.back().Create(6, 3, "thrust2"); //right
-		particles.back().SetParticleColor({ 0,0,255 });
-		particles.back().SetSpawnRadius(0.0f, 0.0f);
-		particles.back().SetParams(20, -20, 20.0f);
-		particles.back().SetLifespan(0.2f);
-		particles.back().SetGravityOn(false);
-		particles.back().SetLayer(LAYER::layer_FRONT);
-		particles.back().SetEmitRate(10.0f);
+		particleSystems.push_back(ps);
+		particleSystems.back().Create(6, 3, "thrust2"); //right
+		particleSystems.back().SetParticleColor({ 0,0,255 });
+		particleSystems.back().SetSpawnRadius(0.0f, 0.0f);
+		particleSystems.back().SetParams(20, -20, 20.0f);
+		particleSystems.back().SetLifespan(0.2f);
+		particleSystems.back().SetGravityOn(false);
+		particleSystems.back().SetLayer(LAYER::layer_FRONT);
+		particleSystems.back().SetEmitRate(10.0f);
 
-		particles.push_back(ps);
-		particles.back().Create(-2, 3, "thrust3"); //left
-		particles.back().SetParticleColor({ 0,0,255 });
-		particles.back().SetSpawnRadius(0.0f, 0.0f);
-		particles.back().SetParams(160, 200, 20.0f);
-		particles.back().SetLifespan(0.2f);
-		particles.back().SetGravityOn(false);
-		particles.back().SetLayer(LAYER::layer_FRONT);
-		particles.back().SetEmitRate(10.0f);
+		particleSystems.push_back(ps);
+		particleSystems.back().Create(-2, 3, "thrust3"); //left
+		particleSystems.back().SetParticleColor({ 0,0,255 });
+		particleSystems.back().SetSpawnRadius(0.0f, 0.0f);
+		particleSystems.back().SetParams(160, 200, 20.0f);
+		particleSystems.back().SetLifespan(0.2f);
+		particleSystems.back().SetGravityOn(false);
+		particleSystems.back().SetLayer(LAYER::layer_FRONT);
+		particleSystems.back().SetEmitRate(10.0f);
 
-		particles.push_back(ps);
-		particles.back().Create((float)g_pixelWidth/2, 20.0f, "Stars");
-		particles.back().SetParticleColor({ 180,180,180 });
-		particles.back().SetSpawnRadius(0.0f, 300.0f);
-		particles.back().SetParams(0, 360, 0.0f);
-		particles.back().SetLifespan(-1.0f);
-		particles.back().SetGravityOn(false);
-		particles.back().SetLayer(LAYER::layer_BACK);
-		particles.back().SetEmitRate(100.0f);
-		particles.back().SetEmitDurationSec(10.0f);
-		particles.back().SetActive(true);
+		particleSystems.push_back(ps);
+		particleSystems.back().Create((float)g_pixelWidth/2, 20.0f, "Stars");
+		particleSystems.back().SetParticleColor({ 180,180,180 });
+		particleSystems.back().SetSpawnRadius(0.0f, 300.0f);
+		particleSystems.back().SetParams(0, 360, 0.0f);
+		particleSystems.back().SetLifespan(-1.0f);
+		particleSystems.back().SetGravityOn(false);
+		particleSystems.back().SetLayer(LAYER::layer_BACK);
+		particleSystems.back().SetEmitRate(100.0f);
+		particleSystems.back().SetEmitDurationSec(10.0f);
+		particleSystems.back().SetActive(true);
 
-		particles.push_back(ps);
-		particles.back().Create(0, 0, "explosion");
-		particles.back().SetParticleColor(LANDERCOLOR);
-		particles.back().SetSpawnRadius(0.0f, 5.0f);
-		particles.back().SetParams(0, 360, 40.0f);
-		particles.back().SetLifespan(3.0f);
-		particles.back().SetGravityOn(false);
-		particles.back().SetLayer(LAYER::layer_FRONT);
-		particles.back().SetEmitRate(400.0f);
-		particles.back().SetEmitDurationSec(0.5f);
-		particles.back().SetActive(false);
+		particleSystems.push_back(ps);
+		particleSystems.back().Create(0, 0, "explosion");
+		particleSystems.back().SetParticleColor(LANDERCOLOR);
+		particleSystems.back().SetSpawnRadius(0.0f, 5.0f);
+		particleSystems.back().SetParams(0, 360, 40.0f);
+		particleSystems.back().SetLifespan(3.0f);
+		particleSystems.back().SetGravityOn(false);
+		particleSystems.back().SetLayer(LAYER::layer_FRONT);
+		particleSystems.back().SetEmitRate(400.0f);
+		particleSystems.back().SetEmitDurationSec(0.5f);
+		particleSystems.back().SetActive(false);
 
 
 		//Set Particle System Parents
 		index = GetSpriteIndex("lander");
 		psIndex = GetParticleSystemIndex("thrust");
-		particles[psIndex].SetParent(&sprites[index]);
+		particleSystems[psIndex].SetParent(&sprites[index]);
 		psIndex = GetParticleSystemIndex("thrust2");
-		particles[psIndex].SetParent(&sprites[index]);
+		particleSystems[psIndex].SetParent(&sprites[index]);
 		psIndex = GetParticleSystemIndex("thrust3");
-		particles[psIndex].SetParent(&sprites[index]);
+		particleSystems[psIndex].SetParent(&sprites[index]);
 	}
 
 	void SetSpriteVisible(string name, bool show)
@@ -710,15 +724,15 @@ public:
 		int index = GetParticleSystemIndex(name);
 		if (index >= 0)
 		{
-			TBSprite* pParent = particles[index].GetParent();
+			TBSprite* pParent = particleSystems[index].GetParent();
 			if (pParent != nullptr && pParent->GetVisible())
 			{
-				particles[index].SetActive(on);
+				particleSystems[index].SetActive(on);
 			}
 			else if (pParent != nullptr && !pParent->GetVisible())
 			{
 				g_Notify.Notify({ NOTIFYTYPE::OnStart, OBJECTTYPE::PS, this->name});
-				particles[index].SetActive(false);
+				particleSystems[index].SetActive(false);
 			}
 		}
 	}
@@ -768,9 +782,9 @@ public:
 			sprites[i].Process(elapsedTimeSec);
 		}
 
-		for (int i = 0; i < (int)particles.size(); i++)
+		for (int i = 0; i < (int)particleSystems.size(); i++)
 		{
-			particles[i].Process(elapsedTimeSec);
+			particleSystems[i].Process(elapsedTimeSec);
 		}
 	}
 	//Draw Function
@@ -780,11 +794,11 @@ public:
 
 		for (int l = 0; l < 6; l++)
 		{
-			for (int i = 0; i < (int)particles.size(); i++)
+			for (int i = 0; i < (int)particleSystems.size(); i++)
 			{
-				if (particles[i].GetLayer() == (LAYER)l)
+				if (particleSystems[i].GetLayer() == (LAYER)l)
 				{
-					particles[i].Draw(pGFX);
+					particleSystems[i].Draw(pGFX);
 				} 
 			}
 			for (int i = 0; i < (int)sprites.size(); i++)

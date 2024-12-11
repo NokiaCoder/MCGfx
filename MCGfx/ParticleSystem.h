@@ -307,5 +307,18 @@ public:
 			particles[i].Draw(pGFX, parentX, parentY);
 		}
 	}
+
+
+	string Serialize()
+	{
+		string str;
+		//TODO
+		return str;
+	}
+
+	void Deserialize(const string& serial)
+	{
+		//TODO
+	}
 };
 
