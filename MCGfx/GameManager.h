@@ -126,6 +126,16 @@ private:
 					header = lines[i].substr(1);
 					continue;
 				}
+				if (lines[i] == "SPRITE")
+				{
+					TBSprite* pS = world.AddSprite();
+					i = pS->Deserialize(lines, i);
+				}
+				else if (lines[i] == "PARTICLESYSTEM")
+				{
+					ParticleSystem* pPS = world.AddParticleSystem();
+					i = pPS->Deserialize(lines, i);
+				}
 				//we know we have a value
 				setFileValue(header, lines[i]);
 				header = "";
@@ -134,6 +144,7 @@ private:
 
 	}
 
+	//
 	void MakeGameFile(const string& fileName)
 	{
 		ofstream outfile(fileName);
@@ -150,13 +161,13 @@ private:
 			outfile << "TANLANDER^written by^Tanner Boudreau^2024" << endl;
 			
 			//Save Out Content
-			outfile << "\n#SPRITES\n";
+			outfile << "\n\n#SPRITES\n";
 			for (int i = 0; i < world.GetSpriteCount(); i++)
 			{
 				string str = world.GetSpriteAtIndex(i)->Serialize();
 				outfile << str << endl;
 			}
-			outfile << "\nPARTICLES\n";
+			outfile << "\n\n\n#PARTICLE SYSTEMS\n";
 			for (int i = 0; i < world.GetParticleSystemCount(); i++)
 			{
 				string str = world.GetParticleSystemAtIndex(i)->Serialize();

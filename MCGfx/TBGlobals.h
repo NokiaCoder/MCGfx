@@ -2,9 +2,11 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <functional>
 #include "MCGraphics.cpp"
 #include "TBCamera.h"
 #include "TBNotifyMgr.h"
+
 using namespace std;
 
 //Enum class Layers near to far
@@ -60,6 +62,107 @@ static LAYER Str2Layer(string s)
     return LAYER::layer_NONE;
 }
 
+
+static float Str2F(const string& s)
+{
+    return (float)atof(s.c_str());
+}
+static int Str2I(const string& s)
+{
+    return (int)atoi(s.c_str());
+}
+static bool Str2TF(const string& s)
+{
+    return s == "true" || s == "TRUE" || s == "True";
+}
+
+
+
+inline std::string& ltrim(std::string& s)
+{
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(),
+        std::not1(std::ptr_fun<int, int>(std::isspace))));
+    return s;
+}
+inline std::string& rtrim(std::string& s)
+{
+    s.erase(std::find_if(s.rbegin(), s.rend(),
+        std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+    return s;
+}
+inline std::string& trim(std::string& s)
+{
+    return ltrim(rtrim(s));
+}
+static int GetChunks(string str, vector<string>& chunks)
+{
+    int commaIndex = 0;
+    chunks.clear();
+
+    str = trim(str);
+
+    if (str.length() > 0)
+    {
+        string firstString = "";
+        chunks.push_back(firstString);
+    }
+    for (int i = 0; i < (int)str.size(); ++i)
+    {
+        if (str[i] != ',' && str[i] != '\r' && str[i] != '\n' && str[i] != ' ')
+        {
+            chunks[commaIndex].push_back(str[i]);
+        }
+        else
+        {
+            string newString = "";
+            chunks.push_back(newString);
+            commaIndex++;
+        }
+    }
+
+    return (int)chunks.size();
+}
+
+static int GetChunks(string str,char delimiter, vector<string>& chunks)
+{
+    int commaIndex = 0;
+    chunks.clear();
+
+    str = trim(str);
+
+    if (str.length() > 0)
+    {
+        string firstString = "";
+        chunks.push_back(firstString);
+    }
+    for (int i = 0; i < (int)str.size(); ++i)
+    {
+        if (str[i] != delimiter && str[i] != '\r' && str[i] != '\n')
+        {
+            chunks[commaIndex].push_back(str[i]);
+        }
+        else
+        {
+            string newString = "";
+            chunks.push_back(newString);
+            commaIndex++;
+        }
+    }
+
+    return (int)chunks.size();
+}
+
+static RGBTRIPLE Str2RGB(const string& s)
+{
+    vector<string> chunks;
+    GetChunks(s, '|', chunks);
+    RGBTRIPLE rgb;
+    rgb.rgbtBlue = (uint8_t)Str2I(chunks[0]);
+    rgb.rgbtGreen = (uint8_t)Str2I(chunks[1]);
+    rgb.rgbtRed = (uint8_t)Str2I(chunks[2]);
+
+    return rgb;
+}
 
 struct CollisionInfo
 {

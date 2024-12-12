@@ -142,6 +142,7 @@ private:
 public:
 	ParticleSystem() = default;
 
+
 	ParticleSystem(const ParticleSystem& copy)
 	{
 		gravityActive = copy.gravityActive;
@@ -311,14 +312,132 @@ public:
 
 	string Serialize()
 	{
-		string str;
-		//TODO
+		string str = "\nPARTICLESYSTEM\n";
+
+		str += "gravityActive," + string(gravityActive ? "TRUE\n" : "FALSE\n");
+		str += "fadeOut," + string(fadeOut ? "TRUE\n" : "FALSE\n");
+		str += "active," + string(active ? "TRUE\n" : "FALSE\n");
+
+		str += "name," + name + "\n";
+
+
+		str += "emitterX," + to_string(emitterX) + "\n";
+		str += "emitterY," + to_string(emitterY) + "\n";
+		str += "emitRate," + to_string(emitRate) + "\n";
+		str += "emitDurationSec," + to_string(emitDurationSec) + "\n";
+		str += "startDeg," + to_string(startDeg) + "\n";
+		str += "endDeg," + to_string(endDeg) + "\n";
+		str += "startSpeed," + to_string(startSpeed) + "\n";
+		str += "lifespanSec," + to_string(lifespanSec) + "\n";
+		str += "runDurationSec," + to_string(runDurationSec) + "\n";
+
+		str += "frameOn," + to_string(frameOn) + "\n";
+
+		str += "spawnRadiusMin," + to_string(spawnRadiusMin) + "\n";
+		str += "spawnRadiusMax," + to_string(spawnRadiusMax) + "\n";
+
+		str += "staticParticles," + string(staticParticles ? "TRUE\n" : "FALSE\n");
+
+		str += "particleColor," + to_string(particleColor.rgbtRed) + "|" + to_string(particleColor.rgbtGreen) + "|" + to_string(particleColor.rgbtBlue) + "\n";
+
+		str += "layer," + Layer2Str(layer) + "\n";
+
 		return str;
 	}
 
-	void Deserialize(const string& serial)
+	int Deserialize(const vector<string>& lines, int startIndex)
 	{
-		//TODO
+		int index = startIndex;
+		if (lines[index] == "PARTICLESYSTEM")
+		{
+			index++;
+		}
+		if (lines[index] == "")
+		{
+			return index;
+		}
+		//Line has KVP(KEYVALUEPAIR)
+		vector<string> chunks;
+		GetChunks(lines[index], chunks);
+		if (chunks[0] == "gravityActive")
+		{
+			gravityActive = Str2TF(chunks[1]);
+		}
+		else if (chunks[0] == "fadeOut")
+		{
+			fadeOut = Str2TF(chunks[1]);
+		}
+		else if (chunks[0] == "active")
+		{
+			active = Str2TF(chunks[1]);
+		}
+		else if (chunks[0] == "name")
+		{
+			name = chunks[1];
+		}
+		else if (chunks[0] == "emitterX")
+		{
+			emitterX = Str2F(chunks[1]);
+		}
+		else if (chunks[0] == "emitterY")
+		{
+			emitterY = Str2F(chunks[1]);
+		}
+		else if (chunks[0] == "emitRate")
+		{
+			emitRate = Str2F(chunks[1]);
+		}
+		else if (chunks[0] == "emitDurationSec")
+		{
+			emitDurationSec = Str2F(chunks[1]);
+		}
+		else if (chunks[0] == "startDeg")
+		{
+			startDeg = Str2F(chunks[1]);
+		}
+		else if (chunks[0] == "endDeg")
+		{
+			endDeg = Str2F(chunks[1]);
+		}
+		else if (chunks[0] == "startSpeed")
+		{
+			startSpeed = Str2F(chunks[1]);
+		}
+		else if (chunks[0] == "lifespanSec")
+		{
+			lifespanSec = Str2F(chunks[1]);
+		}
+		else if (chunks[0] == "runDurationSec")
+		{
+			runDurationSec = Str2F(chunks[1]);
+		}
+		else if (chunks[0] == "frameOn")
+		{
+			frameOn = Str2I(chunks[1]);
+		}
+		else if (chunks[0] == "spawnRadiusMin")
+		{
+			spawnRadiusMin = Str2F(chunks[1]);
+		}
+		else if (chunks[0] == "spawnRadiusMax")
+		{
+			spawnRadiusMax = Str2F(chunks[1]);
+		}
+		else if (chunks[0] == "staticParticles")
+		{
+			staticParticles = Str2TF(chunks[1]);
+		}
+		else if (chunks[0] == "color")
+		{
+			particleColor = Str2RGB(chunks[1]);
+		}
+		else if (chunks[0] == "layer")
+		{
+			layer = Str2Layer(chunks[1]);
+		}
+		
+
+		return index;
 	}
 };
 

@@ -45,7 +45,8 @@ private:
     int height = 0;
     bool isActive = false;
     bool stretchToFill = false;
-    bool randomizeColors = false;
+    bool randomize
+        s = false;
     RGBTRIPLE clearColor = { 0, 0, 0 };
     vector<TextBlock> textToRender;
     HFONT hFontSans = 0;

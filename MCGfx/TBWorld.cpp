@@ -112,6 +112,18 @@ public:
 		TBSprite* pS = GetSprite(parentSpriteName);
 		pPS->SetParent(pS);
 	}
+	TBSprite* AddSprite()
+	{
+		TBSprite s;
+		sprites.push_back(s);
+		return &sprites.back();
+	}
+	ParticleSystem* AddParticleSystem()
+	{
+		ParticleSystem s;
+		particleSystems.push_back(s);
+		return &particleSystems.back();
+	}
 	// public functions
 	void Load()
 	{
