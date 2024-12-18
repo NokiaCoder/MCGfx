@@ -130,6 +130,8 @@ private:
 				{
 					TBSprite* pS = world.AddSprite();
 					i = pS->Deserialize(lines, i);
+					pS->SetParent(world.GetSprite(pS->GetParentName()));
+					pS->SetShowOnCollide(world.GetSprite(pS->GetShowOnCollideName()));
 				}
 				else if (lines[i] == "PARTICLESYSTEM")
 				{

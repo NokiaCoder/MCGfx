@@ -79,6 +79,8 @@ static CollideType Str2CollideType(string s)
 	{
 		return CollideType::PowerUp;
 	}
+
+	return CollideType::None;
 }
 
 static string TextAlign2Str(TEXT_ALIGN ta)
@@ -108,6 +110,8 @@ static TEXT_ALIGN Str2TextAlign(string s)
 	{
 		return TEXT_ALIGN::RIGHT;
 	}
+
+	return TEXT_ALIGN::CENTER;
 }
 
 class TBSprite
@@ -128,6 +132,8 @@ private:
 	float ground = 202.0f; //Value for ground (change value to change height of ground
 	bool stayAboveGround = false;
 	bool gravityActive = false;
+	string parentName = "";
+	string showOnCollideName = "";
 	TBSprite* pParent = nullptr;
 	TBSprite* pShowOnCollide = nullptr;
 	bool visible = true;
@@ -276,11 +282,11 @@ public:
 		}
 		else if (chunks[0] == "parentName")
 		{
-			//TODO
+			SetParentName(chunks[1]);
 		}
 		else if (chunks[0] == "showOnCollide")
 		{
-			//TODO
+			SetShowOnCollideName(chunks[1]);
 		}
 		else if (chunks[0] == "visible")
 		{
@@ -344,6 +350,8 @@ public:
 		}
 		
 		index++;
+
+		return index;
 	}
 
 	//ACCESSORS
@@ -468,6 +476,8 @@ public:
 		}
 	}
 
+
+	//GETTERS AND SETTERS
 	TBSprite* GetParent()
 	{
 		return pParent;
@@ -475,6 +485,26 @@ public:
 	void SetParent(TBSprite* pP)
 	{
 		pParent = pP;
+	}
+
+	//ParentName Get and Set
+	void SetParentName(string sp)
+	{
+		parentName = sp;
+	}
+	string GetParentName()
+	{
+		return parentName;
+	}
+
+	//ShowOnCollide Get and Set
+	void SetShowOnCollideName(string sc)
+	{
+		showOnCollideName = sc;
+	}
+	string GetShowOnCollideName()
+	{
+		return showOnCollideName;
 	}
 
 	float GetX()
