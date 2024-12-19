@@ -119,8 +119,7 @@ private:
 	bool staticParticles = false;
 	RGBTRIPLE particleColor = { 255, 255, 255 };
 	LAYER layer = LAYER::layer_BACK;
-
-
+	string parentSpriteName = "";
 	vector<Particle> particles;
 	TBSprite* pParent = nullptr;
 
@@ -174,6 +173,15 @@ public:
 	void SetGravityOn(bool gravityOn)
 	{
 		gravityActive = gravityOn;
+	}
+
+	string GetParentSpriteName()
+	{
+		return parentSpriteName;
+	}
+	void SetParentSpriteName(string ps)
+	{
+		parentSpriteName = ps;
 	}
 
 	LAYER GetLayer()
@@ -342,6 +350,8 @@ public:
 
 		str += "layer," + Layer2Str(layer) + "\n";
 
+		str += "parentSpriteName," + (pParent == nullptr ? "" : pParent->GetName());
+
 		return str;
 	}
 
@@ -435,7 +445,10 @@ public:
 		{
 			layer = Str2Layer(chunks[1]);
 		}
-		
+		else if (chunks[0] == "parentSpriteName")
+		{
+			parentSpriteName = chunks[1];
+		}
 
 		return index;
 	}

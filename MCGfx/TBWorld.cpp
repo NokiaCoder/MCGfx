@@ -125,6 +125,37 @@ public:
 		return &particleSystems.back();
 	}
 	// public functions
+	void PreLoad()
+	{
+		sprites.clear();
+		particleSystems.clear();
+
+		//pre allocate to avoid stale pointers
+		sprites.reserve(1000);
+		int index = -1;
+		int psIndex = -1;
+
+		int enemyCount = 2 * g_LevelOn;
+
+		//mountain/fire/lander color
+		RGBTRIPLE NearColor = { 75, 75, 45 };
+		RGBTRIPLE NearGroundColor = { 105, 100, 75 };
+		RGBTRIPLE MidColor = DarkenColor({ 105, 100, 75 }, 25);
+		RGBTRIPLE FarColor = DarkenColor({ 105, 100, 75 }, 10);
+		RGBTRIPLE SkyBoxColor = DarkenColor({ 105, 100, 75 }, 100);
+		RGBTRIPLE FIRECOLOR = { 10, 10, 255 };
+		RGBTRIPLE LANDERCOLOR = { 100, 201, 200 };
+		RGBTRIPLE TargetCOLOR = { 1, 255, 3 };
+		RGBTRIPLE MeteorCOLOR = { 255, 200, 200 };
+		RGBTRIPLE PowerUpCOLOR = { 255,255, 0 };
+
+		//Speed settings
+		float mountMidSpeed = -0.01f;
+		float mountNearSpeed = -0.03f;
+		float landerSpeed = GetRandRange(-1.0f, 1.0f);
+		float scrollSpeed = -0.0f;
+	}
+
 	void Load()
 	{
 		sprites.clear();

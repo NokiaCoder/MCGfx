@@ -111,7 +111,7 @@ private:
 			index = getNextLine(contents, line, index);
 			lines.push_back(line);
 		}
-
+		world.PreLoad();
 		string header = "";
 		for (int i = 0; i < (int)lines.size(); i++)
 		{
@@ -137,6 +137,7 @@ private:
 				{
 					ParticleSystem* pPS = world.AddParticleSystem();
 					i = pPS->Deserialize(lines, i);
+					pPS->SetParent(world.GetSprite(pPS->GetParentSpriteName()));
 				}
 				//we know we have a value
 				setFileValue(header, lines[i]);
@@ -216,7 +217,8 @@ public:
 	void Restart()
 	{
 		//MakeGameFile(GetCWD() + "\\TanLander.tbg"); 
-		LoadGame(GetCWD() + "\\TanLander.tbg");
+		// TODO    Load game should be active and world.load() should be commented out
+		//LoadGame(GetCWD() + "\\TanLander.tbg");
 		if (gameLost == true)
 		{
  			g_Notify.Notify({ NOTIFYTYPE::OnGmEnd, OBJECTTYPE::GAMEMGR, this->name });
