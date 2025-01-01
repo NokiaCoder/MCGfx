@@ -543,6 +543,15 @@ public:
 		vy = v;
 	}
 
+	float GetVx()
+	{
+		return vx;
+	}
+	float GetVy()
+	{
+		return vy;
+	}
+
 	bool GetVisible()
 	{
 		return visible;

@@ -354,6 +354,9 @@ public:
 		{
 			Notification n = g_Notify.qGM.front();
 			g_Notify.qGM.pop_front();
+
+
+
 			switch (n.NotifyType)
 			{
 				case NOTIFYTYPE::OnExplode:
@@ -382,6 +385,13 @@ public:
 				{
 					TBSprite* pSprite = world.GetSprite(n.Name);
 					
+					//test for safe landing
+					if (pSprite->GetVy() > g_LandVyMax)
+					{
+						g_Notify.Notify({ NOTIFYTYPE::OnExplode, OBJECTTYPE::SPR, pSprite->GetName() });
+						return;
+					}
+
 					g_LevelOn++;
 					g_CurrentScore += 100;
 					if (g_CurrentScore % 100 == 0)

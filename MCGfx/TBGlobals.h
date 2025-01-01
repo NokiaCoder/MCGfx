@@ -76,7 +76,7 @@ static bool Str2TF(const string& s)
     return s == "true" || s == "TRUE" || s == "True";
 }
 
-
+static float g_LandVyMax = 0.1f;
 
 inline std::string& ltrim(std::string& s)
 {
