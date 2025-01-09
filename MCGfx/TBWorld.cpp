@@ -531,15 +531,16 @@ public:
 		sprites.back().setPhysics(false);
 		sprites.back().SetWrap(true);
 		
-		sprites.push_back(s);
-		sprites.back().Create(-1, 2, 2, 2, LANDERCOLOR);
-		sprites.back().SetName("Left lander wing1");
-		sprites.back().SetParent(GetSprite("lander"));
-		sprites.back().SetVisible(true);
-		sprites.back().SetLayer(LAYER::layer_FRONT);
-		sprites.back().SetHasAnimation(true);
-		sprites.back().setPhysics(false);
-		sprites.back().SetWrap(true);
+		//broken one
+		//sprites.push_back(s);
+		//sprites.back().Create(-1, 2, 2, 2, LANDERCOLOR);
+		//sprites.back().SetName("Left lander wing1");
+		//sprites.back().SetParent(GetSprite("lander"));
+		//sprites.back().SetVisible(true);
+		//sprites.back().SetLayer(LAYER::layer_FRONT);
+		//sprites.back().SetHasAnimation(true);
+		//sprites.back().setPhysics(false);
+		//sprites.back().SetWrap(true);
 
 		sprites.push_back(s);
 		sprites.back().Create(4, 2, 1, 2, LANDERCOLOR);
@@ -558,7 +559,7 @@ public:
 		sprites.back().SetTextAlign(TEXT_ALIGN::CENTER);
 		sprites.back().SetIsTextSprite(true);
 		sprites.back().SetVisible(false);
-		sprites.back().SetLayer(LAYER::layer_FRONT);
+		sprites.back().SetLayer(LAYER::layer_HUD);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
 		sprites.back().SetLifeTime(50.0f);
@@ -571,7 +572,7 @@ public:
 		sprites.back().SetTextAlign(TEXT_ALIGN::CENTER);
 		sprites.back().SetIsTextSprite(true);
 		sprites.back().SetVisible(false);
-		sprites.back().SetLayer(LAYER::layer_FRONT);
+		sprites.back().SetLayer(LAYER::layer_HUD);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
 		sprites.back().SetLifeTime(50.0f);
@@ -584,7 +585,7 @@ public:
 		sprites.back().SetTextAlign(TEXT_ALIGN::CENTER);
 		sprites.back().SetIsTextSprite(true);
 		sprites.back().SetVisible(false);
-		sprites.back().SetLayer(LAYER::layer_FRONT);
+		sprites.back().SetLayer(LAYER::layer_HUD);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
 		sprites.back().SetLifeTime(50.0f);
@@ -597,7 +598,7 @@ public:
 		sprites.back().SetSpriteText("GAME OVER");
 		sprites.back().SetIsTextSprite(true);
 		sprites.back().SetVisible(false);
-		sprites.back().SetLayer(LAYER::layer_FRONT);
+		sprites.back().SetLayer(LAYER::layer_HUD);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
 		sprites.back().SetLifeTime(50.0f);
@@ -610,7 +611,7 @@ public:
 		sprites.back().SetSpriteText("");
 		sprites.back().SetIsTextSprite(true);
 		sprites.back().SetVisible(true);
-		sprites.back().SetLayer(LAYER::layer_FRONT);
+		sprites.back().SetLayer(LAYER::layer_HUD);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
 		sprites.back().SetScreen(true);
@@ -622,7 +623,7 @@ public:
 		sprites.back().SetSpriteText("");
 		sprites.back().SetIsTextSprite(true);
 		sprites.back().SetVisible(true);
-		sprites.back().SetLayer(LAYER::layer_FRONT);
+		sprites.back().SetLayer(LAYER::layer_HUD);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
 		sprites.back().SetScreen(true);
@@ -634,7 +635,7 @@ public:
 		sprites.back().SetSpriteText("");
 		sprites.back().SetIsTextSprite(true);
 		sprites.back().SetVisible(true);
-		sprites.back().SetLayer(LAYER::layer_FRONT);
+		sprites.back().SetLayer(LAYER::layer_HUD);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
 		sprites.back().SetScreen(true);
@@ -846,6 +847,10 @@ public:
 			}
 			for (int i = 0; i < (int)sprites.size(); i++)
 			{
+				if (l != 4)
+				{
+					continue;
+				}
 				if (sprites[i].GetLayer() == (LAYER)l)
 				{
 					sprites[i].Draw(pGFX);

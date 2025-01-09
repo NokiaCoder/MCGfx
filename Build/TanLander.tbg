@@ -1333,7 +1333,7 @@ animationX,0.000000
 animationY,0.000000
 lifeTime,50.000000
 age,0.000000
-layer,layer_FRONT
+layer,layer_HUD
 
 
 SPRITE
@@ -1367,7 +1367,7 @@ animationX,0.000000
 animationY,0.000000
 lifeTime,50.000000
 age,0.000000
-layer,layer_FRONT
+layer,layer_HUD
 
 
 SPRITE
@@ -1404,7 +1404,7 @@ animationX,0.000000
 animationY,0.000000
 lifeTime,50.000000
 age,0.000000
-layer,layer_FRONT
+layer,layer_HUD
 
 
 SPRITE
@@ -1438,7 +1438,7 @@ animationX,0.000000
 animationY,0.000000
 lifeTime,50.000000
 age,0.000000
-layer,layer_FRONT
+layer,layer_HUD
 
 
 SPRITE
@@ -1472,7 +1472,7 @@ animationX,0.000000
 animationY,0.000000
 lifeTime,-1.000000
 age,0.000000
-layer,layer_FRONT
+layer,layer_HUD
 
 
 SPRITE
@@ -1506,7 +1506,7 @@ animationX,0.000000
 animationY,0.000000
 lifeTime,-1.000000
 age,0.000000
-layer,layer_FRONT
+layer,layer_HUD
 
 
 SPRITE
@@ -1540,7 +1540,7 @@ animationX,0.000000
 animationY,0.000000
 lifeTime,-1.000000
 age,0.000000
-layer,layer_FRONT
+layer,layer_HUD
 
 
 

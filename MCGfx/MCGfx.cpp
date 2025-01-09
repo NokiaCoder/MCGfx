@@ -107,7 +107,7 @@ LRESULT CALLBACK WindowProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ WPARAM wParam, 
         graphics.Initialize(hwnd, g_pixelWidth,g_pixelHeight);
         graphics.Clear();
         game.SetPointer(&graphics);
-        game.Restart();
+        game.StartGame();
         
         return 0;
 

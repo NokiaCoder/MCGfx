@@ -13,11 +13,12 @@ using namespace std;
 enum class LAYER
 {
     layer_BACK = 0,
-    layer_FAR,
-    Layer_MID,
-    layer_NEAR,
-    layer_FRONT,
-    layer_NONE,
+    layer_FAR = 1, 
+    Layer_MID = 2,
+    layer_NEAR = 3,
+    layer_FRONT = 4,
+    layer_HUD = 5,
+    layer_NONE = 6,
 };
 
 static string Layer2Str(LAYER l)
@@ -34,6 +35,8 @@ static string Layer2Str(LAYER l)
         return "layer_NEAR";
     case LAYER::layer_FRONT:
         return "layer_FRONT";
+    case LAYER::layer_HUD:
+        return "layer_HUD";
     }
     return "layer_NONE";
 }
@@ -58,6 +61,10 @@ static LAYER Str2Layer(string s)
     if (s == "layer_FRONT")
     {
         return LAYER::layer_FRONT;
+    }
+    if (s == "layer_HUD")
+    {
+        return LAYER::layer_HUD;
     }
     return LAYER::layer_NONE;
 }
@@ -157,9 +164,9 @@ static RGBTRIPLE Str2RGB(const string& s)
     vector<string> chunks;
     GetChunks(s, '|', chunks);
     RGBTRIPLE rgb;
-    rgb.rgbtBlue = (uint8_t)Str2I(chunks[0]);
+    rgb.rgbtBlue = (uint8_t)Str2I(chunks[2]);
     rgb.rgbtGreen = (uint8_t)Str2I(chunks[1]);
-    rgb.rgbtRed = (uint8_t)Str2I(chunks[2]);
+    rgb.rgbtRed = (uint8_t)Str2I(chunks[0]);
 
     return rgb;
 }

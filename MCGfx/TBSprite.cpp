@@ -217,139 +217,143 @@ public:
 		{
 			index++;
 		}
-		if (lines[index] == "")
-		{
-			return index;
-		}
-		//Line has KVP(KEYVALUEPAIR)
-		vector<string> chunks;
-		GetChunks(lines[index], chunks);
-		if (chunks[0] == "x")
-		{
-			x = Str2F(chunks[1]);
-		}
-		else if (chunks[0] == "y")
-		{
-			y = Str2F(chunks[1]);
-		}
-		else if (chunks[0] == "w")
-		{
-			w = Str2I(chunks[1]);
-		}
-		else if (chunks[0] == "h")
-		{
-			h = Str2I(chunks[1]);
-		}
-		else if (chunks[0] == "color")
-		{
-			color = Str2RGB(chunks[1]);
-		}
-		else if (chunks[0] == "name")
-		{
-			name = chunks[1];
-		}
-		else if (chunks[0] == "hasPhysics")
-		{
-			hasPhysics = Str2TF(chunks[1]);
-		}
-		else if (chunks[0] == "vx")
-		{
-			vx = Str2F(chunks[1]);
-		}
-		else if (chunks[0] == "vy")
-		{
-			vy = Str2F(chunks[1]);
-		}
-		else if (chunks[0] == "fx")
-		{
-			fx = Str2F(chunks[1]);
-		}
-		else if (chunks[0] == "fy")
-		{
-			fy = Str2F(chunks[1]);
-		}
-		else if (chunks[0] == "ground")
-		{
-			ground = Str2F(chunks[1]);
-		}
-		else if (chunks[0] == "stayAboveGround")
-		{
-			stayAboveGround = Str2TF(chunks[1]);
-		}
-		else if (chunks[0] == "gravityActive")
-		{
-			gravityActive = Str2TF(chunks[1]);
-		}
-		else if (chunks[0] == "parentName")
-		{
-			SetParentName(chunks[1]);
-		}
-		else if (chunks[0] == "showOnCollide")
-		{
-			SetShowOnCollideName(chunks[1]);
-		}
-		else if (chunks[0] == "visible")
-		{
-			visible = Str2TF(chunks[1]);
-		}
-		else if (chunks[0] == "wrap")
-		{
-			wrap = Str2TF(chunks[1]);
-		}
-		else if (chunks[0] == "hasAnimation")
-		{
-			hasAnimation = Str2TF(chunks[1]);
-		}
-		else if (chunks[0] == "collideType")
-		{
-			collideType = Str2CollideType(chunks[1]);
-		}
-		else if (chunks[0] == "isTextSprite")
-		{
-			isTextSprite = Str2TF(chunks[1]);
-		}
-		else if (chunks[0] == "isScreen")
-		{
-			isScreen = Str2TF(chunks[1]);
-		}
-		else if (chunks[0] == "explodeOnCollideLose")
-		{
-			explodeOnCollideLose = Str2TF(chunks[1]);
-		}
-		else if (chunks[0] == "textAlign")
-		{
-			textAlign = Str2TextAlign(chunks[1]);
-		}
-		else if (chunks[0] == "spriteText")
-		{
-			spriteText = (chunks[1]);
-		}
-		else if (chunks[0] == "hitTarget")
-		{
-			hitTarget = Str2TF(chunks[1]);
-		}
-		else if (chunks[0] == "animationX")
-		{
-			animationX = Str2F(chunks[1]);
-		}
-		else if (chunks[0] == "animationY")
-		{
-			animationY = Str2F(chunks[1]);
-		}
-		else if (chunks[0] == "lifeTime")
-		{
-			lifeTime = Str2F(chunks[1]);
-		}
-		else if (chunks[0] == "age")
-		{
-			age = Str2F(chunks[1]);
-		}
-		else if (chunks[0] == "layer")
-		{
-			layer = Str2Layer(chunks[1]);
-		}
 		
-		index++;
+
+
+		while (lines[index] != "")
+		{
+
+
+			//Line has KVP(KEYVALUEPAIR)
+			vector<string> chunks;
+			GetChunks(lines[index], chunks);
+			if (chunks[0] == "x")
+			{
+				x = Str2F(chunks[1]);
+			}
+			else if (chunks[0] == "y")
+			{
+				y = Str2F(chunks[1]);
+			}
+			else if (chunks[0] == "w")
+			{
+				w = Str2I(chunks[1]);
+			}
+			else if (chunks[0] == "h")
+			{
+				h = Str2I(chunks[1]);
+			}
+			else if (chunks[0] == "color")
+			{
+				color = Str2RGB(chunks[1]);
+			}
+			else if (chunks[0] == "name")
+			{
+				name = chunks[1];
+			}
+			else if (chunks[0] == "hasPhysics")
+			{
+				hasPhysics = Str2TF(chunks[1]);
+			}
+			else if (chunks[0] == "vx")
+			{
+				vx = Str2F(chunks[1]);
+			}
+			else if (chunks[0] == "vy")
+			{
+				vy = Str2F(chunks[1]);
+			}
+			else if (chunks[0] == "fx")
+			{
+				fx = Str2F(chunks[1]);
+			}
+			else if (chunks[0] == "fy")
+			{
+				fy = Str2F(chunks[1]);
+			}
+			else if (chunks[0] == "ground")
+			{
+				ground = Str2F(chunks[1]);
+			}
+			else if (chunks[0] == "stayAboveGround")
+			{
+				stayAboveGround = Str2TF(chunks[1]);
+			}
+			else if (chunks[0] == "gravityActive")
+			{
+				gravityActive = Str2TF(chunks[1]);
+			}
+			else if (chunks[0] == "pParent")
+			{
+				SetParentName(chunks[1]);
+			}
+			else if (chunks[0] == "pShowOnCollide")
+			{
+				SetShowOnCollideName(chunks[1]);
+			}
+			else if (chunks[0] == "visible")
+			{
+				visible = Str2TF(chunks[1]);
+			}
+			else if (chunks[0] == "wrap")
+			{
+				wrap = Str2TF(chunks[1]);
+			}
+			else if (chunks[0] == "hasAnimation")
+			{
+				hasAnimation = Str2TF(chunks[1]);
+			}
+			else if (chunks[0] == "collideType")
+			{
+				collideType = Str2CollideType(chunks[1]);
+			}
+			else if (chunks[0] == "isTextSprite")
+			{
+				isTextSprite = Str2TF(chunks[1]);
+			}
+			else if (chunks[0] == "isScreen")
+			{
+				isScreen = Str2TF(chunks[1]);
+			}
+			else if (chunks[0] == "explodeOnCollideLose")
+			{
+				explodeOnCollideLose = Str2TF(chunks[1]);
+			}
+			else if (chunks[0] == "textAlign")
+			{
+				textAlign = Str2TextAlign(chunks[1]);
+			}
+			else if (chunks[0] == "spriteText")
+			{
+				spriteText = (chunks[1]);
+			}
+			else if (chunks[0] == "hitTarget")
+			{
+				hitTarget = Str2TF(chunks[1]);
+			}
+			else if (chunks[0] == "animationX")
+			{
+				animationX = Str2F(chunks[1]);
+			}
+			else if (chunks[0] == "animationY")
+			{
+				animationY = Str2F(chunks[1]);
+			}
+			else if (chunks[0] == "lifeTime")
+			{
+				lifeTime = Str2F(chunks[1]);
+			}
+			else if (chunks[0] == "age")
+			{
+				age = Str2F(chunks[1]);
+			}
+			else if (chunks[0] == "layer")
+			{
+				layer = Str2Layer(chunks[1]);
+			}
+
+			index++;
+		}
 
 		return index;
 	}
@@ -484,6 +488,10 @@ public:
 	}
 	void SetParent(TBSprite* pP)
 	{
+		if (pP != nullptr)
+		{
+			int u = 0;
+		}
 		pParent = pP;
 	}
 

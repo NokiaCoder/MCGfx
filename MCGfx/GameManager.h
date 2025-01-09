@@ -92,8 +92,11 @@ private:
 
 	void LoadGame(const string& fileName)
 	{
+		//try to load file
 		string contents;
 		ifstream file(fileName);
+		
+		//load file into string
 		if (file)
 		{
 			std::stringstream buffer;
@@ -102,7 +105,7 @@ private:
 			file.close();
 		}
 
-
+		//Break contents string into array of lines
 		vector<string> lines;
 		int index = 0;
 		while (index >= 0)
@@ -111,13 +114,21 @@ private:
 			index = getNextLine(contents, line, index);
 			lines.push_back(line);
 		}
+
+		//Now lines contains each line of the script
 		world.PreLoad();
+		
+		//cycle through and parse each line
 		string header = "";
 		for (int i = 0; i < (int)lines.size(); i++)
 		{
 			if (lines[i].length())
 			{
 				if (lines[i][0] == '$')
+				{
+					continue;
+				}
+				if (lines[i] == "")
 				{
 					continue;
 				}
@@ -137,7 +148,8 @@ private:
 				{
 					ParticleSystem* pPS = world.AddParticleSystem();
 					i = pPS->Deserialize(lines, i);
-					pPS->SetParent(world.GetSprite(pPS->GetParentSpriteName()));
+					string parentName = pPS->GetParentSpriteName();
+					pPS->SetParent(world.GetSprite(parentName));
 
 				}
 				//we know we have a value
@@ -169,13 +181,13 @@ private:
 			for (int i = 0; i < world.GetSpriteCount(); i++)
 			{
 				string str = world.GetSpriteAtIndex(i)->Serialize();
-				outfile << str << endl;
+				outfile << str;
 			}
 			outfile << "\n\n\n#PARTICLE SYSTEMS\n";
 			for (int i = 0; i < world.GetParticleSystemCount(); i++)
 			{
 				string str = world.GetParticleSystemAtIndex(i)->Serialize();
-				outfile << str << endl;
+				outfile << str;
 			}
 			
 			//close file
@@ -215,11 +227,11 @@ public:
 		thrustSndId = audioPlayer.Preload(path);
 	}
 
-	void Restart()
+	void StartGame()
 	{
-		//MakeGameFile(GetCWD() + "\\TanLander.tbg"); 
-		// TODO    Load game should be active and world.load() should be commented out
-		LoadGame(GetCWD() + "\\TanLander.tbg");
+		const bool LOADFROMFILE = false;
+		const bool SAVEFILE = false;
+
 		if (gameLost == true)
 		{
  			g_Notify.Notify({ NOTIFYTYPE::OnGmEnd, OBJECTTYPE::GAMEMGR, this->name });
@@ -227,8 +239,23 @@ public:
 		}
 		ShowCursor(FALSE);
 		g_fuel = 1000;
-		world.Load();
-		//MakeGameFile(GetCWD() + "\\TanLander.tbg");
+
+		if (LOADFROMFILE)
+		{
+			LoadGame(GetCWD() + "\\TanLander.tbg");
+		}
+		else
+		{
+			//If LOADFROMFILE is false then load from world
+			world.Load();
+			startupScreenText = "TANLANDER\nwritten by\nTanner Boudreau\n2024";
+		}
+
+		if (SAVEFILE)
+		{
+			MakeGameFile(GetCWD() + "\\TanLander.tbg");
+		}
+
 		SetupSound();
 		StartTimer();
 		if (!startShown)
@@ -314,7 +341,7 @@ public:
 		//Restart requested
 		if (key == VK_SPACE && !keyDown) //restart
 		{
-			Restart();
+			StartGame();
 			return;
 		}
 		

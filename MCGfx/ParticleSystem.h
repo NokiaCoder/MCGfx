@@ -362,94 +362,101 @@ public:
 		{
 			index++;
 		}
-		if (lines[index] == "")
-		{
-			return index;
-		}
-		//Line has KVP(KEYVALUEPAIR)
-		vector<string> chunks;
-		GetChunks(lines[index], chunks);
-		if (chunks[0] == "gravityActive")
-		{
-			gravityActive = Str2TF(chunks[1]);
-		}
-		else if (chunks[0] == "fadeOut")
-		{
-			fadeOut = Str2TF(chunks[1]);
-		}
-		else if (chunks[0] == "active")
-		{
-			active = Str2TF(chunks[1]);
-		}
-		else if (chunks[0] == "name")
-		{
-			name = chunks[1];
-		}
-		else if (chunks[0] == "emitterX")
-		{
-			emitterX = Str2F(chunks[1]);
-		}
-		else if (chunks[0] == "emitterY")
-		{
-			emitterY = Str2F(chunks[1]);
-		}
-		else if (chunks[0] == "emitRate")
-		{
-			emitRate = Str2F(chunks[1]);
-		}
-		else if (chunks[0] == "emitDurationSec")
-		{
-			emitDurationSec = Str2F(chunks[1]);
-		}
-		else if (chunks[0] == "startDeg")
-		{
-			startDeg = Str2F(chunks[1]);
-		}
-		else if (chunks[0] == "endDeg")
-		{
-			endDeg = Str2F(chunks[1]);
-		}
-		else if (chunks[0] == "startSpeed")
-		{
-			startSpeed = Str2F(chunks[1]);
-		}
-		else if (chunks[0] == "lifespanSec")
-		{
-			lifespanSec = Str2F(chunks[1]);
-		}
-		else if (chunks[0] == "runDurationSec")
-		{
-			runDurationSec = Str2F(chunks[1]);
-		}
-		else if (chunks[0] == "frameOn")
-		{
-			frameOn = Str2I(chunks[1]);
-		}
-		else if (chunks[0] == "spawnRadiusMin")
-		{
-			spawnRadiusMin = Str2F(chunks[1]);
-		}
-		else if (chunks[0] == "spawnRadiusMax")
-		{
-			spawnRadiusMax = Str2F(chunks[1]);
-		}
-		else if (chunks[0] == "staticParticles")
-		{
-			staticParticles = Str2TF(chunks[1]);
-		}
-		else if (chunks[0] == "color")
-		{
-			particleColor = Str2RGB(chunks[1]);
-		}
-		else if (chunks[0] == "layer")
-		{
-			layer = Str2Layer(chunks[1]);
-		}
-		else if (chunks[0] == "parentSpriteName")
-		{
-			parentSpriteName = chunks[1];
-		}
 
+
+
+
+
+		while (lines[index] != "")
+		{
+
+			//Line has KVP(KEYVALUEPAIR)
+			vector<string> chunks;
+			GetChunks(lines[index], chunks);
+			if (chunks[0] == "gravityActive")
+			{
+				gravityActive = Str2TF(chunks[1]);
+			}
+			else if (chunks[0] == "fadeOut")
+			{
+				fadeOut = Str2TF(chunks[1]);
+			}
+			else if (chunks[0] == "active")
+			{
+				active = Str2TF(chunks[1]);
+			}
+			else if (chunks[0] == "name")
+			{
+				name = chunks[1];
+			}
+			else if (chunks[0] == "emitterX")
+			{
+				emitterX = Str2F(chunks[1]);
+			}
+			else if (chunks[0] == "emitterY")
+			{
+				emitterY = Str2F(chunks[1]);
+			}
+			else if (chunks[0] == "emitRate")
+			{
+				emitRate = Str2F(chunks[1]);
+			}
+			else if (chunks[0] == "emitDurationSec")
+			{
+				emitDurationSec = Str2F(chunks[1]);
+			}
+			else if (chunks[0] == "startDeg")
+			{
+				startDeg = Str2F(chunks[1]);
+			}
+			else if (chunks[0] == "endDeg")
+			{
+				endDeg = Str2F(chunks[1]);
+			}
+			else if (chunks[0] == "startSpeed")
+			{
+				startSpeed = Str2F(chunks[1]);
+			}
+			else if (chunks[0] == "lifespanSec")
+			{
+				lifespanSec = Str2F(chunks[1]);
+			}
+			else if (chunks[0] == "runDurationSec")
+			{
+				runDurationSec = Str2F(chunks[1]);
+			}
+			else if (chunks[0] == "frameOn")
+			{
+				frameOn = Str2I(chunks[1]);
+			}
+			else if (chunks[0] == "spawnRadiusMin")
+			{
+				spawnRadiusMin = Str2F(chunks[1]);
+			}
+			else if (chunks[0] == "spawnRadiusMax")
+			{
+				spawnRadiusMax = Str2F(chunks[1]);
+			}
+			else if (chunks[0] == "staticParticles")
+			{
+				staticParticles = Str2TF(chunks[1]);
+			}
+			else if (chunks[0] == "particleColor")
+			{
+				particleColor = Str2RGB(chunks[1]);
+			}
+			else if (chunks[0] == "layer")
+			{
+				layer = Str2Layer(chunks[1]);
+			}
+			else if (chunks[0] == "parentSpriteName")
+			{
+				SetParentSpriteName(chunks[1]);
+			}
+
+			index++;
+
+		}
 		return index;
 	}
 };
