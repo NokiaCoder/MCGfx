@@ -534,7 +534,7 @@ public:
 		//FOUND ERROR if sprite is in x = -1,-2,-3,etc it will do the corner error
 		//broken one
 		sprites.push_back(s);
-		sprites.back().Create(-1, 2, 2, 2, TargetCOLOR);
+		sprites.back().Create(-1, 2, 2, 2, LANDERCOLOR);
 		sprites.back().SetName("Left lander wing1");
 		sprites.back().SetParent(GetSprite("lander"));
 		sprites.back().SetVisible(true);

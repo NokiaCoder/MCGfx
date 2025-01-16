@@ -807,10 +807,9 @@ public:
 			//Not a sprite text
 			pGFX->FillRectangle((int)GetX(), (int)GetY(), (int)GetX() + w, (int)GetY() + h, color);
 			
-			//TODO Corner Bug
+	
 
-
-			if (wrap)
+			if (wrap && pParent == nullptr)
 			{
 				if (x >= g_pixelWidth) //sprite is past right of window
 				{
