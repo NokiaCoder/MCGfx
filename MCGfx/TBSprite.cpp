@@ -787,6 +787,11 @@ public:
 	}
 	void Draw(MCGraphics* pGFX)
 	{
+		if (GetName() == "Left lander wing1")
+		{
+			int u = 1;
+		}
+
 		if (visible)
 		{
 			if (GetIsTextSprite())
@@ -801,7 +806,8 @@ public:
 
 			//Not a sprite text
 			pGFX->FillRectangle((int)GetX(), (int)GetY(), (int)GetX() + w, (int)GetY() + h, color);
-
+			
+			//TODO Corner Bug
 
 
 			if (wrap)

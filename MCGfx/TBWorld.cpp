@@ -148,6 +148,7 @@ public:
 		RGBTRIPLE TargetCOLOR = { 1, 255, 3 };
 		RGBTRIPLE MeteorCOLOR = { 255, 200, 200 };
 		RGBTRIPLE PowerUpCOLOR = { 255,255, 0 };
+		RGBTRIPLE LANDERCOLORW = { 0, 0, 0 };
 
 		//Speed settings
 		float mountMidSpeed = -0.01f;
@@ -179,6 +180,7 @@ public:
 		RGBTRIPLE TargetCOLOR = { 1, 255, 3 };
 		RGBTRIPLE MeteorCOLOR = { 255, 200, 200 };
 		RGBTRIPLE PowerUpCOLOR = { 255,255, 0 };
+		RGBTRIPLE BLACKBOXCOLOR = { 1,0, 0 };
 
 		//Speed settings
 		float mountMidSpeed = -0.01f;
@@ -516,7 +518,6 @@ public:
 		sprites.back().SetWrap(true);
 		sprites.back().SetLayer(LAYER::layer_FRONT);
 		sprites.back().SetStayAboveGround(true);
-		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(true);
 		sprites.back().SetCollide(CollideType::Win);
 		sprites.back().SetExplodeOnCollide(true);
@@ -527,28 +528,26 @@ public:
 		sprites.back().SetParent(GetSprite("lander"));
 		sprites.back().SetVisible(true);
 		sprites.back().SetLayer(LAYER::layer_FRONT);
-		sprites.back().SetHasAnimation(true);
 		sprites.back().setPhysics(false);
 		sprites.back().SetWrap(true);
 		
+		//FOUND ERROR if sprite is in x = -1,-2,-3,etc it will do the corner error
 		//broken one
-		//sprites.push_back(s);
-		//sprites.back().Create(-1, 2, 2, 2, LANDERCOLOR);
-		//sprites.back().SetName("Left lander wing1");
-		//sprites.back().SetParent(GetSprite("lander"));
-		//sprites.back().SetVisible(true);
-		//sprites.back().SetLayer(LAYER::layer_FRONT);
-		//sprites.back().SetHasAnimation(true);
-		//sprites.back().setPhysics(false);
-		//sprites.back().SetWrap(true);
+		sprites.push_back(s);
+		sprites.back().Create(-1, 2, 2, 2, TargetCOLOR);
+		sprites.back().SetName("Left lander wing1");
+		sprites.back().SetParent(GetSprite("lander"));
+		sprites.back().SetVisible(true);
+		sprites.back().SetLayer(LAYER::layer_FRONT);
+		sprites.back().setPhysics(false);
+		sprites.back().SetWrap(true);
 
 		sprites.push_back(s);
-		sprites.back().Create(4, 2, 1, 2, LANDERCOLOR);
+		sprites.back().Create(3, 2, 2, 2, LANDERCOLOR);
 		sprites.back().SetName("right lander wing1");
 		sprites.back().SetParent(GetSprite("lander"));
 		sprites.back().SetVisible(true);
 		sprites.back().SetLayer(LAYER::layer_FRONT);
-		sprites.back().SetHasAnimation(true);
 		sprites.back().setPhysics(false);
 		sprites.back().SetWrap(true);
 
@@ -847,10 +846,6 @@ public:
 			}
 			for (int i = 0; i < (int)sprites.size(); i++)
 			{
-				if (l != 4)
-				{
-					continue;
-				}
 				if (sprites[i].GetLayer() == (LAYER)l)
 				{
 					sprites[i].Draw(pGFX);
