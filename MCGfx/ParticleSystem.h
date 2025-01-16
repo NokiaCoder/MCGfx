@@ -351,6 +351,7 @@ public:
 		str += "layer," + Layer2Str(layer) + "\n";
 
 		str += "parentSpriteName," + (pParent == nullptr ? "" : pParent->GetName());
+		str += "\n";
 
 		return str;
 	}

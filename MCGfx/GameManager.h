@@ -48,6 +48,8 @@ private:
 	int thrustSndId = -1;
 	bool thrustRunning = false;
 	string startupScreenText = "Startup Screen Text";
+	const bool LOADFROMFILE = true;
+	const bool SAVEFILE = false;
 	
 	TBSprite ts;
 	
@@ -90,7 +92,7 @@ private:
 		}
 	}
 
-	void LoadGame(const string& fileName)
+	void LoadGameFromFile(const string& fileName)
 	{
 		//try to load file
 		string contents;
@@ -180,6 +182,10 @@ private:
 			outfile << "\n\n#SPRITES\n";
 			for (int i = 0; i < world.GetSpriteCount(); i++)
 			{
+				if (i == 35)
+				{
+					int u = 0;
+				}
 				string str = world.GetSpriteAtIndex(i)->Serialize();
 				outfile << str;
 			}
@@ -229,8 +235,7 @@ public:
 
 	void StartGame()
 	{
-		const bool LOADFROMFILE = false;
-		const bool SAVEFILE = false;
+		
 
 		if (gameLost == true)
 		{
@@ -242,11 +247,12 @@ public:
 
 		if (LOADFROMFILE)
 		{
-			LoadGame(GetCWD() + "\\TanLander.tbg");
+			LoadGameFromFile(GetCWD() + "\\TanLander.tbg");
 		}
 		else
 		{
 			//If LOADFROMFILE is false then load from world
+			world.PreLoad();
 			world.Load();
 			startupScreenText = "TANLANDER\nwritten by\nTanner Boudreau\n2024";
 		}

@@ -14,7 +14,7 @@ enum class LAYER
 {
     layer_BACK = 0,
     layer_FAR = 1, 
-    Layer_MID = 2,
+    layer_MID = 2,
     layer_NEAR = 3,
     layer_FRONT = 4,
     layer_HUD = 5,
@@ -29,7 +29,7 @@ static string Layer2Str(LAYER l)
         return "layer_BACK";
     case LAYER::layer_FAR:
         return "layer_FAR";
-    case LAYER::Layer_MID:
+    case LAYER::layer_MID:
         return "layer_MID";
     case LAYER::layer_NEAR:
         return "layer_NEAR";
@@ -50,9 +50,9 @@ static LAYER Str2Layer(string s)
     {
         return LAYER::layer_FAR;
     }
-    if (s == "Layer_MID")
+    if (s == "layer_MID")
     {
-        return LAYER::Layer_MID;
+        return LAYER::layer_MID;
     }
     if (s == "layer_NEAR")
     {

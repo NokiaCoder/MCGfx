@@ -132,6 +132,7 @@ public:
 
 		//pre allocate to avoid stale pointers
 		sprites.reserve(1000);
+		particleSystems.reserve(1000);
 		int index = -1;
 		int psIndex = -1;
 
@@ -163,7 +164,6 @@ public:
 		particleSystems.clear();
 
 		//pre allocate to avoid stale pointers
-		sprites.reserve(1000);
 		int index = -1;
 		int psIndex = -1;
 
@@ -280,7 +280,7 @@ public:
 		sprites.back().Create(g_pixelWidth / 4 + 10 , g_pixelHeight/2 + 35 , 50, g_pixelHeight/2 , MidColor);
 		sprites.back().SetName("mtAMid");
 		sprites.back().SetWrap(true);
-		sprites.back().SetLayer(LAYER::Layer_MID);
+		sprites.back().SetLayer(LAYER::layer_MID);
 		sprites.back().SetHasAnimation(true);
 		sprites.back().SetAnimationX(mountMidSpeed * scrollSpeed);
 		sprites.back().setPhysics(false);
@@ -289,7 +289,7 @@ public:
 		sprites.back().Create(g_pixelWidth / 4 + 48, g_pixelHeight / 2 + 30, 40, g_pixelHeight / 2, MidColor);
 		sprites.back().SetName("mtBMid");
 		sprites.back().SetWrap(true);
-		sprites.back().SetLayer(LAYER::Layer_MID);
+		sprites.back().SetLayer(LAYER::layer_MID);
 		sprites.back().SetHasAnimation(true);
 		sprites.back().SetAnimationX(mountMidSpeed * scrollSpeed);
 		sprites.back().setPhysics(false);
@@ -298,7 +298,7 @@ public:
 		sprites.back().Create(g_pixelWidth / 4 + 55, g_pixelHeight / 2 + 35, 20, g_pixelHeight / 2, MidColor);
 		sprites.back().SetName("mtB1Mid");
 		sprites.back().SetWrap(true);
-		sprites.back().SetLayer(LAYER::Layer_MID);
+		sprites.back().SetLayer(LAYER::layer_MID);
 		sprites.back().SetHasAnimation(true);
 		sprites.back().SetAnimationX(mountMidSpeed * scrollSpeed);
 		sprites.back().setPhysics(false);
@@ -307,7 +307,7 @@ public:
 		sprites.back().Create(g_pixelWidth - 288, g_pixelHeight / 2 + 25, 40, g_pixelHeight / 2, MidColor);
 		sprites.back().SetName("mtCMid");
 		sprites.back().SetWrap(true);
-		sprites.back().SetLayer(LAYER::Layer_MID);
+		sprites.back().SetLayer(LAYER::layer_MID);
 		sprites.back().SetHasAnimation(true);
 		sprites.back().SetAnimationX(mountMidSpeed * scrollSpeed);
 		sprites.back().setPhysics(false);
@@ -316,7 +316,7 @@ public:
 		sprites.back().Create(g_pixelWidth - 268, g_pixelHeight / 2 + 15, 20, g_pixelHeight / 2, MidColor);
 		sprites.back().SetName("mtC1Mid");
 		sprites.back().SetWrap(true);
-		sprites.back().SetLayer(LAYER::Layer_MID);
+		sprites.back().SetLayer(LAYER::layer_MID);
 		sprites.back().SetHasAnimation(true);
 		sprites.back().SetAnimationX(mountMidSpeed * scrollSpeed);
 		sprites.back().setPhysics(false);
@@ -325,7 +325,7 @@ public:
 		sprites.back().Create(g_pixelWidth - 48, g_pixelHeight / 2 + 25, 48, g_pixelHeight / 2, MidColor);
 		sprites.back().SetName("mtDMid");
 		sprites.back().SetWrap(true);
-		sprites.back().SetLayer(LAYER::Layer_MID);
+		sprites.back().SetLayer(LAYER::layer_MID);
 		sprites.back().SetHasAnimation(true);
 		sprites.back().SetAnimationX(mountMidSpeed * scrollSpeed);
 		sprites.back().setPhysics(false);
@@ -334,7 +334,7 @@ public:
 		sprites.back().Create(g_pixelWidth - 28, g_pixelHeight / 2 + 15, 28, g_pixelHeight / 2, MidColor);
 		sprites.back().SetName("mtD1Mid");
 		sprites.back().SetWrap(true);
-		sprites.back().SetLayer(LAYER::Layer_MID);
+		sprites.back().SetLayer(LAYER::layer_MID);
 		sprites.back().SetHasAnimation(true);
 		sprites.back().SetAnimationX(mountMidSpeed * scrollSpeed);
 		sprites.back().setPhysics(false);
@@ -344,7 +344,7 @@ public:
 		sprites.back().Create(0, g_pixelHeight / 2 + 50, g_pixelWidth, g_pixelHeight / 2, MidColor);
 		sprites.back().SetName("groundMid");
 		sprites.back().SetWrap(true);
-		sprites.back().SetLayer(LAYER::Layer_MID);
+		sprites.back().SetLayer(LAYER::layer_MID);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
 
@@ -524,7 +524,7 @@ public:
 
 		sprites.push_back(s);
 		sprites.back().Create(1, -4, 2, 3, LANDERCOLOR);
-		sprites.back().SetName("Lander Head");
+		sprites.back().SetName("landerHead");
 		sprites.back().SetParent(GetSprite("lander"));
 		sprites.back().SetVisible(true);
 		sprites.back().SetLayer(LAYER::layer_FRONT);
@@ -648,7 +648,7 @@ public:
 		particleSystems.back().SetParams(240, 300, 15.0f);
 		particleSystems.back().SetLifespan(3.0f);
 		particleSystems.back().SetGravityOn(true);
-		particleSystems.back().SetLayer(LAYER::Layer_MID);
+		particleSystems.back().SetLayer(LAYER::layer_MID);
 		particleSystems.back().SetActive(true);
 
 		particleSystems.push_back(ps);
@@ -658,7 +658,7 @@ public:
 		particleSystems.back().SetParams(240, 300, 15.0f);
 		particleSystems.back().SetLifespan(3.0f);
 		particleSystems.back().SetGravityOn(true);
-		particleSystems.back().SetLayer(LAYER::Layer_MID);
+		particleSystems.back().SetLayer(LAYER::layer_MID);
 		particleSystems.back().SetActive(true);
 
 		particleSystems.push_back(ps);
@@ -835,18 +835,18 @@ public:
 	{
 		pGFX->Clear();
 
-		for (int l = 0; l < 6; l++)
+		for (int layer = 0; layer < 6; layer++)
 		{
 			for (int i = 0; i < (int)particleSystems.size(); i++)
 			{
-				if (particleSystems[i].GetLayer() == (LAYER)l)
+				if (particleSystems[i].GetLayer() == (LAYER)layer)
 				{
 					particleSystems[i].Draw(pGFX);
 				} 
 			}
 			for (int i = 0; i < (int)sprites.size(); i++)
 			{
-				if (sprites[i].GetLayer() == (LAYER)l)
+				if (sprites[i].GetLayer() == (LAYER)layer)
 				{
 					sprites[i].Draw(pGFX);
 				}

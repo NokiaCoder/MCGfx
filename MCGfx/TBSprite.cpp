@@ -123,7 +123,7 @@ private:
 	int w = 0; //width
 	int h = 0; //height
 	RGBTRIPLE color;
-	string name;
+	string name = "noname";
 	bool hasPhysics = false;
 	float vx = 0.0f;
 	float vy = 0.0f;
@@ -787,10 +787,6 @@ public:
 	}
 	void Draw(MCGraphics* pGFX)
 	{
-		if (GetName() == "Left lander wing1")
-		{
-			int u = 1;
-		}
 
 		if (visible)
 		{
