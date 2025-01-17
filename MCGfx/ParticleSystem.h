@@ -72,6 +72,24 @@ public:
 		}
 	}
 
+	float GetX()
+	{
+		return x;
+	}
+	void SetX(float xx)
+	{
+		x = xx;
+	}
+
+	float GetY()
+	{
+		return y;
+	}
+	void SetY(float yy)
+	{
+		y = yy;
+	}
+
 	void SetColor(const RGBTRIPLE& c)
 	{
 		color = RGBQ(c.rgbtRed, c.rgbtGreen, c.rgbtBlue, 255);
@@ -123,7 +141,7 @@ private:
 	vector<Particle> particles;
 	TBSprite* pParent = nullptr;
 
-	void Spawn()
+	void Spawn(float wx, float wy)
 	{
 		Particle s;
 
@@ -136,6 +154,11 @@ private:
 
 		particles.back().Create(posx, posy, vx, vy, lifespanSec, gravityActive, fadeOut, RGBQ(255, 100, 100, 255));
 		particles.back().SetColor(particleColor);
+
+		//After Spawning particles should be local cords
+
+		particles.back().SetX(particles.back().GetX() + wx);
+		particles.back().SetY(particles.back().GetY() + wy);
 	}
 
 public:
@@ -287,11 +310,18 @@ public:
 		//spawn new particles
 		if (frameOn > 0 && active)
 		{
+			float wx = emitterX;
+			float wy = emitterY;
+			if (GetParent() != nullptr)
+			{
+				wx += GetParent()->GetX();
+				wy += GetParent()->GetY();
+			}
 			int num = (int)(emitRate * elapsedTimeSec);
 			num = num == 0 ? 1 : num;
 			for (int i = 0; i < num; i++)
 			{
-				Spawn();
+				Spawn(wx, wy);
 			}
 		}
 
@@ -308,12 +338,11 @@ public:
 			parentX += GetParent()->GetX();
 			parentY += GetParent()->GetY();
 		}
-
-		//pGFX->SetPixel((int)parentX, (int)parentY, { 0, 0, 255 });
 		
 		for (int i = 0; i < (int)particles.size(); i++)
 		{
-			particles[i].Draw(pGFX, parentX, parentY);
+			//particles[i].Draw(pGFX, parentX, parentY);
+			particles[i].Draw(pGFX, 0, 0);
 		}
 	}
 

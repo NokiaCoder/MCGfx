@@ -240,6 +240,8 @@ static RGBQUAD RGBQ(byte r, byte g, byte b, byte a)
     return color;
 }
 
+
+
 //Math Library
 
 static float GetRandNorm()

@@ -47,6 +47,7 @@ private:
     bool stretchToFill = false;
     bool randomizeColors = false;
     RGBTRIPLE clearColor = { 0, 0, 0 };
+    RGBTRIPLE textColor = { 255, 255, 255 };
     vector<TextBlock> textToRender;
     HFONT hFontSans = 0;
 
@@ -72,6 +73,11 @@ private:
         bitmapInfo.bmiHeader.biPlanes = 1;
         bitmapInfo.bmiHeader.biBitCount = 24; // 24 bits per pixel (RGB)
         bitmapInfo.bmiHeader.biCompression = BI_RGB;
+    }
+
+    COLORREF RGBT2CR(const RGBTRIPLE& c)
+    {
+        return RGB(c.rgbtRed, c.rgbtGreen, c.rgbtBlue);
     }
 
 public:
@@ -162,6 +168,7 @@ public:
         isActive = true;
 	}
 
+
     //Public Getters & Setters
     bool GetRandomizeColor()
     {
@@ -183,15 +190,22 @@ public:
 	{
 		clearColor = color;
 	}
-    HWND GetHWND()
-    {
-        return this->hwnd;
-    }
     RGBTRIPLE GetBackgroundColor()
     {
         return clearColor;
 	}
-
+    void SetColorText(const RGBTRIPLE& color)
+    {
+        textColor = color;
+    }
+    RGBTRIPLE GetColorText()
+    {
+        return textColor;
+    }
+    HWND GetHWND()
+    {
+        return this->hwnd;
+    }
     //Public Backbuffer Drawing Functions
     void Clear()
     {
@@ -225,7 +239,8 @@ public:
     void WriteText(RECT& rect, const string& str, TEXT_ALIGN align)
     {
         SetBkMode(backbufferDC, TRANSPARENT);
-        COLORREF old_ = SetTextColor(backbufferDC, RGB(0, 255, 255));
+        COLORREF cr = RGBT2CR(textColor);
+        COLORREF old_ = SetTextColor(backbufferDC, cr);
         SelectObject(backbufferDC, hFontSans);
         DWORD dwFlags = align == TEXT_ALIGN::LEFT ? DT_LEFT : align == TEXT_ALIGN::CENTER ? DT_CENTER : DT_RIGHT;
         DrawTextA(backbufferDC, str.c_str(), static_cast<int>(str.length()), &rect, dwFlags);

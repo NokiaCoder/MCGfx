@@ -254,15 +254,15 @@ public:
 		{
 			//If LOADFROMFILE is false then load from world
 			world.PreLoad();
-			world.Load();
-			startupScreenText = "TANLANDER\nwritten by\nTanner Boudreau\n2024";
+			world.Load(pGfx);
+			startupScreenText = "TAN LANDER\nwritten by\nTanner Boudreau\n2024";
 		}
 		else
 		{
 			//If LOADFROMFILE is false then load from world
 			world.PreLoad();
-			world.Load2();
-			startupScreenText = "CANYON PIRATE\nwritten by\nTanner Boudreau\n2025";
+			world.Load2(pGfx);
+			startupScreenText = "CRASH LANDER\nwritten by\nTanner Boudreau\n2025";
 		}
 
 		if (SAVEFILE)
