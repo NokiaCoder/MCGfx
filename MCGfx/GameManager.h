@@ -248,7 +248,9 @@ public:
 
 		if (LOADFROMFILE)
 		{
+			pGfx->SetColorText({ 255, 255, 0 });
 			LoadGameFromFile(GetCWD() + "\\TanLander.tbg");
+			
 		}
 		else if (!WORLDLOAD2)
 		{
