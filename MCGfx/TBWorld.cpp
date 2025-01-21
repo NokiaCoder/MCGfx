@@ -910,6 +910,14 @@ public:
 		sprites.back().setPhysics(false);
 		sprites.back().SetCollide(CollideType::Lose);
 
+		sprites.push_back(s);
+		sprites.back().Create(20, 60, 10, 300, CANYONWALLCOLOR);
+		sprites.back().SetName("lwall3");
+		sprites.back().SetLayer(LAYER::layer_MID);
+		sprites.back().SetHasAnimation(false);
+		sprites.back().setPhysics(false);
+		sprites.back().SetCollide(CollideType::Lose);
+
 		//Canyon Wall Right Sprites
 		sprites.push_back(s);
 		sprites.back().Create(g_pixelWidth - 10, 10, 10, 300, CANYONWALLCOLOR);
@@ -920,8 +928,16 @@ public:
 		sprites.back().SetCollide(CollideType::Lose);
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth - 20, 50, 10, 300, CANYONWALLCOLOR);
+		sprites.back().Create(g_pixelWidth - 20, 30, 10, 20, CANYONWALLCOLOR);
 		sprites.back().SetName("rwall2");
+		sprites.back().SetLayer(LAYER::layer_MID);
+		sprites.back().SetHasAnimation(false);
+		sprites.back().setPhysics(false);
+		sprites.back().SetCollide(CollideType::Lose);
+
+		sprites.push_back(s);
+		sprites.back().Create(g_pixelWidth - 20, 60, 10, 20, CANYONWALLCOLOR);
+		sprites.back().SetName("rwall2.1");
 		sprites.back().SetLayer(LAYER::layer_MID);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
