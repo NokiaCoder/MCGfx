@@ -501,7 +501,7 @@ public:
 		sprites.back().SetCollide(CollideType::Lose);
 
 		sprites.push_back(s);
-		sprites.back().Create(GetRandomH(), g_pixelHeight - 35, 8, 8, TargetCOLOR); //for each change color with 3 last values in {}. { blue, green, red}
+		sprites.back().Create(g_pixelWidth/2, g_pixelHeight - 35, 8, 8, TargetCOLOR); //for each change color with 3 last values in {}. { blue, green, red}
 		sprites.back().SetName("target");
 		sprites.back().SetLayer(LAYER::layer_FRONT);
 		sprites.back().SetHasAnimation(false);
