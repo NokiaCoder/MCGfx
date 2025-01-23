@@ -7,6 +7,7 @@
 #include "MCSound.h"
 #include "TBSprite.cpp"
 #include "TBNotifyMgr.h"
+#include "TBElementGen.h"
 #include <thread>
 #include <deque>
 #include <ostream>
@@ -25,6 +26,7 @@ class GameManager
 private:
 	MCGraphics* pGfx = nullptr;
 	TBWorld world;
+	TBElementGen elementGen;
 	bool lButtonDown = false;
 	bool rButtonDown = false;
 	bool lButtonClick = false;
@@ -163,7 +165,6 @@ private:
 		
 	}
 
-	//
 	void MakeGameFile(const string& fileName)
 	{
 		ofstream outfile(fileName);
@@ -211,6 +212,7 @@ public:
 	GameManager()
 	{
 		world.SetCollisionsPtr(&Collisions);
+		elementGen.SetElements(world.GetSprites(), world.GetParticleSystems());
 	}
 
 	void SetupSound()
@@ -443,6 +445,7 @@ public:
 					}
 					world.SetSpriteVisible("wintext", true);
 					world.SetSpriteVisible("wingametext", false);
+					world.ClearWinElements();
 				}
 				break;
 				case NOTIFYTYPE::OnGmWin:
@@ -461,17 +464,6 @@ public:
 		
 			if (ps != nullptr)
 			{
-				//Player wins!
-				/*if (ps->GetCollide() == CollideType::Win)
-				{
-					g_LevelOn++;
-					g_CurrentScore += 100;
-					if (g_CurrentScore % 100 == 0)
-					{
-						g_Lives++;
-					}
-					world.SetSpriteVisible("wintext", true);
-				}*/
 				if (ps->GetCollide() == CollideType::PowerUp)
 				{
 					ps->SetVisible(false);
@@ -483,6 +475,8 @@ public:
 
 			Collisions.pop_front();
 		}
+
+		elementGen.Process();
 		UpdateHUD();		
 	}
 

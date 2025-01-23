@@ -165,6 +165,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TBCamera.h" />
+    <ClInclude Include="TBElementGen.h" />
     <ClInclude Include="TBEnums.h" />
     <ClInclude Include="TBGlobals.h" />
     <ClInclude Include="TBNotifyMgr.h" />
@@ -176,6 +177,7 @@
     <ClCompile Include="MCSound.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="TBCamera.cpp" />
+    <ClCompile Include="TBElementGen.cpp" />
     <ClCompile Include="TBEnums.cpp" />
     <ClCompile Include="TBGlobals.cpp" />
     <ClCompile Include="TBNotifyMgr.cpp" />

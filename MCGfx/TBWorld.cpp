@@ -124,6 +124,15 @@ public:
 		particleSystems.push_back(s);
 		return &particleSystems.back();
 	}
+	vector<TBSprite>* GetSprites()
+	{
+		return &sprites;
+	}
+	vector<ParticleSystem>* GetParticleSystems()
+	{
+		return &particleSystems;
+	}
+
 	// public functions
 	void PreLoad()
 	{
@@ -187,7 +196,7 @@ public:
 		//Speed settings
 		float mountMidSpeed = -0.01f;
 		float mountNearSpeed = -0.03f;
-		float landerSpeed = GetRandRange(-1.0f, 1.0f);
+		float landerSpeed = GetRandRange(-0.5f, 0.5f);
 		float scrollSpeed = -0.0f;
 		TBSprite s;
 
@@ -1042,6 +1051,15 @@ public:
 		sprites.back().SetWrap(true);
 
 		sprites.push_back(s);
+		sprites.back().Create(3, 2, 2, 2, LANDERCOLOR);
+		sprites.back().SetName("right lander wing1");
+		sprites.back().SetParent(GetSprite("lander"));
+		sprites.back().SetVisible(true);
+		sprites.back().SetLayer(LAYER::layer_FRONT);
+		sprites.back().setPhysics(false);
+		sprites.back().SetWrap(true);
+
+		sprites.push_back(s);
 		sprites.back().Create(0, g_pixelHeight / 3, g_pixelWidth, g_pixelHeight, FIRECOLOR);
 		sprites.back().SetName("wintext");
 		sprites.back().SetSpriteText("YOU WIN!!!!\n\nHit SPACE\nto play again.");
@@ -1132,7 +1150,7 @@ public:
 		//add particle systems
 		ParticleSystem ps;
 		particleSystems.push_back(ps);
-		particleSystems.back().Create(138, (float)(g_pixelHeight - 30), "volcano");
+		particleSystems.back().Create(100, (float)(g_pixelHeight - 30), "volcano");
 		particleSystems.back().SetParticleColor({ 100,255,255 });
 		particleSystems.back().SetSpawnRadius(0.0f, 0.0f);
 		particleSystems.back().SetParams(220, 320, 10.0f);
@@ -1142,7 +1160,7 @@ public:
 		particleSystems.back().SetActive(true);
 
 		particleSystems.push_back(ps);
-		particleSystems.back().Create(138, (float)(g_pixelHeight - 30), "volcano1");
+		particleSystems.back().Create(100, (float)(g_pixelHeight - 30), "volcano1");
 		particleSystems.back().SetParticleColor({ 100,100,255 });
 		particleSystems.back().SetSpawnRadius(0.0f, 0.0f);
 		particleSystems.back().SetParams(220, 320, 10.0f);
@@ -1161,6 +1179,7 @@ public:
 		particleSystems.back().SetGravityOn(false);
 		particleSystems.back().SetLayer(LAYER::layer_MID);
 		particleSystems.back().SetActive(true);
+		particleSystems.back().SetDeleteOnWin(true);
 		particleSystems.back().SetParent(GetSprite("lander"));
 
 		particleSystems.push_back(ps);
@@ -1172,6 +1191,7 @@ public:
 		particleSystems.back().SetGravityOn(false);
 		particleSystems.back().SetLayer(LAYER::layer_MID);
 		particleSystems.back().SetActive(true);
+		particleSystems.back().SetDeleteOnWin(true);
 		particleSystems.back().SetParent(GetSprite("lander"));
 
 		particleSystems.push_back(ps);
@@ -1321,6 +1341,16 @@ public:
 			pCollisions->push_back(info);
 		}
 		
+	}
+	void ClearWinElements()
+	{
+		for (int i = 0; i < particleSystems.size(); i++)
+		{
+			if (particleSystems[i].GetDeleteOnWin())
+			{
+				particleSystems[i].SetActive(false);
+			}
+		}
 	}
 	void TestCollision()
 	{

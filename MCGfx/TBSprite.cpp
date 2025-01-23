@@ -143,6 +143,7 @@ private:
 	bool isTextSprite = false;
 	bool isScreen = false;
 	bool explodeOnCollideLose = false;
+	bool deleteOnWin = false;
 	TEXT_ALIGN textAlign = TEXT_ALIGN::LEFT;
 	string spriteText = "";
 	bool hitTarget = false;
@@ -165,6 +166,8 @@ public:
 		str += "h," + to_string(h) + "\n";
 
 		str += "color," + to_string(color.rgbtRed) + "|" + to_string(color.rgbtGreen) + "|" + to_string(color.rgbtBlue) + "\n";
+
+		str += "deleteOnWin," + string(deleteOnWin ? "TRUE\n" : "FALSE\n");
 
 		str += "name," + name + "\n";
 
@@ -246,6 +249,10 @@ public:
 			else if (chunks[0] == "color")
 			{
 				color = Str2RGB(chunks[1]);
+			}
+			else if (chunks[0] == "deleteOnWin")
+			{
+				deleteOnWin = Str2TF(chunks[1]);
 			}
 			else if (chunks[0] == "name")
 			{
@@ -368,6 +375,16 @@ public:
 	bool GetScreen()
 	{
 		return isScreen;
+	}
+
+	bool GetDeleteOnWin()
+	{
+		return deleteOnWin;
+	}
+
+	void SetDeleteOnWin(bool bo)
+	{
+		deleteOnWin = bo;
 	}
 
 	//Explode om loss collide

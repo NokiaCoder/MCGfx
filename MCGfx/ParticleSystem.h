@@ -121,6 +121,7 @@ private:
 	bool gravityActive = false;
 	bool fadeOut = true;
 	bool active = true;
+	bool deleteOnWin = false;
 	string name = "";
 	float emitterX = 0.0f;
 	float emitterY = 0.0f;
@@ -196,6 +197,16 @@ public:
 	void SetGravityOn(bool gravityOn)
 	{
 		gravityActive = gravityOn;
+	}
+
+	bool GetDeleteOnWin()
+	{
+		return deleteOnWin;
+	}
+
+	void SetDeleteOnWin(bool bo)
+	{
+		deleteOnWin = bo;
 	}
 
 	string GetParentSpriteName()
@@ -354,6 +365,7 @@ public:
 		str += "gravityActive," + string(gravityActive ? "TRUE\n" : "FALSE\n");
 		str += "fadeOut," + string(fadeOut ? "TRUE\n" : "FALSE\n");
 		str += "active," + string(active ? "TRUE\n" : "FALSE\n");
+		str += "deleteOnWin," + string(deleteOnWin ? "TRUE\n" : "FALSE\n");
 
 		str += "name," + name + "\n";
 
@@ -414,6 +426,10 @@ public:
 			else if (chunks[0] == "active")
 			{
 				active = Str2TF(chunks[1]);
+			}
+			else if (chunks[0] == "deleteOnWin")
+			{
+				deleteOnWin = Str2TF(chunks[1]);
 			}
 			else if (chunks[0] == "name")
 			{
