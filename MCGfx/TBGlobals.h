@@ -240,6 +240,9 @@ static RGBQUAD RGBQ(byte r, byte g, byte b, byte a)
     return color;
 }
 
+//Color
+const RGBTRIPLE ASTEROIDCOLOR = { 81, 81, 85 };
+
 
 
 //Math Library

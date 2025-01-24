@@ -168,6 +168,7 @@
     <ClInclude Include="TBElementGen.h" />
     <ClInclude Include="TBEnums.h" />
     <ClInclude Include="TBGlobals.h" />
+    <ClInclude Include="TBHitTarget.h" />
     <ClInclude Include="TBNotifyMgr.h" />
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +181,7 @@
     <ClCompile Include="TBElementGen.cpp" />
     <ClCompile Include="TBEnums.cpp" />
     <ClCompile Include="TBGlobals.cpp" />
+    <ClCompile Include="TBHitTarget.cpp" />
     <ClCompile Include="TBNotifyMgr.cpp" />
     <ClCompile Include="TBSprite.cpp" />
     <ClCompile Include="TBWorld.cpp" />

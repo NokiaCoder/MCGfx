@@ -54,6 +54,9 @@
     <ClInclude Include="TBElementGen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TBHitTarget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MCGfx.cpp">
@@ -90,6 +93,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TBElementGen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBHitTarget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

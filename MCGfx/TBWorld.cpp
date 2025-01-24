@@ -6,6 +6,7 @@
 #include <deque>
 #include "MCGraphics.cpp"
 #include "TBSprite.cpp"
+#include "TBHitTarget.h"
 #include "TBGlobals.h"
 #include "ParticleSystem.h"
 
@@ -867,12 +868,14 @@ public:
 		RGBTRIPLE PowerUpCOLOR = { 255,255, 0 };
 		RGBTRIPLE BLACKBOXCOLOR = { 1,0, 0 };
 		RGBTRIPLE CANYONWALLCOLOR = DarkenColor({ 0, 50, 100 }, 40);
+		RGBTRIPLE ASTEROIDCOLOR = { 81, 81, 85 };
 
 		//Speed settings
 		float mountMidSpeed = -0.01f;
 		float mountNearSpeed = -0.03f;
 		float landerSpeed = GetRandRange(-1.0f, 1.0f);
 		float scrollSpeed = -0.0f;
+
 		TBSprite s;
 
 		//skylimit 
@@ -1147,6 +1150,8 @@ public:
 		sprites.back().setPhysics(false);
 		sprites.back().SetScreen(true);
 
+
+
 		//add particle systems
 		ParticleSystem ps;
 		particleSystems.push_back(ps);
@@ -1193,6 +1198,7 @@ public:
 		particleSystems.back().SetActive(true);
 		particleSystems.back().SetDeleteOnWin(true);
 		particleSystems.back().SetParent(GetSprite("lander"));
+
 
 		particleSystems.push_back(ps);
 		particleSystems.back().Create(2, 5, "thrust");

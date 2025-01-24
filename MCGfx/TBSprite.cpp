@@ -156,6 +156,11 @@ private:
 
 public:
 
+	virtual string GetType()
+	{
+		return "TBSprite";
+	}
+
 	string Serialize()
 	{
 
@@ -559,6 +564,17 @@ public:
 		return worldY;
 	}
 
+	void SetPos(float fx, float fy)
+	{
+		x = fx;
+		y = fy;
+	}
+
+	void SetColor(const RGBTRIPLE& c)
+	{
+		color = c;
+	}
+
 	void SetVx(float v)
 	{
 		vx = v;
@@ -752,7 +768,7 @@ public:
 		}
 		return "";
 	}
-	void Process(double elapsedTimeSec)
+	virtual void Process(double elapsedTimeSec)
 	{
 		age += (float)elapsedTimeSec;
 		if (lifeTime >= 0.0f && age >= lifeTime)
