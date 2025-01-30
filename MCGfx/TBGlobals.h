@@ -192,6 +192,24 @@ struct CollisionInfo
     }
 };
 
+struct SCREENPT
+{
+public:
+    int x = 0;
+    int y = 0;
+    SCREENPT() = default;
+    SCREENPT(int ix, int iy)
+    {
+        x = ix;
+        y = iy;
+    }
+    SCREENPT(float fx, float fy)
+    {
+        x = static_cast<int>(fx);
+        y = static_cast<int>(fy);
+    }
+};
+
 static string g_GameTitle = "Game Title";
 
 static TBCamera g_Camera;
@@ -242,8 +260,9 @@ static RGBQUAD RGBQ(byte r, byte g, byte b, byte a)
 
 //Color
 const RGBTRIPLE ASTEROIDCOLOR = { 81, 81, 85 };
-
-
+const RGBTRIPLE SLIDERLRCOLOR = { 81, 81, 200 };
+const RGBTRIPLE SLIDERRLCOLOR = { 81, 200, 81 };
+const RGBTRIPLE PAYLOADCOLOR = { 255, 255, 255 };
 
 //Math Library
 

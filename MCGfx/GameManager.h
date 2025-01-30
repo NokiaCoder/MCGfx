@@ -276,6 +276,12 @@ public:
 
 		SetupSound();
 		StartTimer();
+		elementGen.ClearSpawnPt();
+		elementGen.AddSpawnPt({ 40, 112 });
+		elementGen.Start();
+		
+		
+
 		if (!startShown)
 		{
 			audioPlayer.Play(fanfareSndId, false);
@@ -471,7 +477,16 @@ public:
 					g_fuel += powerUpFuel;
 					audioPlayer.Play(powerupSndId);
 				}
+				else if (ps->GetCollide() == CollideType::Reward)
+				{
+					ps->SetVisible(false);
+					ps->SetCollide(CollideType::None);
+					g_CurrentScore += 50;
+					audioPlayer.Play(powerupSndId);
+					
+				}
 			}
+			
 
 			Collisions.pop_front();
 		}

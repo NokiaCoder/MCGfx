@@ -21,11 +21,23 @@ private:
 
 	RGBTRIPLE ASTEROIDCOLOR = { 81, 81, 85 };
 
-	vector<TBSprite>* pSprites;
-	vector<ParticleSystem>* pParticleSystems;
+	vector<TBSprite>* pSprites = nullptr;
+	vector<ParticleSystem>* pParticleSystems = nullptr;
+
+	vector<SCREENPT> spawnPoints;
 
 public:
 	TBElementGen() = default;
+
+	void Start()
+	{
+		lastTime = GetElapsedSeconds();
+		lastTime1 = lastTime;
+		lastTime2 = lastTime;
+		lastTime3 = lastTime;
+		lastTime4 = lastTime;
+		lastTime5 = lastTime;
+	}
 
 	void SetElements(vector<TBSprite>* spr, vector<ParticleSystem>* ps)
 	{
@@ -37,8 +49,10 @@ public:
 	{
 		double eTime = GetElapsedSeconds();
 
-		//placeholder collors for now green = fuel, blue = powerup
-		if (eTime - lastTime >= (double)GetRandRange(1.0f, 5.0f))
+		//placeholder colors for now green = fuel, blue = powerup
+		
+		//Generate Droppers
+		if (eTime - lastTime >= (double)GetRandRange(4.0f, 8.0f))
 		{
 			lastTime = eTime;
 
@@ -46,27 +60,56 @@ public:
 			asteroid.SetTargetType(TARGET_TYPE::Dropper);
 			pSprites->push_back(asteroid);
 		}
+
+		//Generate Sliders
 		if (eTime - lastTime1 >= (double)GetRandRange(10.0f, 15.0f) && t ==0 )
 		{
 			lastTime1 = eTime;
-			//
 
-			//TBSprite powerUp1;
-			//powerUp1.SetName("pfuel1");//make it so it can be landed on TODO
-			//powerUp1.Create(49, 135, 9, 3, { 255, 0, 0 });
-			//powerUp1.SetWrap(true);
-			//powerUp1.SetLayer(LAYER::layer_NEAR);
-			////	powerUp.SetHasAnimation(true);
-			////	powerUp.SetAnimationX(GetRandRange(-10.0f, 10.0f) * 10.0f);
-			//powerUp1.setPhysics(false);
-			//powerUp1.SetCollide(CollideType::PowerUp);
-			////powerUp.SetCollide(CollideType::Lose); //Testing purposes, it Works
-			//powerUp1.SetGravityOn(false);
-
-			//t++;
-			//pSprites->push_back(powerUp1);
+			TBHitTarget ship;
+			ship.SetTargetType(TARGET_TYPE::SliderLR);
+			pSprites->push_back(ship);
 		}
 
+		if (eTime - lastTime2 >= (double)GetRandRange(10.0f, 15.0f) && t == 0)
+		{
+			lastTime2 = eTime;
+
+			TBHitTarget ship2;
+			ship2.SetTargetType(TARGET_TYPE::SliderRL);
+			pSprites->push_back(ship2);
+		}
+
+		//Spawn
+		if (eTime - lastTime3 >= (double)GetRandRange(10.0f, 15.0f) && t == 0)
+		{
+			lastTime3 = eTime;
+
+			TBHitTarget payload;
+			SCREENPT origin = GetSpawnPt();
+			payload.SetTargetType(TARGET_TYPE::Still);
+			payload.SetPos(static_cast<float>(origin.x), static_cast<float>(origin.y));
+			pSprites->push_back(payload);
+		}
+	}
+
+	void AddSpawnPt(const SCREENPT& sPt)
+	{
+		spawnPoints.push_back(sPt);
+	}
+	void ClearSpawnPt()
+	{
+		spawnPoints.clear();
+	}
+	SCREENPT GetSpawnPt()
+	{
+		if (spawnPoints.empty())
+		{
+			return { -1, -1 };
+		}
+		
+		int index = static_cast<int>(GetRandRange(0.0f, static_cast<float>(spawnPoints.size())));
+		return spawnPoints[index];
 	}
 };
 

@@ -20,6 +20,7 @@ enum class CollideType
 	Push,
 	Random,
 	PowerUp,
+	Reward,
 };
 
 static string CollideType2Str(CollideType c)
@@ -42,6 +43,8 @@ static string CollideType2Str(CollideType c)
 		return "Random";
 	case CollideType::PowerUp:
 		return "PowerUp";
+	case CollideType::Reward:
+		return "Payload";
 	}
 	return "None";
 }
@@ -758,6 +761,12 @@ public:
 								x = floor(x);
 								y = floor(y);
 								g_Notify.Notify({ NOTIFYTYPE::OnWin, OBJECTTYPE::SPR, this->name });
+							}
+							if (sprites[i].GetCollide() == CollideType::PowerUp)
+							{
+								sprites[i].SetVisible(false);
+								g_CurrentScore += 50;
+								g_Notify.Notify({ NOTIFYTYPE::OnFuelPlus, OBJECTTYPE::SPR, this->name });
 							}
 
 							return sprites[i].name;

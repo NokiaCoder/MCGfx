@@ -23,6 +23,7 @@ enum class TARGET_TYPE
 	SliderLR,
 	SliderRL,
 	Lifter,
+	Still,
 
 };
 
@@ -84,6 +85,41 @@ public:
 			GetBase()->SetAnimationY(GetRandRange(5.0f, 10.0f) * 10.0f);
 			GetBase()->SetLayer(LAYER::layer_FRONT);
 			SetCollide(CollideType::Lose);
+			break;
+		}
+		case TARGET_TYPE::Lifter:
+		{
+			Create((int)GetRandRange(0, (float)g_pixelWidth), 0, 5, 5, ASTEROIDCOLOR);
+			SetMoveDirection(Move_Direction::Up);
+			GetBase()->SetHasAnimation(true);
+			GetBase()->SetAnimationY(GetRandRange(5.0f, 10.0f) * 10.0f);
+			GetBase()->SetLayer(LAYER::layer_FRONT);
+			SetCollide(CollideType::Lose);
+			break;
+		}
+		case TARGET_TYPE::SliderLR:
+		{
+			Create(0, (int)GetRandRange(0, (float)g_pixelWidth), 5, 5, SLIDERLRCOLOR);
+			GetBase()->SetHasAnimation(true);
+			GetBase()->SetAnimationX(GetRandRange(5.0f, 10.0f) * 10.0f);
+			GetBase()->SetLayer(LAYER::layer_FRONT);
+			SetCollide(CollideType::Lose);
+			break;
+		}
+		case TARGET_TYPE::SliderRL:
+		{
+			Create(g_pixelWidth, (int)GetRandRange(0, (float)g_pixelWidth), 5, 5, SLIDERRLCOLOR);
+			GetBase()->SetHasAnimation(true);
+			GetBase()->SetAnimationX(-GetRandRange(5.0f, 10.0f) * 10.0f);
+			GetBase()->SetLayer(LAYER::layer_FRONT);
+			SetCollide(CollideType::Reward);
+			break;
+		}
+		case TARGET_TYPE::Still:
+		{
+			Create(0, 0, 5, 10, PAYLOADCOLOR);
+			GetBase()->SetLayer(LAYER::layer_FRONT);
+			SetCollide(CollideType::PowerUp);
 			break;
 		}
 
