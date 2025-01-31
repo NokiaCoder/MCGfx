@@ -17,6 +17,7 @@ class TBWorld
 
 private:
 	vector<TBSprite> sprites;
+	vector<TBSprite> tempSprites;
 	vector<ParticleSystem> particleSystems;
 	deque<CollisionInfo>* pCollisions = nullptr;
 
@@ -133,6 +134,11 @@ public:
 	{
 		return &particleSystems;
 	}
+	vector<TBSprite>* GetTempSprites()
+	{
+		return &tempSprites;
+	}
+	
 
 	// public functions
 	void PreLoad()
@@ -1265,6 +1271,8 @@ public:
 		particleSystems[psIndex].SetParent(&sprites[index]);
 	}
 
+
+
 	void SetSpriteVisible(string name, bool show)
 	{
 		//TODO
@@ -1374,10 +1382,43 @@ public:
 			sprites[i].Process(elapsedTimeSec);
 		}
 
+		if (tempSprites.size())
+		{
+			for (int i = (int)tempSprites.size() - 1; i >= 0; i--)
+			{
+				tempSprites[i].Process(elapsedTimeSec);
+
+				if (tempSprites[i].IsExpired())
+				{
+					tempSprites.erase(tempSprites.begin() + i);
+				}
+			}
+		}
+
 		for (int i = 0; i < (int)particleSystems.size(); i++)
 		{
 			particleSystems[i].Process(elapsedTimeSec);
 		}
+	}
+	TBSprite* AddTempSprite(int x, int y, const string& caption, bool floating)
+	{
+		TBSprite tempSp;
+		tempSp.Create(x - 3, y - 5, 20, 20, { 0, 255, 255 });
+		tempSp.SetIsTextSprite(true);
+		tempSp.SetSpriteText(caption);
+		tempSp.SetLifeTime(2.5f);
+		if (floating)
+		{
+			tempSp.SetAnimationY(-12.0f);
+			tempSp.SetAnimationX(GetRandRange(-10.0f, 10.0f));
+			tempSp.SetHasAnimation(true);
+		}
+		tempSp.SetTextAlign(TEXT_ALIGN::LEFT);
+		tempSp.SetVisible(true);
+		tempSp.SetLayer(LAYER::layer_HUD);
+		tempSp.SetScreen(true);
+		tempSprites.push_back(tempSp);
+		return &tempSprites.back();
 	}
 	//Draw Function
 	void Draw(MCGraphics* pGFX)
@@ -1398,6 +1439,13 @@ public:
 				if (sprites[i].GetLayer() == (LAYER)layer)
 				{
 					sprites[i].Draw(pGFX);
+				}
+			}
+			for (int i = 0; i < (int)tempSprites.size(); i++)
+			{
+				if (tempSprites[i].GetLayer() == (LAYER)layer)
+				{
+					tempSprites[i].Draw(pGFX);
 				}
 			}
 		}

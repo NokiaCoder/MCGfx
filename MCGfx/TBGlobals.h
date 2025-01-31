@@ -171,6 +171,8 @@ static RGBTRIPLE Str2RGB(const string& s)
     return rgb;
 }
 
+
+
 struct CollisionInfo
 {
     string a;
@@ -210,6 +212,21 @@ public:
     }
 };
 
+struct SPAWNPOINT
+{
+    SCREENPT pos;
+    int fuel = 0;
+    int reward = 0;
+    SPAWNPOINT() = default;
+    SPAWNPOINT(int x, int y, int fuel, int reward)
+    {
+        pos.x = x;
+        pos.y = y;
+        this->fuel = fuel;
+        this->reward = reward;
+    }
+};
+
 static string g_GameTitle = "Game Title";
 
 static TBCamera g_Camera;
@@ -221,7 +238,7 @@ static  int g_pixelWidth = 288;
 static int g_pixelHeight = 224;
 static int g_LevelOn = 1;
 static	int g_fuel;
-static int powerUpFuel = 50;
+static int g_RewardScore = 50;
 
 static float g_fPI = 3.14159265358979323846264338327950f;
 static double g_PI = 3.14159265358979323846264338327950;
@@ -393,6 +410,11 @@ static bool TestIntersection(float ax, float ay, float aw, float ah, float bx, f
         return false;
     }
     return true;
+}
+
+static bool IsOnScreen(int left, int top, int width, int height)
+{
+    return !(left + width < 0 || top + height < 0 || left > g_pixelWidth || top > g_pixelHeight);
 }
 
 static string GetCWD()

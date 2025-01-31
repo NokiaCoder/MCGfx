@@ -212,7 +212,7 @@ public:
 	GameManager()
 	{
 		world.SetCollisionsPtr(&Collisions);
-		elementGen.SetElements(world.GetSprites(), world.GetParticleSystems());
+		elementGen.SetElements(world.GetSprites(), world.GetTempSprites(), world.GetParticleSystems(), &world);
 	}
 
 	void SetupSound()
@@ -276,8 +276,14 @@ public:
 
 		SetupSound();
 		StartTimer();
+
+		//create spawnPoints
 		elementGen.ClearSpawnPt();
-		elementGen.AddSpawnPt({ 40, 112 });
+		elementGen.AddSpawnPt({ 40, 112 , 25, 25});
+		elementGen.AddSpawnPt({ 40, 112 , 25, 25 });
+		elementGen.AddSpawnPt({ g_pixelWidth - 40, 108, 20, 20 });
+		elementGen.AddSpawnPt({ g_pixelWidth - 40, 108, 20, 20 });
+		elementGen.AddSpawnPt({ g_pixelWidth - 40, 108, 20, 20 });
 		elementGen.Start();
 		
 		
@@ -474,14 +480,14 @@ public:
 				{
 					ps->SetVisible(false);
 					ps->SetCollide(CollideType::None);
-					g_fuel += powerUpFuel;
+					g_fuel += ps->GetFuelScore();
 					audioPlayer.Play(powerupSndId);
 				}
 				else if (ps->GetCollide() == CollideType::Reward)
 				{
 					ps->SetVisible(false);
 					ps->SetCollide(CollideType::None);
-					g_CurrentScore += 50;
+					g_CurrentScore += ps->GetRewardScore();
 					audioPlayer.Play(powerupSndId);
 					
 				}

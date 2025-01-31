@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 
+
 class TBElementGen
 {
 private:
@@ -16,6 +17,8 @@ private:
 	double lastTime3 = 0;
 	double lastTime4 = 0;
 	double lastTime5 = 0;
+	double lastTime6 = 0;
+	double lastTime7 = 0;
 
 	int t = 0;
 
@@ -23,8 +26,11 @@ private:
 
 	vector<TBSprite>* pSprites = nullptr;
 	vector<ParticleSystem>* pParticleSystems = nullptr;
+	vector<TBSprite>* pTempSprites = nullptr;
+	TBWorld* pWorld = nullptr;
 
-	vector<SCREENPT> spawnPoints;
+	//vector<SCREENPT> spawnPoints;
+	vector<SPAWNPOINT> spawnPoints;
 
 public:
 	TBElementGen() = default;
@@ -39,10 +45,12 @@ public:
 		lastTime5 = lastTime;
 	}
 
-	void SetElements(vector<TBSprite>* spr, vector<ParticleSystem>* ps)
+	void SetElements(vector<TBSprite>* spr,vector<TBSprite>* pts, vector<ParticleSystem>* ps, TBWorld* pW)
 	{
 		pSprites = spr;
+		pTempSprites = pts;
 		pParticleSystems = ps;
+		pWorld = pW;
 	}
 
 	void Process()
@@ -61,7 +69,7 @@ public:
 			pSprites->push_back(asteroid);
 		}
 
-		//Generate Sliders
+		//Generate SlidersLR
 		if (eTime - lastTime1 >= (double)GetRandRange(10.0f, 15.0f) && t ==0 )
 		{
 			lastTime1 = eTime;
@@ -71,6 +79,7 @@ public:
 			pSprites->push_back(ship);
 		}
 
+		//Generate slidersRL
 		if (eTime - lastTime2 >= (double)GetRandRange(10.0f, 15.0f) && t == 0)
 		{
 			lastTime2 = eTime;
@@ -80,20 +89,25 @@ public:
 			pSprites->push_back(ship2);
 		}
 
-		//Spawn
+		//Spawn payload
 		if (eTime - lastTime3 >= (double)GetRandRange(10.0f, 15.0f) && t == 0)
 		{
 			lastTime3 = eTime;
 
 			TBHitTarget payload;
-			SCREENPT origin = GetSpawnPt();
+			SPAWNPOINT spt = GetSpawnPt();
 			payload.SetTargetType(TARGET_TYPE::Still);
-			payload.SetPos(static_cast<float>(origin.x), static_cast<float>(origin.y));
+			payload.SetPos(static_cast<float>(spt.pos.x), static_cast<float>(spt.pos.y));
 			pSprites->push_back(payload);
+
+			//TODO move function to pay load collision
+			pWorld->AddTempSprite(spt.pos.x, spt.pos.y, to_string(spt.fuel), true);
+
+			
 		}
 	}
 
-	void AddSpawnPt(const SCREENPT& sPt)
+	void AddSpawnPt(const SPAWNPOINT& sPt)
 	{
 		spawnPoints.push_back(sPt);
 	}
@@ -101,11 +115,11 @@ public:
 	{
 		spawnPoints.clear();
 	}
-	SCREENPT GetSpawnPt()
+	SPAWNPOINT GetSpawnPt()
 	{
 		if (spawnPoints.empty())
 		{
-			return { -1, -1 };
+			return {};
 		}
 		
 		int index = static_cast<int>(GetRandRange(0.0f, static_cast<float>(spawnPoints.size())));

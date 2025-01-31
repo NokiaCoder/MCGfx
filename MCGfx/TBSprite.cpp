@@ -125,6 +125,8 @@ private:
 	float y = 0.0f; //upper most
 	int w = 0; //width
 	int h = 0; //height
+	int rewardScore = 0;
+	int fuelScore = 0;
 	RGBTRIPLE color;
 	string name = "noname";
 	bool hasPhysics = false;
@@ -405,6 +407,15 @@ public:
 		return explodeOnCollideLose;
 	}
 
+	bool IsExpired()
+	{
+		if (lifeTime >= 0.0f && age >= lifeTime)
+		{
+			return true;
+		}
+		return false;
+	}
+
 	//collide
 	void ShowOnCollide()
 	{
@@ -538,6 +549,24 @@ public:
 	string GetShowOnCollideName()
 	{
 		return showOnCollideName;
+	}
+
+	void SetFuelScore(int fs)
+	{
+		fuelScore = fs;
+	}
+	int GetFuelScore()
+	{
+		return fuelScore;
+	}
+
+	void SetRewardScore(int ps)
+	{
+		rewardScore = ps;
+	}
+	int GetRewardScore()
+	{
+		return rewardScore;
 	}
 
 	float GetX()
@@ -868,6 +897,13 @@ public:
 					pGFX->FillRectangle((int)x, (int)y, (int)x + w, (int)y + h, color);
 					int wrapX = (int)(x + (float)g_pixelWidth);
 					pGFX->FillRectangle(wrapX, (int)y, wrapX + w, (int)y + h, color);
+				}
+			}
+			else if (!wrap)
+			{
+				if (!IsOnScreen(static_cast<int>(x), static_cast<int>(y), w, h))
+				{
+					SetVisible(false);
 				}
 			}
 		}
