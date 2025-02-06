@@ -405,10 +405,6 @@ public:
 			index++;
 		}
 
-
-
-
-
 		while (lines[index] != "")
 		{
 

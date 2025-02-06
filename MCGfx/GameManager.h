@@ -281,9 +281,9 @@ public:
 		elementGen.ClearSpawnPt();
 		elementGen.AddSpawnPt({ 40, 112 , 25, 25});
 		elementGen.AddSpawnPt({ 40, 112 , 25, 25 });
-		elementGen.AddSpawnPt({ g_pixelWidth - 40, 108, 20, 20 });
-		elementGen.AddSpawnPt({ g_pixelWidth - 40, 108, 20, 20 });
-		elementGen.AddSpawnPt({ g_pixelWidth - 40, 108, 20, 20 });
+		elementGen.AddSpawnPt({g_pixelWidth - 20, 50, 20, 20 });
+		//elementGen.AddSpawnPt({ g_pixelWidth - 40, 108, 20, 20 });
+		//elementGen.AddSpawnPt({ g_pixelWidth - 40, 108, 20, 20 });
 		elementGen.Start();
 		
 		
@@ -423,11 +423,15 @@ public:
 					if (g_CurrentScore > losingScore && g_Lives > 0)
 					{
 						world.SetSpriteVisible("losetext", true);
+						TBSprite* pSprite = world.GetSprite(n.Name);
+						world.DisableChildParticles(pSprite);
 					}
 					else //test for losing game condition
 					{
 						world.SetSpriteVisible("losegametext", true);
 						gameLost = true;
+						TBSprite* pSprite = world.GetSprite(n.Name);
+						world.DisableChildParticles(pSprite);
 					}
 
 					TBSprite* pSprite = world.GetSprite(n.Name);

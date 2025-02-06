@@ -1003,7 +1003,7 @@ public:
 		sprites.back().SetCollide(CollideType::Lose);
 
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth - 25, 90, 5, 200, CANYONWALLCOLOR);
+		sprites.back().Create(g_pixelWidth - 25, 70, 5, 200, CANYONWALLCOLOR);
 		sprites.back().SetName("rwall3");
 		sprites.back().SetLayer(LAYER::layer_MID);
 		sprites.back().SetHasAnimation(false);
@@ -1419,6 +1419,16 @@ public:
 		tempSp.SetScreen(true);
 		tempSprites.push_back(tempSp);
 		return &tempSprites.back();
+	}
+	void DisableChildParticles(TBSprite* tb)
+	{
+		for (int i = 0; i < (int)particleSystems.size(); i++)
+		{
+			if (particleSystems[i].GetParent() == tb)
+			{
+				particleSystems[i].SetActive(false);
+			}
+		}
 	}
 	//Draw Function
 	void Draw(MCGraphics* pGFX)
