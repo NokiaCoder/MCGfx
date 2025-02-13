@@ -97,6 +97,11 @@ public:
 				qGM.push_back(message);
 			}
 			break;
+			case OnFuelPlus:
+			{
+				qGM.push_back(message);
+			}
+			break;
 			default:
 			{
 

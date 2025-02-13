@@ -784,14 +784,14 @@ public:
 							{
 								g_Notify.Notify({ NOTIFYTYPE::OnExplode, OBJECTTYPE::SPR, this->name });
 							}
-							if (sprites[i].GetCollide() == CollideType::Win)
+							else if (sprites[i].GetCollide() == CollideType::Win)
 							{
 								setPhysics(false);
 								x = floor(x);
 								y = floor(y);
 								g_Notify.Notify({ NOTIFYTYPE::OnWin, OBJECTTYPE::SPR, this->name });
 							}
-							if (sprites[i].GetCollide() == CollideType::PowerUp)
+							else if (sprites[i].GetCollide() == CollideType::PowerUp)
 							{
 								sprites[i].SetVisible(false);
 								g_CurrentScore += 50;

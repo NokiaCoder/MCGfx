@@ -112,7 +112,7 @@ public:
 			GetBase()->SetHasAnimation(true);
 			GetBase()->SetAnimationX(-GetRandRange(5.0f, 10.0f) * 10.0f);
 			GetBase()->SetLayer(LAYER::layer_FRONT);
-			SetCollide(CollideType::Reward);
+			SetCollide(CollideType::PowerUp);
 			break;
 		}
 		case TARGET_TYPE::Still:

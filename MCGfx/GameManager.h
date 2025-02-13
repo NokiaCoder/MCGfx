@@ -27,6 +27,7 @@ private:
 	MCGraphics* pGfx = nullptr;
 	TBWorld world;
 	TBElementGen elementGen;
+	ParticleSystem particleS;
 	bool lButtonDown = false;
 	bool rButtonDown = false;
 	bool lButtonClick = false;
@@ -464,6 +465,17 @@ public:
 					world.ClearWinElements();
 				}
 				break;
+				case NOTIFYTYPE::OnFuelPlus:
+				{
+					TBSprite* ps = world.GetSprite(n.Name);
+					g_CurrentScore += ps->GetRewardScore();
+					audioPlayer.Play(powerupSndId);
+					world.MoveSprite("lava", 0, 5);
+					world.MoveSprite("target", 0, 5);
+					world.MoveParticleSystem("volcano", 0, 5);
+					world.MoveParticleSystem("volcano1", 0, 5);
+				}
+				break;
 				case NOTIFYTYPE::OnGmWin:
 				{
 					world.SetSpriteVisible("wintext", false);
@@ -486,6 +498,7 @@ public:
 					ps->SetCollide(CollideType::None);
 					g_fuel += ps->GetFuelScore();
 					audioPlayer.Play(powerupSndId);
+					world.MoveSprite("lava", 0, -500);
 				}
 				else if (ps->GetCollide() == CollideType::Reward)
 				{
@@ -493,7 +506,7 @@ public:
 					ps->SetCollide(CollideType::None);
 					g_CurrentScore += ps->GetRewardScore();
 					audioPlayer.Play(powerupSndId);
-					
+					world.MoveSprite("lava", 0, -500);
 				}
 			}
 			

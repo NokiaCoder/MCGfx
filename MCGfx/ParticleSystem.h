@@ -199,6 +199,22 @@ public:
 		gravityActive = gravityOn;
 	}
 
+
+	float GetEmitterX() 
+	{
+		return emitterX;
+	}
+	float GetEmitterY()
+	{
+		return emitterY;
+	}
+
+	void SetPosParticleSystem(float eX, float eY)
+	{
+		emitterX + eX;
+		emitterY = eY;
+	}
+
 	bool GetDeleteOnWin()
 	{
 		return deleteOnWin;
@@ -357,6 +373,11 @@ public:
 		}
 	}
 
+	void MoveParticleS(int mx, int my)
+	{
+		emitterX + mx;
+		emitterY + my;
+	}
 
 	string Serialize()
 	{
