@@ -6,6 +6,9 @@
 #include "MCGraphics.cpp"
 #include "TBCamera.h"
 #include "TBNotifyMgr.h"
+#include <windows.h>
+#include <fstream>
+
 
 using namespace std;
 
@@ -247,6 +250,74 @@ static int g_RewardScore = 50;
 static float g_fPI = 3.14159265358979323846264338327950f;
 static double g_PI = 3.14159265358979323846264338327950;
 static double g_DEG2RAD = g_PI / 180.0;
+
+
+
+//:::::::::::::::::::::::::::::::::::::::: IMPORTANT FOR PIXEL MAP IMAGES
+
+
+static std::vector<RGBTRIPLE> LoadBMPPixels(const std::string& filename, int* pWidth, int* pHeight) {
+    std::vector<RGBTRIPLE> pixels;
+
+    // Open the file
+    std::ifstream file(filename, std::ios::binary);
+    if (!file) {
+        std::cerr << "Error opening file: " << filename << std::endl;
+        return pixels;
+    }
+
+    // Read the BMP file header
+    BITMAPFILEHEADER bmfHeader;
+    file.read(reinterpret_cast<char*>(&bmfHeader), sizeof(BITMAPFILEHEADER));
+
+    // Check if it's a BMP file
+    if (bmfHeader.bfType != 0x4D42) { // "BM" in hex
+        std::cerr << "File is not a BMP file" << std::endl;
+        return pixels;
+    }
+
+    // Read the BMP info header
+    BITMAPINFOHEADER bmiHeader;
+    file.read(reinterpret_cast<char*>(&bmiHeader), sizeof(BITMAPINFOHEADER));
+
+    *pWidth = bmiHeader.biWidth;
+    *pHeight = bmiHeader.biHeight;
+
+    // Check if it's a 24-bit BMP
+    if (bmiHeader.biBitCount != 24) {
+        std::cerr << "Only 24-bit BMPs are supported" << std::endl;
+        return pixels;
+    }
+
+    // Seek to the pixel data
+    file.seekg(bmfHeader.bfOffBits, std::ios::beg);
+
+    // Calculate row padding (rows are padded to 4-byte boundaries)
+    int padding = (4 - (bmiHeader.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
+
+    // Reserve space in the vector
+    pixels.reserve(bmiHeader.biWidth * abs(bmiHeader.biHeight));
+
+    // Read the pixel data
+    for (int y = 0; y < abs(bmiHeader.biHeight); y++) {
+        for (int x = 0; x < bmiHeader.biWidth; x++) {
+            RGBTRIPLE pixel;
+            file.read(reinterpret_cast<char*>(&pixel), sizeof(RGBTRIPLE));
+            pixels.push_back(pixel);
+        }
+
+        // Skip padding bytes at the end of each row
+        file.seekg(padding, std::ios::cur);
+    }
+
+    return pixels;
+}
+
+
+//::::::::::::::::::::::::::::::::::
+
+
+
 
 //Force of Gravity
 static float g = 0.01f;

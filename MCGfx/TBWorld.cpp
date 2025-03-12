@@ -12,6 +12,8 @@
 
 using namespace std;
 
+
+
 class TBWorld
 {
 
@@ -20,6 +22,7 @@ private:
 	vector<TBSprite> tempSprites;
 	vector<ParticleSystem> particleSystems;
 	deque<CollisionInfo>* pCollisions = nullptr;
+	vector<TBTexture> textures;
 
 
 
@@ -867,6 +870,7 @@ public:
 
 		sprites.clear();
 		particleSystems.clear();
+		textures.clear();
 
 		pGFX->SetColorText({ 0, 255, 255 });
 
@@ -875,6 +879,12 @@ public:
 		int psIndex = -1;
 
 		int enemyCount = 2 * g_LevelOn;
+
+		//LoadTextures
+		textures.reserve(100);
+		TBTexture tex;
+		textures.push_back(tex);
+		textures.back().Load(GetContentFolder() + "\\ship.bmp");
 
 		pGFX->SetBackgroundColor(DarkenColor({ 80, 120, 180 },50));
 
@@ -1133,6 +1143,7 @@ public:
 		sprites.back().setPhysics(true);
 		sprites.back().SetCollide(CollideType::Win);
 		sprites.back().SetExplodeOnCollide(true);
+		sprites.back().SetTexture(&textures[0]);
 
 		sprites.push_back(s);
 		sprites.back().Create(3, 1, 2, 1, LANDERCOLOR);

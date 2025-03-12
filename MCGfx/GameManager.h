@@ -237,6 +237,11 @@ public:
 		thrustSndId = audioPlayer.Preload(path);
 	}
 
+	void LoadSpriteImages()
+	{
+
+	}
+
 	void StartGame()
 	{
 		

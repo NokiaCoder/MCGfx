@@ -111,6 +111,9 @@
     <Image Include="MCGfx.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="..\pix\ship.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Media Include="Content\explosion.wav">

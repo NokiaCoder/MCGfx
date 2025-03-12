@@ -117,6 +117,22 @@ static TEXT_ALIGN Str2TextAlign(string s)
 	return TEXT_ALIGN::CENTER;
 }
 
+struct TBTexture
+{
+public:
+	int Width = 0;
+
+	int Height = 0;
+
+	vector<RGBTRIPLE> Pixels;
+
+	//Common pattern for initializing class or struct
+	void Load(const string& fileName)
+	{
+		Pixels = LoadBMPPixels(fileName, &Width, &Height);
+	}
+};
+
 class TBSprite
 {
 private:
@@ -157,6 +173,7 @@ private:
 	float lifeTime = -1.0f;
 	float age = 0.0f;
 	LAYER layer = LAYER::layer_NONE;
+	TBTexture* pTexture = nullptr;
 
 
 public:
@@ -407,7 +424,14 @@ public:
 		return explodeOnCollideLose;
 	}
 
-
+	void SetTexture(TBTexture* ti)
+	{
+		pTexture = ti;
+	}
+	TBTexture* GetTexture()
+	{
+		return pTexture;
+	}
 
 	bool IsExpired()
 	{
@@ -874,9 +898,19 @@ public:
 			}
 
 			//Not a sprite text
-			pGFX->FillRectangle((int)GetX(), (int)GetY(), (int)GetX() + w, (int)GetY() + h, color);
+
+			if (pTexture)
+			{
+				//TODO Finish this.
+				pGFX->FillRectangle((int)GetX(), (int)GetY(), (int)GetX() + w, (int)GetY() + h, pTexture->Pixels[0]);
+			}
+			else
+			{
+				pGFX->FillRectangle((int)GetX(), (int)GetY(), (int)GetX() + w, (int)GetY() + h, color);
+			}
 			
-	
+			
+			
 
 			if (wrap && pParent == nullptr)
 			{
