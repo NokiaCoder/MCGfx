@@ -194,6 +194,10 @@ struct CollisionInfo
     }
 };
 
+static bool g_TargetShowing = false;
+
+static double TargetTime = 45.0;
+ 
 struct SCREENPT
 {
 public:

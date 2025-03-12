@@ -211,8 +211,8 @@ public:
 
 	void SetPosParticleSystem(float eX, float eY)
 	{
-		emitterX + eX;
-		emitterY = eY;
+		emitterX += eX;
+		emitterY += eY;
 	}
 
 	bool GetDeleteOnWin()
@@ -375,8 +375,8 @@ public:
 
 	void MoveParticleS(int mx, int my)
 	{
-		emitterX + mx;
-		emitterY + my;
+		emitterX += mx;
+		emitterY += my;
 	}
 
 	string Serialize()

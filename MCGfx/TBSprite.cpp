@@ -407,6 +407,8 @@ public:
 		return explodeOnCollideLose;
 	}
 
+
+
 	bool IsExpired()
 	{
 		if (lifeTime >= 0.0f && age >= lifeTime)
