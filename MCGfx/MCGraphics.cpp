@@ -2,10 +2,14 @@
 #include <windows.h>
 #include <vector>
 #include <string>
-#include <vector>
 #include "TBGlobals.h"
 
 using namespace std;
+
+static int PosToOffset(int x, int y, int width)
+{
+    return (y * width) + x;
+}
 
 struct TextBlock
 {
@@ -229,6 +233,7 @@ public:
             pixelData_[i] = rgb;
         }
     }
+
     void SetPixel(int x, int y, RGBTRIPLE color)
     {
         if (x >= 0 && x < width && y >= 0 && y < height)
@@ -236,6 +241,36 @@ public:
             pixelData_[y * width + x] = color;
         }
     }
+
+    //Draws a line of pixels 
+    void SetPixels(int x, int y, int len, RGBTRIPLE* pPixels)
+    {
+        //NOTE: displayWidth and displayHeight are: width and height 
+        //pixel buffer: pixelData_[]
+        // 
+        //Checks for clipping for height
+        if (y >= 0 && y < height)
+        {
+            // checks for width clipping
+            if (x >= width - len)
+            {
+                //checks for right clipping
+                if (x + len > width)
+                {
+                    len = width - x - 1;
+                }
+                //checks for left width clipping
+                if (x < 0)
+                {
+                   x = 0;
+                   len = x + len;
+                }
+            }
+            //Draw remaining x, y, len 
+
+        }
+    }
+
     void WriteText(RECT& rect, const string& str, TEXT_ALIGN align)
     {
         SetBkMode(backbufferDC, TRANSPARENT);

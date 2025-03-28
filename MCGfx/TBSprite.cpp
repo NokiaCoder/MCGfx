@@ -902,7 +902,7 @@ public:
 			if (pTexture)
 			{
 				//TODO Finish this.
-				pGFX->FillRectangle((int)GetX(), (int)GetY(), (int)GetX() + w, (int)GetY() + h, pTexture->Pixels[0]);
+				//pGFX->FillRectangle((int)GetX(), (int)GetY(), (int)GetX() + w, (int)GetY() + h, pTexture->Pixels[0]);
 			}
 			else
 			{
