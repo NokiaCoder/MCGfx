@@ -885,6 +885,8 @@ public:
 		TBTexture tex;
 		textures.push_back(tex);
 		textures.back().Load(GetContentFolder() + "\\ship.bmp");
+		textures.push_back(tex);
+		textures.back().Load(GetContentFolder() + "\\Untitled.bmp");
 
 		pGFX->SetBackgroundColor(DarkenColor({ 80, 120, 180 },50));
 
@@ -1034,7 +1036,8 @@ public:
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
 		sprites.back().SetCollide(CollideType::Lose);
-		sprites.push_back(s);
+		sprites.back().SetTexture(&textures[1]);
+		/*sprites.push_back(s);
 		sprites.back().Create(5, 25, 7, 300, CANYONWALLCOLOR);
 		sprites.back().SetName("lwall1.1");
 		sprites.back().SetLayer(LAYER::layer_MID);
@@ -1082,7 +1085,7 @@ public:
 		sprites.back().SetLayer(LAYER::layer_MID);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
-		sprites.back().SetCollide(CollideType::Lose);
+		sprites.back().SetCollide(CollideType::Lose);*/
 		//Canyon Wall Right Sprites
 		//sprites.push_back(s);
 		//sprites.back().Create(g_pixelWidth - 5, 10, 10, 300, CANYONWALLCOLOR);
@@ -1133,7 +1136,7 @@ public:
 
 		//Lander and attachments
 		sprites.push_back(s);
-		sprites.back().Create(140, 0, 3, 3, LANDERCOLOR);
+		sprites.back().Create(140, 0, 20, 20, LANDERCOLOR);
 		sprites.back().SetName("lander");
 		sprites.back().SetGravityOn(true);
 		sprites.back().SetVx(landerSpeed);
@@ -1144,44 +1147,6 @@ public:
 		sprites.back().SetCollide(CollideType::Win);
 		sprites.back().SetExplodeOnCollide(true);
 		sprites.back().SetTexture(&textures[0]);
-
-		sprites.push_back(s);
-		sprites.back().Create(3, 1, 2, 1, LANDERCOLOR);
-		sprites.back().SetName("landerarml");
-		sprites.back().SetParent(GetSprite("lander"));
-		sprites.back().SetVisible(true);
-		sprites.back().SetLayer(LAYER::layer_FRONT);
-		sprites.back().setPhysics(false);
-		sprites.back().SetWrap(true);
-
-		sprites.push_back(s);
-		sprites.back().Create(6, -1, 1, 5, LANDERCOLOR);
-		sprites.back().SetName("landerarml1");
-		sprites.back().SetParent(GetSprite("lander"));
-		sprites.back().SetVisible(true);
-		sprites.back().SetLayer(LAYER::layer_FRONT);
-		sprites.back().setPhysics(false);
-		sprites.back().SetWrap(true);
-
-		sprites.push_back(s);
-		sprites.back().Create(-2, 1, 2, 1, LANDERCOLOR);
-		sprites.back().SetName("landerarmr");
-		sprites.back().SetParent(GetSprite("lander"));
-		sprites.back().SetVisible(true);
-		sprites.back().SetLayer(LAYER::layer_FRONT);
-		sprites.back().setPhysics(false);
-		sprites.back().SetWrap(true);
-
-		sprites.push_back(s);
-		sprites.back().Create(-4, -1, 1, 5, LANDERCOLOR);
-		sprites.back().SetName("landerarmr1");
-		sprites.back().SetParent(GetSprite("lander"));
-		sprites.back().SetVisible(true);
-		sprites.back().SetLayer(LAYER::layer_FRONT);
-		sprites.back().setPhysics(false);
-		sprites.back().SetWrap(true);
-
-		
 
 
 		//text
@@ -1299,7 +1264,7 @@ public:
 
 		//Smoke
 		particleSystems.push_back(ps);
-		particleSystems.back().Create(0, 0, "smoke1");
+		particleSystems.back().Create(10, 10, "smoke1");
 		particleSystems.back().SetParticleColor({ 50,50,50 });
 		particleSystems.back().SetSpawnRadius(0.0f, 0.0f);
 		particleSystems.back().SetParams(0, 360, 0.5f);
@@ -1311,7 +1276,7 @@ public:
 		particleSystems.back().SetParent(GetSprite("lander"));
 
 		particleSystems.push_back(ps);
-		particleSystems.back().Create(0, 0, "smoke2");
+		particleSystems.back().Create(10, 10, "smoke2");
 		particleSystems.back().SetParticleColor({ 100,100,100 });
 		particleSystems.back().SetSpawnRadius(0.0f, 0.0f);
 		particleSystems.back().SetParams(0, 360, 0.5f);
@@ -1324,7 +1289,7 @@ public:
 
 
 		particleSystems.push_back(ps);
-		particleSystems.back().Create(2, 5, "thrust");
+		particleSystems.back().Create(10, 14, "thrust");
 		particleSystems.back().SetParticleColor({ 0,0,255 });
 		particleSystems.back().SetSpawnRadius(0.0f, 0.0f);
 		particleSystems.back().SetParams(80, 100, 20.0f);
@@ -1334,7 +1299,7 @@ public:
 		particleSystems.back().SetEmitRate(10.0f);
 
 		particleSystems.push_back(ps);
-		particleSystems.back().Create(6, 3, "thrust2"); //right
+		particleSystems.back().Create(19, 10, "thrust2"); //right
 		particleSystems.back().SetParticleColor({ 0,0,255 });
 		particleSystems.back().SetSpawnRadius(0.0f, 0.0f);
 		particleSystems.back().SetParams(20, -20, 20.0f);
@@ -1344,7 +1309,7 @@ public:
 		particleSystems.back().SetEmitRate(10.0f);
 
 		particleSystems.push_back(ps);
-		particleSystems.back().Create(-2, 3, "thrust3"); //left
+		particleSystems.back().Create(1, 10, "thrust3"); //left
 		particleSystems.back().SetParticleColor({ 0,0,255 });
 		particleSystems.back().SetSpawnRadius(0.0f, 0.0f);
 		particleSystems.back().SetParams(160, 200, 20.0f);

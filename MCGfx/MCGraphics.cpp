@@ -45,7 +45,7 @@ class MCGraphics
 {
 private:
     // Private member variables
-    int width = 0;
+    int screenWidth = 0;
     int height = 0;
     bool isActive = false;
     bool stretchToFill = false;
@@ -72,7 +72,7 @@ private:
     {
         ZeroMemory(&bitmapInfo, sizeof(bitmapInfo));
         bitmapInfo.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-        bitmapInfo.bmiHeader.biWidth = width;
+        bitmapInfo.bmiHeader.biWidth = screenWidth;
         bitmapInfo.bmiHeader.biHeight = -height; // Negative for top-down bitmap
         bitmapInfo.bmiHeader.biPlanes = 1;
         bitmapInfo.bmiHeader.biBitCount = 24; // 24 bits per pixel (RGB)
@@ -89,7 +89,7 @@ public:
     MCGraphics()
     {
         isActive = false;
-        width = 0;
+        screenWidth = 0;
         height = 0;
         ZeroMemory(&bitmapInfo, sizeof(bitmapInfo));
     }
@@ -101,7 +101,7 @@ public:
     void Initialize(HWND hwnd, int widthPixels, int heightPixels)
 	{
 		this->hwnd = hwnd;
-		width = widthPixels;
+		screenWidth = widthPixels;
 		height = heightPixels;
 
         Clear();
@@ -215,7 +215,7 @@ public:
     {
         if (pixelData_ != nullptr)
         {
-            for (int i = 0; i < width * height; i++)
+            for (int i = 0; i < screenWidth * height; i++)
             {
                 pixelData_[i] = clearColor;
             }
@@ -228,7 +228,7 @@ public:
         rgb.rgbtGreen = GetGValue(color);
         rgb.rgbtBlue = GetBValue(color);
 
-        for (int i = 0; i < width * height; i++)
+        for (int i = 0; i < screenWidth * height; i++)
         {
             pixelData_[i] = rgb;
         }
@@ -236,38 +236,49 @@ public:
 
     void SetPixel(int x, int y, RGBTRIPLE color)
     {
-        if (x >= 0 && x < width && y >= 0 && y < height)
+        if (x >= 0 && x < screenWidth && y >= 0 && y < height)
         {
-            pixelData_[y * width + x] = color;
+            pixelData_[y * screenWidth + x] = color;
         }
     }
 
     //Draws a line of pixels 
-    void SetPixels(int x, int y, int len, RGBTRIPLE* pPixels)
+    void SetPixels(int dstX, int dstY, int len, int texWidth, RGBTRIPLE* pPixelRow)
     {
+        static RGBTRIPLE keyColor = { 255, 0, 255 };
         //NOTE: displayWidth and displayHeight are: width and height 
         //pixel buffer: pixelData_[]
         // 
         //Checks for clipping for height
-        if (y >= 0 && y < height)
+        if (dstY >= 0 && dstY < height)
         {
             // checks for width clipping
-            if (x >= width - len)
+            if (dstX >= screenWidth - len)
             {
                 //checks for right clipping
-                if (x + len > width)
+                if (dstX + len > screenWidth)
                 {
-                    len = width - x - 1;
+                    len = screenWidth - dstX - 1;
                 }
                 //checks for left width clipping
-                if (x < 0)
+                if (dstX < 0)
                 {
-                   x = 0;
-                   len = x + len;
+                   dstX = 0;
+                   len = dstX + len;
                 }
             }
             //Draw remaining x, y, len 
-
+            int dstOffset = PosToOffset(dstX, dstY, screenWidth);
+            for (int i = 0; i < len; i++)
+            {
+                if (pPixelRow[i].rgbtBlue != keyColor.rgbtBlue || 
+                    pPixelRow[i].rgbtRed != keyColor.rgbtRed ||
+                    pPixelRow[i].rgbtGreen != keyColor.rgbtGreen)
+                {
+                    pixelData_[dstOffset] = pPixelRow[i];
+                }
+                dstOffset++;
+            }
         }
     }
 
@@ -283,9 +294,9 @@ public:
     }
     RGBTRIPLE GetPixel(int x, int y)
     {
-        if (x >= 0 && x < width && y >= 0 && y < height)
+        if (x >= 0 && x < screenWidth && y >= 0 && y < height)
         {
-            return pixelData_[y * width + x];
+            return pixelData_[y * screenWidth + x];
         }
         return { 0, 0, 0 };
     }
@@ -337,20 +348,20 @@ public:
             color.rgbtBlue = rand() % 256;
         }
 
-        int xMin = min(max(x0, 0), width);
-        int xMax = min(max(x1, 0), width);
+        int xMin = min(max(x0, 0), screenWidth);
+        int xMax = min(max(x1, 0), screenWidth);
         int yMin = min(max(y0, 0), height);
         int yMax = min(max(y1, 0), height);
 
         for( int i = xMin; i <= xMax; i++)
 		{
-            pixelData_[yMin * width + i] = color;
-            pixelData_[yMax * width + i] = color;
+            pixelData_[yMin * screenWidth + i] = color;
+            pixelData_[yMax * screenWidth + i] = color;
 		}
         for( int i = yMin; i <= yMax; i++)  
         {
-            pixelData_[i * width + xMin] = color;
-            pixelData_[i * width + xMax] = color;
+            pixelData_[i * screenWidth + xMin] = color;
+            pixelData_[i * screenWidth + xMax] = color;
             SetPixel(xMin, i, color);
 			SetPixel(xMax, i, color);
 		}
@@ -364,8 +375,8 @@ public:
             color.rgbtBlue = rand() % 256;
         }
 
-        int xMin = min(max(x0, 0), width);
-        int xMax = min(max(x1, 0), width);
+        int xMin = min(max(x0, 0), screenWidth);
+        int xMax = min(max(x1, 0), screenWidth);
 
 		for (int y = y0; y <= y1; y++)
 		{
@@ -390,7 +401,7 @@ public:
             RECT clientRect;
             GetClientRect(hwnd, &clientRect);
 
-            int srcWidth = width;
+            int srcWidth = screenWidth;
             int srcHeight = height;
             int destWidth = clientRect.right - clientRect.left;
             int destHeight = clientRect.bottom - clientRect.top;
