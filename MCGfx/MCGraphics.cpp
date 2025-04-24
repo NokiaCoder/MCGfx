@@ -34,6 +34,13 @@ struct TextBlock
     }
 };
 
+enum class DRAW_FX
+{
+    NONE = 0,
+    MIRROR,
+    FLIP,
+};
+
 enum class TEXT_ALIGN
 {
 	LEFT,
@@ -243,7 +250,7 @@ public:
     }
 
     //Draws a line of pixels 
-    void SetPixels(int dstX, int dstY, int len, int texWidth, RGBTRIPLE* pPixelRow)
+    void DrawTextureRow(int dstX, int dstY, int len, int texWidth, RGBTRIPLE* pPixelRow, DRAW_FX effect = DRAW_FX::NONE)
     {
         static RGBTRIPLE keyColor = { 255, 0, 255 };
         //NOTE: displayWidth and displayHeight are: width and height 
@@ -269,15 +276,32 @@ public:
             }
             //Draw remaining x, y, len 
             int dstOffset = PosToOffset(dstX, dstY, screenWidth);
-            for (int i = 0; i < len; i++)
+            if (effect == DRAW_FX::NONE)
             {
-                if (pPixelRow[i].rgbtBlue != keyColor.rgbtBlue || 
-                    pPixelRow[i].rgbtRed != keyColor.rgbtRed ||
-                    pPixelRow[i].rgbtGreen != keyColor.rgbtGreen)
+                for (int i = 0; i < len; i++)
                 {
-                    pixelData_[dstOffset] = pPixelRow[i];
+                    if (pPixelRow[i].rgbtBlue != keyColor.rgbtBlue ||
+                        pPixelRow[i].rgbtRed != keyColor.rgbtRed ||
+                        pPixelRow[i].rgbtGreen != keyColor.rgbtGreen)
+                    {
+                        pixelData_[dstOffset] = pPixelRow[i];
+                    }
+                    dstOffset++;
                 }
-                dstOffset++;
+            }
+            else if (effect == DRAW_FX::MIRROR)
+            {
+                dstOffset += len;
+                for (int i = 0; i < len; i++)
+                {
+                    if (pPixelRow[i].rgbtBlue != keyColor.rgbtBlue ||
+                        pPixelRow[i].rgbtRed != keyColor.rgbtRed ||
+                        pPixelRow[i].rgbtGreen != keyColor.rgbtGreen)
+                    {
+                        pixelData_[dstOffset] = pPixelRow[i];
+                    }
+                    dstOffset--;
+                }
             }
         }
     }

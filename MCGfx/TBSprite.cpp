@@ -165,6 +165,8 @@ private:
 	bool isScreen = false;
 	bool explodeOnCollideLose = false;
 	bool deleteOnWin = false;
+	bool flipX = false;
+	bool flipY = false;
 	TEXT_ALIGN textAlign = TEXT_ALIGN::LEFT;
 	string spriteText = "";
 	bool hitTarget = false;
@@ -431,6 +433,24 @@ public:
 	TBTexture* GetTexture()
 	{
 		return pTexture;
+	}
+
+	//Flip X And Y
+	void SetFlipX(bool fx)
+	{
+		flipX = fx;
+	}
+	void SetFlipY(bool fy)
+	{
+		flipY = fy;
+	}
+	bool GetFlipX()
+	{
+		return flipX;
+	}
+	bool GetFlipY()
+	{
+		return flipY;
 	}
 
 	bool IsExpired()
@@ -901,14 +921,17 @@ public:
 
 			if (pTexture)
 			{
+				int row = 0;
+				DRAW_FX flip = flipX ? DRAW_FX::MIRROR : DRAW_FX::NONE;
 				for (int i = 0; i < pTexture->Height; i++)
 				{
-					pGFX->SetPixels(
+					row = flipY ? (pTexture->Height - 1) - i : i;
+					pGFX->DrawTextureRow(
 						  (int)GetX(), 
-						  (int)GetY() + i, 
+						  (int)GetY() + row, 
 						  pTexture->Width, 
 						  pTexture->Width, 
-						  &pTexture->Pixels[i * pTexture->Width]);
+						  &pTexture->Pixels[i * pTexture->Width], flip);
 				}
 			}
 			else

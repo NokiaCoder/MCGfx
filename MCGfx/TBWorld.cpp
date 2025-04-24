@@ -1037,6 +1037,8 @@ public:
 		sprites.back().setPhysics(false);
 		sprites.back().SetCollide(CollideType::Lose);
 		sprites.back().SetTexture(&textures[1]);
+		sprites.back().SetFlipX(true);
+		sprites.back().SetFlipY(true);
 		/*sprites.push_back(s);
 		sprites.back().Create(5, 25, 7, 300, CANYONWALLCOLOR);
 		sprites.back().SetName("lwall1.1");

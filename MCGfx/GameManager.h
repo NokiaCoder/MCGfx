@@ -397,11 +397,13 @@ public:
 		}
 		else if (key == 'A') //Left
 		{
+			world.GetSprite("lander")->SetFlipX(true);
 			leftKeyDown = keyDown;
 			g_fuel -= keyDown ? 1 : 0;
 		}
 		else if (key == 'D') //Right
 		{
+			world.GetSprite("lander")->SetFlipX(false);
 			rightKeyDown = keyDown;
 			g_fuel -= keyDown ? 1 : 0;
 		}
