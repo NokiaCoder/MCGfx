@@ -41,7 +41,7 @@ private:
 	bool restart = false;
 	bool startShown = false;
 	float mainThrust = -2.0f;
-	float sideThrust = 2.0f;
+	float sideThrust = 20.0f;
 	int losingScore = -400;
 	bool gameLost = false;
 	AudioPlayer audioPlayer;
@@ -49,6 +49,8 @@ private:
 	int explosionSndId = -1;
 	int powerupSndId = -1;
 	int thrustSndId = -1;
+	int sidefuelrate = 4;
+	int fuelrate = 1;
 	bool thrustRunning = false;
 	string startupScreenText = "Startup Screen Text";
 	const bool LOADFROMFILE = false;
@@ -393,19 +395,19 @@ public:
 		if (key == 'W') //Thrust
 		{
 			thrustKeyDown = keyDown;
-			g_fuel -= keyDown ? 1 : 0;
+			g_fuel -= keyDown ? fuelrate : 0;
 		}
 		else if (key == 'A') //Left
 		{
 			world.GetSprite("lander")->SetFlipX(true);
 			leftKeyDown = keyDown;
-			g_fuel -= keyDown ? 1 : 0;
+			g_fuel -= keyDown ? sidefuelrate : 0;
 		}
 		else if (key == 'D') //Right
 		{
 			world.GetSprite("lander")->SetFlipX(false);
 			rightKeyDown = keyDown;
-			g_fuel -= keyDown ? 1 : 0;
+			g_fuel -= keyDown ? sidefuelrate : 0;
 		}
 
 		g_fuel = max(0, g_fuel);

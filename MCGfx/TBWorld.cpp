@@ -907,8 +907,6 @@ public:
 		RGBTRIPLE ASTEROIDCOLOR = { 81, 81, 85 };
 
 		//Speed settings
-		float mountMidSpeed = -0.01f;
-		float mountNearSpeed = -0.03f;
 		float landerSpeed = GetRandRange(-1.0f, 1.0f);
 		float scrollSpeed = -0.0f;
 
@@ -1037,8 +1035,8 @@ public:
 		sprites.back().setPhysics(false);
 		sprites.back().SetCollide(CollideType::Lose);
 		sprites.back().SetTexture(&textures[1]);
-		sprites.back().SetFlipX(true);
-		sprites.back().SetFlipY(true);
+		sprites.back().SetFlipX(false);
+		sprites.back().SetFlipY(false);
 		/*sprites.push_back(s);
 		sprites.back().Create(5, 25, 7, 300, CANYONWALLCOLOR);
 		sprites.back().SetName("lwall1.1");
