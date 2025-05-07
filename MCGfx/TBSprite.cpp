@@ -167,6 +167,7 @@ private:
 	bool deleteOnWin = false;
 	bool flipX = false;
 	bool flipY = false;
+	bool isCollider = false;
 	TEXT_ALIGN textAlign = TEXT_ALIGN::LEFT;
 	string spriteText = "";
 	bool hitTarget = false;
@@ -433,6 +434,15 @@ public:
 	TBTexture* GetTexture()
 	{
 		return pTexture;
+	}
+
+	void SetIsCollider(bool ic)
+	{
+		isCollider = ic;
+	}
+	bool GetIsCollider()
+	{
+		return isCollider;
 	}
 
 	//Flip X And Y
@@ -904,6 +914,10 @@ public:
 	}
 	void Draw(MCGraphics* pGFX)
 	{
+		if (GetIsCollider())
+		{
+			return;
+		}
 
 		if (visible)
 		{
@@ -938,9 +952,6 @@ public:
 			{
 				pGFX->FillRectangle((int)GetX(), (int)GetY(), (int)GetX() + w, (int)GetY() + h, color);
 			}
-			
-			
-			
 
 			if (wrap && pParent == nullptr)
 			{
