@@ -64,9 +64,12 @@ public:
 		{
 			lastTime = eTime;
 
-			TBHitTarget asteroid;
-			asteroid.SetTargetType(TARGET_TYPE::Dropper);
-			pSprites->push_back(asteroid);
+			if (g_MeteorsActive)
+			{
+				TBHitTarget asteroid;
+				asteroid.SetTargetType(TARGET_TYPE::Dropper);
+				pSprites->push_back(asteroid);
+			}
 		}
 
 		//Generate SlidersLR

@@ -47,6 +47,10 @@ private:
 	RGBTRIPLE CANYONWALLCOLOR = DarkenColor({ 0, 50, 100 }, 40);
 	RGBTRIPLE ASTEROIDCOLOR = { 81, 81, 85 };
 
+	bool shootKeyDown = false;
+
+
+
 	string name;
 
 public:
@@ -179,6 +183,14 @@ public:
 	vector<TBSprite>* GetTempSprites()
 	{
 		return &tempSprites;
+	}
+	bool GetShootKeyDown()
+	{
+		return shootKeyDown;
+	}
+	void SetShootKeyDown(bool down)
+	{
+		shootKeyDown = down;
 	}
 	
 
@@ -819,6 +831,19 @@ public:
 
 		TBSprite s;
 
+
+
+		//Bullet
+		sprites.push_back(s);
+		sprites.back().Create(0, 0, 4, 1, { 255, 255, 255 });
+		sprites.back().SetVisible(false);
+		//sprites.back().SetAnimationX(50.0f * (faceleft ? 1.0f : -1.0f));
+		//sprites.back().SetCollide(CollideType::E);
+		sprites.back().SetName("bullet");
+		sprites.back().SetLayer(LAYER::layer_FRONT);
+		sprites.back().SetHasAnimation(false);
+		sprites.back().setPhysics(false);
+
 		//target
 		sprites.push_back(s);
 		sprites.back().Create(g_pixelWidth/2, g_pixelHeight - 94, 8, 8, TargetCOLOR); //for each change color with 3 last values in {}. { blue, green, red}
@@ -1330,6 +1355,37 @@ public:
 				if (tempSprites[i].IsExpired())
 				{
 					tempSprites.erase(tempSprites.begin() + i);
+				}
+			}
+		}
+
+		TBSprite* pS = GetSprite("bullet");
+		
+		//TODO FIX BULLET OFFSCREEN BUG
+		if (pS != nullptr)
+		{
+			if (!pS->GetVisible() && GetShootKeyDown())
+			{
+				//shoot bullet
+				TBSprite* pL = GetSprite("lander");
+				bool faceleft = pL->GetFlipX();
+				float x = pL->GetCenterX();
+				float y = pL->GetCenterY();
+
+				pS->Create((int)x, (int)y + 1, 4, 1, { 255, 255, 255 });
+				pS->SetVisible(true);
+				pS->SetAnimationX(50.0f * (faceleft ? 1.0f : -1.0f));
+				//pS->SetCollide(CollideType::E);
+				pS->SetHasAnimation(true);
+			}
+			if (pS->GetVisible())
+			{ //Delete bullet if offscreen
+				float x = pS->GetX();
+				//OutputDebugStringA((to_string(x) + "\n").c_str());
+				if (x < 0.0f || x > (float)g_pixelWidth)
+				{
+					pS->SetVisible(false);
+					pS->SetHasAnimation(false);
 				}
 			}
 		}

@@ -652,6 +652,15 @@ public:
 		return worldY;
 	}
 
+	float GetCenterX()
+	{
+		return x + ((float)w / 2.0f);
+	}
+	float GetCenterY()
+	{
+		return y + ((float)h / 2.0f);
+	}
+
 	void SetPos(float fx, float fy)
 	{
 		x = fx;
@@ -805,7 +814,8 @@ public:
 
 	TBSprite(int left, int top, int width, int height, const RGBTRIPLE& rgbtriple)
 	{
-		Create(left, top, width, height, rgbtriple);
+		
+		(left, top, width, height, rgbtriple);
 	}
 	~TBSprite()
 	{

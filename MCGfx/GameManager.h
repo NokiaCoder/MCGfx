@@ -285,7 +285,12 @@ public:
 		SetupSound();
 		StartTimer();
 
-		//create spawnPoints
+		//
+		// 
+		// 
+		// 
+		// 
+		// spawnPoints
 		elementGen.ClearSpawnPt();
 		elementGen.AddSpawnPt({ 40, 112 , 25, 25});
 		elementGen.AddSpawnPt({ 40, 112 , 25, 25 });
@@ -408,6 +413,10 @@ public:
 			world.GetSprite("lander")->SetFlipX(false);
 			rightKeyDown = keyDown;
 			g_fuel -= keyDown ? sidefuelrate : 0;
+		}
+		else if (key == 'K') //Shoot
+		{
+			world.SetShootKeyDown(keyDown);
 		}
 
 		g_fuel = max(0, g_fuel);

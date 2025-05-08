@@ -174,7 +174,7 @@ static RGBTRIPLE Str2RGB(const string& s)
     return rgb;
 }
 
-
+static bool g_MeteorsActive = false;
 
 struct CollisionInfo
 {
