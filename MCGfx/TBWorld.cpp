@@ -820,6 +820,8 @@ public:
 		textures.back().Load(GetContentFolder() + "\\ship.bmp");
 		textures.push_back(tex);
 		textures.back().Load(GetContentFolder() + "\\Untitled.bmp");
+		textures.push_back(tex);
+		textures.back().Load(GetContentFolder() + "\\bullet.bmp");
 
 		pGFX->SetBackgroundColor(DarkenColor({ 80, 120, 180 },50));
 
@@ -837,8 +839,6 @@ public:
 		sprites.push_back(s);
 		sprites.back().Create(0, 0, 4, 1, { 255, 255, 255 });
 		sprites.back().SetVisible(false);
-		//sprites.back().SetAnimationX(50.0f * (faceleft ? 1.0f : -1.0f));
-		//sprites.back().SetCollide(CollideType::E);
 		sprites.back().SetName("bullet");
 		sprites.back().SetLayer(LAYER::layer_FRONT);
 		sprites.back().SetHasAnimation(false);
@@ -1341,6 +1341,7 @@ public:
 	}
 	void Process(double elapsedTimeSec)
 	{
+		
 		for (int i = 0; i < (int)sprites.size(); i++)
 		{
 			sprites[i].Process(elapsedTimeSec);
@@ -1364,6 +1365,20 @@ public:
 		//TODO FIX BULLET OFFSCREEN BUG
 		if (pS != nullptr)
 		{
+			if (pS->GetVisible())
+			{ //Delete bullet if offscreen
+				
+				float x = pS->GetX();
+				OutputDebugStringA((to_string(x) + "\n").c_str());
+				if (x < 0.0f || x >(float)g_pixelWidth)
+				{
+					pS->SetVisible(false);
+					pS->SetHasAnimation(false);
+				}
+			}
+
+			
+
 			if (!pS->GetVisible() && GetShootKeyDown())
 			{
 				//shoot bullet
@@ -1373,21 +1388,13 @@ public:
 				float y = pL->GetCenterY();
 
 				pS->Create((int)x, (int)y + 1, 4, 1, { 255, 255, 255 });
+				pS->SetName("bullet");
 				pS->SetVisible(true);
-				pS->SetAnimationX(50.0f * (faceleft ? 1.0f : -1.0f));
+				pS->SetAnimationX(200.0f * (faceleft ? 1.0f : -1.0f));
 				//pS->SetCollide(CollideType::E);
 				pS->SetHasAnimation(true);
 			}
-			if (pS->GetVisible())
-			{ //Delete bullet if offscreen
-				float x = pS->GetX();
-				//OutputDebugStringA((to_string(x) + "\n").c_str());
-				if (x < 0.0f || x > (float)g_pixelWidth)
-				{
-					pS->SetVisible(false);
-					pS->SetHasAnimation(false);
-				}
-			}
+			
 		}
 
 		for (int i = 0; i < (int)particleSystems.size(); i++)
