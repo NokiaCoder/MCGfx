@@ -1391,21 +1391,27 @@ public:
 		TBSprite* bl = GetSprite("bullet");
 		TBSprite* la = GetSprite("lander");
 
-		if (sprites.back().GetCollide() == CollideType::HitObject)
+		for (int i = 0; i < sprites.size(); i++)
 		{
-			sprites.back().SetVisible(false);
-			sprites.back().SetCollide(CollideType::None);
-			bl->SetVisible(false);
+			vector<int> sprites;
 
-			SetParticlesParent("explosion", la->GetName());
-			SetParticleSystemActive("explosion", true);
+			
 
-			TBSprite* bt = GetSprite(sprites.back().GetName());
-			SetSpritePhysics(bt->GetName(), false);
-			SetSpriteVisible(bt->GetName(), false);
+			if (sprites.GetCollide() == CollideType::HitObject)
+			{
+				
+				sprites.back().SetVisible(false);
+				sprites.back().SetCollide(CollideType::None);
+				bl->SetVisible(false);
+
+				SetParticlesParent("explosion", la->GetName());
+				SetParticleSystemActive("explosion", true);
+
+				TBSprite* bt = GetSprite(sprites.back().GetName());
+				SetSpritePhysics(bt->GetName(), false);
+				SetSpriteVisible(bt->GetName(), false);
+			}
 		}
-		
-
 	}
 	void Process(double elapsedTimeSec)
 	{
