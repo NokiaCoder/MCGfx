@@ -21,6 +21,8 @@ enum class CollideType
 	Random,
 	PowerUp,
 	Reward,
+	Bullet,
+	HitObject,
 };
 
 static string CollideType2Str(CollideType c)

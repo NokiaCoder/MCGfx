@@ -49,7 +49,7 @@ private:
 	int explosionSndId = -1;
 	int powerupSndId = -1;
 	int thrustSndId = -1;
-	int sidefuelrate = 4;
+	int sidefuelrate = 3;
 	int fuelrate = 1;
 	bool thrustRunning = false;
 	string startupScreenText = "Startup Screen Text";
@@ -516,7 +516,7 @@ public:
 					ps->SetCollide(CollideType::None);
 					g_fuel += ps->GetFuelScore();
 					audioPlayer.Play(powerupSndId);
-					world.MoveSprite("lava", 0, -500);
+					world.MoveSprite("lava", 0, -1);
 				}
 				else if (ps->GetCollide() == CollideType::Reward)
 				{
@@ -524,8 +524,17 @@ public:
 					ps->SetCollide(CollideType::None);
 					g_CurrentScore += ps->GetRewardScore();
 					audioPlayer.Play(powerupSndId);
-					world.MoveSprite("lava", 0, -500);
+					world.MoveSprite("lava", 0, -1);
 				}
+				else if (ps->GetCollide() == CollideType::HitObject)
+				{
+
+				}
+				else if (ps->GetCollide() == CollideType::Bullet)
+				{
+					ps->SetVisible(false);
+				}
+				
 			}
 			
 

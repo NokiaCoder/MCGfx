@@ -856,7 +856,7 @@ public:
 		
 		//Lander and attachments
 		sprites.push_back(s);
-		sprites.back().Create(140, 0, 20, 20, LANDERCOLOR);
+		sprites.back().Create(140, 0, 5, 5, LANDERCOLOR);
 		sprites.back().SetName("lander");
 		sprites.back().SetGravityOn(true);
 		sprites.back().SetVx(landerSpeed);
@@ -984,7 +984,7 @@ public:
 
 		//Smoke
 		particleSystems.push_back(ps);
-		particleSystems.back().Create(10, 10, "smoke1");
+		particleSystems.back().Create(6, 5, "smoke1");
 		particleSystems.back().SetParticleColor({ 50,50,50 });
 		particleSystems.back().SetSpawnRadius(0.0f, 0.0f);
 		particleSystems.back().SetParams(0, 360, 0.5f);
@@ -996,7 +996,7 @@ public:
 		particleSystems.back().SetParent(GetSprite("lander"));
 
 		particleSystems.push_back(ps);
-		particleSystems.back().Create(10, 10, "smoke2");
+		particleSystems.back().Create(6, 5, "smoke2");
 		particleSystems.back().SetParticleColor({ 100,100,100 });
 		particleSystems.back().SetSpawnRadius(0.0f, 0.0f);
 		particleSystems.back().SetParams(0, 360, 0.5f);
@@ -1009,7 +1009,7 @@ public:
 
 
 		particleSystems.push_back(ps);
-		particleSystems.back().Create(10, 14, "thrust");
+		particleSystems.back().Create(6, 5, "thrust");
 		particleSystems.back().SetParticleColor({ 0,0,255 });
 		particleSystems.back().SetSpawnRadius(0.0f, 0.0f);
 		particleSystems.back().SetParams(80, 100, 20.0f);
@@ -1019,7 +1019,7 @@ public:
 		particleSystems.back().SetEmitRate(10.0f);
 
 		particleSystems.push_back(ps);
-		particleSystems.back().Create(19, 10, "thrust2"); //right
+		particleSystems.back().Create(6, 5, "thrust2"); //right
 		particleSystems.back().SetParticleColor({ 0,0,255 });
 		particleSystems.back().SetSpawnRadius(0.0f, 0.0f);
 		particleSystems.back().SetParams(20, -20, 20.0f);
@@ -1029,7 +1029,7 @@ public:
 		particleSystems.back().SetEmitRate(10.0f);
 
 		particleSystems.push_back(ps);
-		particleSystems.back().Create(1, 10, "thrust3"); //left
+		particleSystems.back().Create(6, 5, "thrust3"); //left
 		particleSystems.back().SetParticleColor({ 0,0,255 });
 		particleSystems.back().SetSpawnRadius(0.0f, 0.0f);
 		particleSystems.back().SetParams(160, 200, 20.0f);
@@ -1087,6 +1087,14 @@ public:
 		sprites.back().setPhysics(false);
 
 		//Lava
+		sprites.push_back(s);
+		sprites.back().Create(0, g_pixelHeight - 30, g_pixelWidth + 30, 50, NearGroundColor);
+		sprites.back().SetName("lava");
+		sprites.back().SetLayer(LAYER::layer_FAR);
+		sprites.back().SetHasAnimation(false);
+		sprites.back().setPhysics(false);
+		sprites.back().SetCollide(CollideType::Lose);
+
 		sprites.push_back(s);
 		sprites.back().Create(0, g_pixelHeight - 30, g_pixelWidth + 30, 50, NearGroundColor);
 		sprites.back().SetName("lava");
@@ -1197,13 +1205,16 @@ public:
 		sprites.back().SetIsCollider(true);
 		sprites.back().SetCollide(CollideType::Lose);
 		
+		
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth - 20, 30, 20, 21, CANYONWALLCOLOR);
+		sprites.back().Create(g_pixelWidth - 20, 30, 20, 21, LANDERCOLOR);
 		sprites.back().SetName("rwall2");
 		sprites.back().SetLayer(LAYER::layer_MID);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
-		sprites.back().SetCollide(CollideType::Lose);
+	//	sprites.back().SetCollide(CollideType::Lose);
+		sprites.back().SetCollide(CollideType::HitObject);
+
 		sprites.push_back(s);
 		sprites.back().Create(g_pixelWidth - 20, 60, 20, 200, CANYONWALLCOLOR);
 		sprites.back().SetName("rwall2.1");
@@ -1339,6 +1350,63 @@ public:
 			OnSpriteCollision(sprites[id].GetName(), hit);
 		}
 	}
+	void HandleBullet()
+	{
+		TBSprite* pS = GetSprite("bullet");
+		if (pS != nullptr)
+		{
+			if (pS->GetVisible())
+			{ //Delete bullet if offscreen
+
+				float x = pS->GetX();
+				OutputDebugStringA((to_string(x) + "\n").c_str());
+				if (x < 0.0f || x >(float)g_pixelWidth)
+				{
+					pS->SetVisible(false);
+					pS->SetHasAnimation(false);
+				}
+			}
+
+			if (!pS->GetVisible() && GetShootKeyDown())
+			{
+				//shoot bullet
+				TBSprite* pL = GetSprite("lander");
+				bool faceleft = pL->GetFlipX();
+				float x = pL->GetCenterX();
+				float y = pL->GetCenterY();
+				
+				pS->Create((int)x, (int)y + 1, 3 /*<-original 4*/, 1, { 255, 213, 0 });
+				pS->SetName("bullet");
+				pS->SetVisible(true);
+				//mess with first  V  value for bullet speed. original 200.0f
+				pS->SetAnimationX(220.039f * (faceleft ? 1.0f : -1.0f));
+				//pS->SetCollide(CollideType::E);
+				pS->SetHasAnimation(true);
+			}
+
+		}
+	}
+	void HandleBulletCollision()
+	{
+		TBSprite* bl = GetSprite("bullet");
+		TBSprite* la = GetSprite("lander");
+
+		if (sprites.back().GetCollide() == CollideType::HitObject)
+		{
+			sprites.back().SetVisible(false);
+			sprites.back().SetCollide(CollideType::None);
+			bl->SetVisible(false);
+
+			SetParticlesParent("explosion", la->GetName());
+			SetParticleSystemActive("explosion", true);
+
+			TBSprite* bt = GetSprite(sprites.back().GetName());
+			SetSpritePhysics(bt->GetName(), false);
+			SetSpriteVisible(bt->GetName(), false);
+		}
+		
+
+	}
 	void Process(double elapsedTimeSec)
 	{
 		
@@ -1360,42 +1428,7 @@ public:
 			}
 		}
 
-		TBSprite* pS = GetSprite("bullet");
-		
-		//TODO FIX BULLET OFFSCREEN BUG
-		if (pS != nullptr)
-		{
-			if (pS->GetVisible())
-			{ //Delete bullet if offscreen
-				
-				float x = pS->GetX();
-				OutputDebugStringA((to_string(x) + "\n").c_str());
-				if (x < 0.0f || x >(float)g_pixelWidth)
-				{
-					pS->SetVisible(false);
-					pS->SetHasAnimation(false);
-				}
-			}
-
-			
-
-			if (!pS->GetVisible() && GetShootKeyDown())
-			{
-				//shoot bullet
-				TBSprite* pL = GetSprite("lander");
-				bool faceleft = pL->GetFlipX();
-				float x = pL->GetCenterX();
-				float y = pL->GetCenterY();
-
-				pS->Create((int)x, (int)y + 1, 4, 1, { 255, 255, 255 });
-				pS->SetName("bullet");
-				pS->SetVisible(true);
-				pS->SetAnimationX(200.0f * (faceleft ? 1.0f : -1.0f));
-				//pS->SetCollide(CollideType::E);
-				pS->SetHasAnimation(true);
-			}
-			
-		}
+		HandleBullet();
 
 		for (int i = 0; i < (int)particleSystems.size(); i++)
 		{
@@ -1438,6 +1471,7 @@ public:
 			}
 		}
 	}
+
 	//Draw Function
 	void Draw(MCGraphics* pGFX)
 	{
