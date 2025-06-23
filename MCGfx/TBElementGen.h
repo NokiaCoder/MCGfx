@@ -103,7 +103,7 @@ public:
 			payload.SetPos(static_cast<float>(spt.pos.x), static_cast<float>(spt.pos.y));
 			pSprites->push_back(payload);
 
-			//TODO move function to pay load collision
+			//TODO move function to pay load collision //???
 			pWorld->AddTempSprite(spt.pos.x, spt.pos.y, to_string(spt.fuel), true);
 
 			

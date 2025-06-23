@@ -1207,12 +1207,12 @@ public:
 		
 		
 		sprites.push_back(s);
-		sprites.back().Create(g_pixelWidth - 20, 30, 20, 21, LANDERCOLOR);
+		sprites.back().Create(g_pixelWidth - 20, 30, 20, 21, CANYONWALLCOLOR);
 		sprites.back().SetName("rwall2");
 		sprites.back().SetLayer(LAYER::layer_MID);
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
-	//	sprites.back().SetCollide(CollideType::Lose);
+		sprites.back().SetCollide(CollideType::Lose);
 		sprites.back().SetCollide(CollideType::HitObject);
 
 		sprites.push_back(s);
@@ -1245,6 +1245,117 @@ public:
 		sprites.back().SetHasAnimation(false);
 		sprites.back().setPhysics(false);
 		sprites.back().SetCollide(CollideType::Lose);
+	}
+
+	void Load3_Test(MCGraphics* pGFX)
+	{
+		sprites.clear();
+		particleSystems.clear();
+		textures.clear();
+
+		pGFX->SetColorText({ 0, 255, 255 });
+
+		//pre allocate to avoid stale pointers
+		int index = -1;
+		int psIndex = -1;
+
+		int enemyCount = 2 * g_LevelOn;
+
+		//LoadTextures
+		textures.reserve(100);
+		TBTexture tex;
+		textures.push_back(tex);
+		textures.back().Load(GetContentFolder() + "\\ship.bmp");
+		textures.push_back(tex);
+		textures.back().Load(GetContentFolder() + "\\Untitled.bmp");
+		textures.push_back(tex);
+		textures.back().Load(GetContentFolder() + "\\bullet.bmp");
+
+		pGFX->SetBackgroundColor(DarkenColor({ 80, 120, 180 }, 50));
+
+		//Speed settings
+		float landerSpeed = GetRandRange(-1.0f, 1.0f);
+		float scrollSpeed = -0.0f;
+
+
+
+		TBSprite s;
+
+		sprites.push_back(s);
+		sprites.back().Create(0, g_pixelHeight / 3, g_pixelWidth, g_pixelHeight, FIRECOLOR);
+		sprites.back().SetName("wintext");
+		sprites.back().SetSpriteText("YOU WIN!!!!\n\nNow exit\nLeave.");
+		sprites.back().SetTextAlign(TEXT_ALIGN::CENTER);
+		sprites.back().SetIsTextSprite(true);
+		sprites.back().SetVisible(false);
+		sprites.back().SetLayer(LAYER::layer_HUD);
+		sprites.back().SetHasAnimation(false);
+		sprites.back().setPhysics(false);
+		sprites.back().SetLifeTime(50.0f);
+		sprites.back().SetScreen(true);
+
+		sprites.push_back(s);
+		sprites.back().Create(0, g_pixelHeight / 3, g_pixelWidth, g_pixelHeight, FIRECOLOR);
+		sprites.back().SetName("wingametext");
+		sprites.back().SetSpriteText("YOU WIN!!!! now leave");
+		sprites.back().SetTextAlign(TEXT_ALIGN::CENTER);
+		sprites.back().SetIsTextSprite(true);
+		sprites.back().SetVisible(false);
+		sprites.back().SetLayer(LAYER::layer_HUD);
+		sprites.back().SetHasAnimation(false);
+		sprites.back().setPhysics(false);
+		sprites.back().SetLifeTime(50.0f);
+		sprites.back().SetScreen(true);
+
+		sprites.push_back(s);
+		sprites.back().Create(0, g_pixelHeight / 3, g_pixelWidth, g_pixelHeight, FIRECOLOR);
+		sprites.back().SetName("losetext");
+		sprites.back().SetSpriteText("YOU CRASHED!!\n\nHit Esc\to play again");
+		sprites.back().SetTextAlign(TEXT_ALIGN::CENTER);
+		sprites.back().SetIsTextSprite(true);
+		sprites.back().SetVisible(false);
+		sprites.back().SetLayer(LAYER::layer_HUD);
+		sprites.back().SetHasAnimation(false);
+		sprites.back().setPhysics(false);
+		sprites.back().SetLifeTime(50.0f);
+		sprites.back().SetScreen(true);
+
+		sprites.push_back(s);
+		sprites.back().Create(0, g_pixelHeight / 3, g_pixelWidth, g_pixelHeight, FIRECOLOR);
+		sprites.back().SetTextAlign(TEXT_ALIGN::CENTER);
+		sprites.back().SetName("losegametext");
+		sprites.back().SetSpriteText("GAME OVER press Esc to play again");
+		sprites.back().SetIsTextSprite(true);
+		sprites.back().SetVisible(false);
+		sprites.back().SetLayer(LAYER::layer_HUD);
+		sprites.back().SetHasAnimation(false);
+		sprites.back().setPhysics(false);
+		sprites.back().SetLifeTime(50.0f);
+		sprites.back().SetScreen(true);
+
+		sprites.push_back(s);
+		sprites.back().Create(0, 5, g_pixelWidth - 5, g_pixelHeight, FIRECOLOR);
+		sprites.back().SetTextAlign(TEXT_ALIGN::RIGHT);
+		sprites.back().SetName("scoretext");
+		sprites.back().SetSpriteText("");
+		sprites.back().SetIsTextSprite(true);
+		sprites.back().SetVisible(true);
+		sprites.back().SetLayer(LAYER::layer_HUD);
+		sprites.back().SetHasAnimation(false);
+		sprites.back().setPhysics(false);
+		sprites.back().SetScreen(true);
+
+		sprites.push_back(s);
+		sprites.back().Create(0, 20, g_pixelWidth - 5, g_pixelHeight + 10, FIRECOLOR);
+		sprites.back().SetTextAlign(TEXT_ALIGN::RIGHT);
+		sprites.back().SetName("livestext");
+		sprites.back().SetSpriteText("");
+		sprites.back().SetIsTextSprite(true);
+		sprites.back().SetVisible(true);
+		sprites.back().SetLayer(LAYER::layer_HUD);
+		sprites.back().SetHasAnimation(false);
+		sprites.back().setPhysics(false);
+		sprites.back().SetScreen(true);
 	}
 
 
@@ -1393,11 +1504,18 @@ public:
 
 		TBSprite TBs;
 
+		//Future Reference/Notes
+		/*to get num of array w/ for loop. 
+		for (int i = 0; i < (for this) sprites.size; i++)
+		or normally int myArray[10] = {7,3,9,11,23,20,6,19,10,1};
+		for (int i = 0; i < 10; i++)
+		{
+			myArray[i] = 11; (remember 0 Based Counting) 
+		}*/
 		for (int i = 0; i < sprites.size(); i++)
 		{ 
 			if (sprites.back().GetCollide() == CollideType::HitObject)
 			{
-
 				TBs.SetVisible(false);
 				TBs.SetCollide(CollideType::None);
 				bl->SetVisible(false);
@@ -1410,10 +1528,6 @@ public:
 				SetSpriteVisible(bt->GetName(), false);
 			}
 		}
-
-		
-		
-
 	}
 	void Process(double elapsedTimeSec)
 	{

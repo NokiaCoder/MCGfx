@@ -54,7 +54,8 @@ private:
 	bool thrustRunning = false;
 	string startupScreenText = "Startup Screen Text";
 	const bool LOADFROMFILE = false;
-	const bool WORLDLOAD2 = true;
+	const bool WORLDLOAD2 = false;
+	const bool WORLDLOAD3 = true;
 	const bool SAVEFILE = false;
 	
 	TBSprite ts;
@@ -262,21 +263,26 @@ public:
 			LoadGameFromFile(GetCWD() + "\\TanLander.tbg");
 			
 		}
-		else if (!WORLDLOAD2)
+		else if (!WORLDLOAD2 && !WORLDLOAD3)
 		{
 			//If LOADFROMFILE is false then load from world
 			world.PreLoad();
 			world.Load(pGfx);
 			startupScreenText = "TAN LANDER\nwritten by\nTanner Boudreau\n2024";
 		}
-		else
+		else if(WORLDLOAD2)
 		{
 			//If LOADFROMFILE is false then load from world
 			world.PreLoad();
 			world.Load2(pGfx);
 			startupScreenText = "CRASH LANDER\nwritten by\nTanner Boudreau\n2025";
 		}
-
+		else if (WORLDLOAD3)
+		{
+			world.PreLoad();
+			world.Load3_Test(pGfx);
+			startupScreenText = "Test Game\nwritten by\nTanner Boudreau\n2025";
+		}
 		if (SAVEFILE)
 		{
 			MakeGameFile(GetCWD() + "\\TanLander.tbg");
